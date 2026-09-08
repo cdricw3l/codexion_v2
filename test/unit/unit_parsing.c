@@ -6,13 +6,13 @@
 /*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 21:08:11 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/09/02 02:51:30 by cdric.b          ###   ########.fr       */
+/*   Updated: 2026/09/03 04:14:48 by cdric.b          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "unit.h"
 
-int test_unit_parsing(void)
+int unit_parsing(void)
 {
     START_TEST;
     char *valide_arg_1[] = {"20", "500", "200", "100", "100", "10", "10", "fifo", NULL};
@@ -40,7 +40,8 @@ int test_unit_parsing(void)
     char *invalide_args_6[] = {"20", "500", "200", "100", "100", "10", "+231221", "fifo", NULL};
     char *invalide_args_7[] = {"20", "500", "200", "100", "100", "10", "10", "hello_world", NULL};
     char *invalide_args_8[] = {"20", "500", "200", "100", "100", "10", "10", "10", NULL};
-    char *invalide_args_9[] = {"20", "500", "200", "100", "100", "10", "10", "edf", NULL};
+    char *invalide_args_9[] = {"500", "200", "100", "100", "10", "10", "10", NULL};
+    char *invalide_args_10[] = {"20", "500", "200", "100", "100", "10", "10", "edf", NULL};
 
     assert(!parse_arguments(invalide_args_0,params));
     assert(!parse_arguments(invalide_args_1,params));
@@ -51,7 +52,8 @@ int test_unit_parsing(void)
     assert(!parse_arguments(invalide_args_6,params));
     assert(!parse_arguments(invalide_args_7,params));
     assert(!parse_arguments(invalide_args_8,params));
-    assert(parse_arguments(invalide_args_9,params));
+    assert(!parse_arguments(invalide_args_9,params));
+    assert(parse_arguments(invalide_args_10,params));
 
     END_TEST;
     return(TRUE);

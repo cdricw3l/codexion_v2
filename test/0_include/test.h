@@ -37,7 +37,7 @@
     #include <arpa/inet.h>
     #include <netdb.h>
 */
-#define START_TEST printf(YEL"Start %s()\n"CRESET, __func__)
-#define END_TEST printf(GRN"%s() OK\n"CRESET, __func__)
+#define START_TEST printf(YEL"Start %s()"CRESET"\n", __func__)
+#define END_TEST printf(GRN"%s() OK"CRESET"\n", __func__)
 
 #endif

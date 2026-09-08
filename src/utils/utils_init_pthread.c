@@ -6,7 +6,7 @@
 /*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 15:24:13 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/08/28 00:56:16 by cdric.b          ###   ########.fr       */
+/*   Updated: 2026/09/03 12:35:10 by cdric.b          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ pthread_t	*init_threads(int nb)
 }
 
 
-pthread_mutex_t	*init_mutex(int nb)
+pthread_mutex_t	*init_dynamique_mutex(int nb)
 {
 	pthread_mutex_t	*mu;
 	int				i;
@@ -48,7 +48,7 @@ pthread_mutex_t	*init_mutex(int nb)
 	return (mu);
 }
 
-pthread_cond_t	*init_cond(int nb)
+pthread_cond_t	*init_dynamique_cond(int nb)
 {
 	pthread_cond_t	*cond;
 	int				i;

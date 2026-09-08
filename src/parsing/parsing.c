@@ -6,7 +6,7 @@
 /*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 12:51:42 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/09/02 02:47:53 by cdric.b          ###   ########.fr       */
+/*   Updated: 2026/09/03 04:05:28 by cdric.b          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ int parse_arguments(char **args, int params[8])
 {
     int i;
     if (get_str_arr_len(args) != 8)
-    {
-        printf("nv arg %zu\n", get_str_arr_len(args));
         return (parsing_error_msg(NB_ARG, NULL));
-    }
     i = 0;
     while (args[i])
     {
