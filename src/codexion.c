@@ -5,8 +5,6 @@
 int main(int argc, char **argv)
 {
     int params[8];
-
-
     
     if(!parse_arguments(&argv[1], params))
         return (write(STDERR_FILENO, "Error parsinfg arguments\n", strlen("Error parsinfg arguments\n")));

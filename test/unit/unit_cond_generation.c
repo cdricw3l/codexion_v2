@@ -86,18 +86,15 @@ int unit_cond_generation(void)
     i = 0;
     while (i < 10)
     {
-        
         data.data_mutex = NULL;
         data.value = 0;
         data.cond = &arr_cond[i];
         data.mutex = &data.mutex[i];
         data.data_mutex = &data_mutex;
         assert(data.data_mutex);
-    
         pthread_create(&thrd_1, NULL, thread_1, &data);
         sleep(1);
         pthread_create(&thrd_2, NULL, thread_2, &data);
-        
         pthread_join(thrd_2, NULL);
         pthread_join(thrd_1, NULL);
         printf("End of thread wait i: %d\n", i);

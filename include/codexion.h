@@ -6,7 +6,7 @@
 /*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/09/03 13:06:38 by cdric.b          ###   ########.fr       */
+/*   Updated: 2026/10/15 18:48:46 by cdric.b          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,11 @@ enum e_PARAMS
 
 typedef struct s_requests
 {
-    size_t coder_id;
-    clock_t coder_last_compilation;
+    size_t              request_id;
+    size_t              coder_id;
+    clock_t             coder_last_compilation;
+    struct s_requests   *left;
+    struct s_requests   *right;
 
 } t_requests;
 
@@ -81,9 +84,12 @@ typedef struct s_dongle
 {
     pthread_mutex_t dongle;
     clock_t         last_use;
-    t_requests      *requests;
+    int             request_queue_size;
+    t_requests      **requests_queue;
 
 } t_dongle;
+
+
 
 
 /*
@@ -101,26 +107,26 @@ typedef struct s_dongle
 */
 
 /* display */
-void display_params(int params[8], int nb);
+void            display_params(int params[8], int nb);
 
 /* parsing */
-int parse_arguments(char **args, int params[8]);
+int             parse_arguments(char **args, int params[8]);
 
 /* error */
-int	msg_error(int code);
-int	parsing_error_msg(int code, char *arg);
-void ft_putnbr_error(int fd, int nb, int base);
+int             msg_error(int code);
+int             parsing_error_msg(int code, char *arg);
+void            ft_putnbr_error(int fd, int nb, int base);
 
 /* utils */
 
-int	ft_is_digit(char c);
-size_t	get_str_arr_len(char **str_arr);
+int             ft_is_digit(char c);
+size_t          get_str_arr_len(char **str_arr);
 
 /* thread utils */
 
 pthread_mutex_t	*init_dynamique_mutex(int nb);
 pthread_cond_t	*init_dynamique_cond(int nb);
-int clean_dynamique_mutex(pthread_mutex_t **mutex, int nb);
-int clean_dynamique_cond(pthread_cond_t **cond, int nb);
+int             clean_dynamique_mutex(pthread_mutex_t **mutex, int nb);
+int             clean_dynamique_cond(pthread_cond_t **cond, int nb);
 
 #endif

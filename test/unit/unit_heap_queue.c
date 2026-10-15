@@ -1,0 +1,115 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unit_heap_queue.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/08 11:30:18 by cdric.b           #+#    #+#             */
+/*   Updated: 2026/10/15 19:20:13 by cdric.b          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "unit.h"
+
+
+/*
+
+    Fair arbitration is mandatory: when multiple coders request the same dongle,
+    the dongle must grant access according to scheduler.
+    With fifo, serve requests in arrival order.
+    With edf, serve the coder with the earliest burnout deadline (i.e., last_compile_start
+    + time_to_burnout).
+*/
+
+void display_request(t_requests *request)
+{
+    printf("Request id: %zu\n", request->request_id);
+    printf("Coder id: %zu\n", request->coder_id);
+    printf("Last compilation: %lu\n", request->coder_last_compilation);
+    printf("Left: %p\n", request->left);
+    printf("Right: %p\n", request->right);
+
+}
+
+void display_request_queue(t_requests *tree, void (*display)(t_requests *))
+{
+    if(!tree)
+        return ;
+    display_request_queue(tree->left, display);
+    display(tree);
+    display_request_queue(tree->right, display);
+
+}
+
+void clean_request_queue(t_requests **queue)
+{
+    while (*queue)
+    {
+        free(*queue);
+        queue++;
+    }
+}
+
+t_requests *create_request(int request_id, int coder_id, clock_t last_compilation)
+{
+    t_requests *request;
+
+    request = malloc(sizeof(t_requests));
+    if (!request)
+    {
+        perror("Error creation request:");
+        return (NULL);
+    }
+    request->coder_id = coder_id;
+    request->request_id = request_id;
+    request->coder_last_compilation = last_compilation;
+    request->left = NULL;
+    request->right = NULL;
+    return (request);
+}
+
+int save_fifo_request(t_dongle *dongle, t_requests *request)
+{
+    if (*dongle->requests_queue == NULL)
+    {
+        *dongle->requests_queue = request;
+        dongle->request_queue_size++;
+        return (TRUE);
+    }
+    return (FALSE);
+}
+
+int unit_heap_queue_fifo(void)
+{
+    
+    t_requests **queue;
+    t_dongle dongle_1;
+    t_requests *request_1;
+
+
+    
+    queue = malloc(sizeof(t_requests *));
+    if (!queue)
+        return(FALSE);
+    *queue = NULL;
+    dongle_1.requests_queue = queue;
+    if( pthread_mutex_init(&dongle_1.dongle, NULL))
+    {
+        perror("Mutex initialisation error:");
+        free(queue);
+        return (FALSE);
+    }
+    dongle_1.last_use = 0;
+    dongle_1.request_queue_size = 0;
+    
+
+    request_1 = create_request(0,1,0);
+    assert(save_fifo_request(&dongle_1, request_1) == TRUE);
+    assert(dongle_1.request_queue_size == 1);
+    display_request_queue(*queue, display_request);
+    assert(*queue);
+    clean_request_queue(queue);
+    free (queue);
+    return(TRUE);
+}
