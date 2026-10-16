@@ -6,7 +6,7 @@
 /*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/10/15 18:48:46 by cdric.b          ###   ########.fr       */
+/*   Updated: 2026/10/16 08:13:31 by cdric.b          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 #define ON 1
 #define CODER_MAX 200
 #define PARAMS_SIZE 8
+#define NL printf("\n")
 
 enum e_error_init
 {

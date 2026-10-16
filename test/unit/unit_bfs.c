@@ -6,7 +6,7 @@
 /*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/15 18:08:02 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/10/15 18:51:27 by cdric.b          ###   ########.fr       */
+/*   Updated: 2026/10/16 13:03:33 by cdric.b          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,20 +82,19 @@ t_requests **get_arr_bfs(t_requests *tree)
     
     size = 0;
     get_tree_size(tree, &size);
-    assert(size == 11);
     if (size == 0)
         return (NULL);
     queue = malloc(sizeof(t_requests *) * size);
     if (!queue)
         return (NULL);
-    arr = malloc(sizeof(t_requests *) * size);
+    arr = malloc(sizeof(t_requests *) * (size + 1));
     if (!arr)
     {
         free(queue);
         return (NULL);
     }
     memset(queue, 0, sizeof(t_requests *) * size);
-    memset(arr, 0, sizeof(t_requests *) * size);
+    memset(arr, 0, sizeof(t_requests *) * (size+1));
     push(queue, tree);
     while (!is_queue_empty(queue))
     {
@@ -106,8 +105,8 @@ t_requests **get_arr_bfs(t_requests *tree)
         push(queue, tmp->right);
     }
     free(queue);
+    push(arr, NULL);
     assert(arr);
-    assert((*arr)->request_id == 0);
     return (arr);
 }
 
