@@ -3,7 +3,8 @@
 
 #include "../0_include/test.h"
 #include "../../include/codexion.h"
-#include <malloc/malloc.h>
+#include "../../src/heap/heap.h"
+
 
 int unit_parsing(void);
 int unit_mutex_generation(void);

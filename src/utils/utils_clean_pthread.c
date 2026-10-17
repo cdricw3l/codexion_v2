@@ -50,7 +50,7 @@ int clean_dynamique_cond(pthread_cond_t **cond, int nb)
     {
         if(pthread_cond_destroy(&co[i]))
         {
-            write(STDERR_FILENO,"Error destruction cond Nb: ", strlen("Error destruction mutext Nb: "));
+            write(STDERR_FILENO,"Error destruction cond Nb: ", strlen("Error destruction cond Nb: "));
             ft_putnbr_error(STDERR_FILENO,i, 10);
             write(STDERR_FILENO, "\n", 1);
             err = FALSE;

@@ -6,21 +6,14 @@
 /*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/17 11:35:27 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/10/17 16:10:23 by cdric.b          ###   ########.fr       */
+/*   Updated: 2026/10/17 18:35:18 by cdric.b          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "unit.h"
 #include <string.h>
 
-typedef struct s_heap_node
-{
-    void *content;
 
-    struct s_heap_node *left;
-    struct s_heap_node *right;
-
-} t_heap_node;
 
 void print_str(void *content)
 {
@@ -38,8 +31,9 @@ void print_node(t_heap_node *node)
     NL;
     printf("Node: %p\n", node);
     print_str(node->content);
+    printf("Parent: %p\n", node->parent);
     printf("Left: %p\n", node->left);
-    printf("Left: %p\n", node->right);
+    printf("Right: %p\n", node->right);
     NL;
 
 }
@@ -53,20 +47,7 @@ void heap_iter(t_heap_node *root, void (f)(t_heap_node *node))
     heap_iter(root->right, f);
 }
 
-t_heap_node *new_node(void *content)
-{
-    t_heap_node *node;
 
-    node = malloc(sizeof(t_heap_node));
-    if (!node)
-    {
-        perror("Node allocation error:");
-        return (NULL);
-    }
-    node->content = content;
-    node->left = node->right = NULL;
-    return (node);
-}
 
 
 
@@ -84,74 +65,6 @@ void print_bit(int value, int bit)
     NL;
 }
 
-void get_path(int value, char buffer[17])
-{
-    int bit;
-    int on;
-    int i;
-
-    bit = 15;
-    on = 0;
-    i = 0;
-    while (bit >= 0)
-    {
-        if (!on && ((value >> bit) & 1) == 1)
-        {
-            on = 1;
-            bit--;
-            continue;
-        }
-        if (on)
-            buffer[i++] = ((value >> bit) & 1) + '0';
-        bit--;
-    }
-    buffer[i] = '\0';
-}
-
-int ft_heap_add(t_heap_node **heap, t_heap_node *node, int *heap_size)
-{
-    int         target_node;
-    int         i;
-    char        buffer[17];
-    t_heap_node *current_node;
-
-    if (!heap || !node || (*heap_size) < 0)
-        return(FALSE) ;
-    if(!*heap)
-    {
-        *heap = node;
-        (*heap_size)++;
-        return(TRUE) ;
-    }
-    target_node = (*heap_size + 1) / 2;
-    get_path(target_node, buffer);
-    current_node = *heap;
-    i = 0;
-    while (buffer[i])
-    {
-        if (buffer[i] == '1')
-            current_node = current_node->right;
-        else if (buffer[i] == '0')
-            current_node = current_node->left;
-        i++;
-    }
-    if((*heap_size + 1) % 2 == 0)
-    {
-        if (current_node->left)
-            return(FALSE);
-        current_node->left = node;
-    }
-    else 
-    {
-        if (current_node->right)
-            return(FALSE);
-        current_node->right = node;
-    }
-    (*heap_size)++;
-    return (TRUE);
-}
-
-
 int manual_heapfy(void)
 {
     t_heap_node *node_1;
@@ -167,7 +80,7 @@ int manual_heapfy(void)
     t_heap_node *node_11;
     t_heap_node *node_12;
     t_heap_node **queue;
-    int         heap_size;
+    size_t         heap_size;
 
     queue = malloc(sizeof(t_heap_node *));
     if (!queue)
@@ -176,18 +89,18 @@ int manual_heapfy(void)
         return (FALSE);
     }
 
-    node_1 = new_node(strdup("1"));
-    node_2 = new_node(strdup("2"));
-    node_3 = new_node(strdup("3"));
-    node_4 = new_node(strdup("4"));
-    node_5 = new_node(strdup("5"));
-    node_6 = new_node(strdup("6"));
-    node_7 = new_node(strdup("7"));
-    node_8 = new_node(strdup("8"));
-    node_9 = new_node(strdup("9"));
-    node_10 = new_node(strdup("10"));
-    node_11 = new_node(strdup("11"));
-    node_12 = new_node(strdup("12"));
+    node_1 = heap_new_node(strdup("1"));
+    node_2 = heap_new_node(strdup("2"));
+    node_3 = heap_new_node(strdup("3"));
+    node_4 = heap_new_node(strdup("4"));
+    node_5 = heap_new_node(strdup("5"));
+    node_6 = heap_new_node(strdup("6"));
+    node_7 = heap_new_node(strdup("7"));
+    node_8 = heap_new_node(strdup("8"));
+    node_9 = heap_new_node(strdup("9"));
+    node_10 = heap_new_node(strdup("10"));
+    node_11 = heap_new_node(strdup("11"));
+    node_12 = heap_new_node(strdup("12"));
     
     node_1->left = node_2;
     node_1->right = node_3;
@@ -207,7 +120,7 @@ int manual_heapfy(void)
     heap_size = 11;
     *queue = node_1;
     
-    ft_heap_add(queue, node_12, &heap_size);
+    heap_add_node(queue, node_12, &heap_size);
 
     //heap_iter(*queue, print_node);
     assert(heap_size == 12);
@@ -218,7 +131,7 @@ int auto_heapfy(void)
 {
     t_heap_node **queue;
     t_heap_node *node;
-    int         heap_size;
+    size_t      heap_size;
     int         i;
 
     queue = malloc(sizeof(t_heap_node *));
@@ -227,16 +140,19 @@ int auto_heapfy(void)
         perror("Error initialisation queue: ");
         return (FALSE);
     }
-    i = 0;
+    i = 1;
     heap_size = 0;
-    while (i < 12)
+    *queue = NULL;
+    while (i <= 12)
     {
-        node = new_node(ft_itoa(i));
+        node = heap_new_node(ft_itoa(i));
         printf("voici i %d\n", i);
-        assert(ft_heap_add(queue, node, &heap_size) == TRUE);
+        assert(heap_add_node(queue, node, &heap_size) == TRUE);
         i++;
     }
-    
+    heap_iter(*queue, print_node);
+    heap_clear(*queue, free);
+    free(queue);
     return (TRUE);
 }
 

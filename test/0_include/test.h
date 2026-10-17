@@ -13,6 +13,8 @@
 #include <string.h>    // strlen, strcmp, memcpy...
 #include <unistd.h>    // read, write, close, fork... (POSIX)
 #include <assert.h>    // assertion
+#include <stdio.h>
+
 
 /*
     #include <assert.h>     // assert()
