@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unit_heap_queue.c                                  :+:      :+:    :+:   */
+/*   unit_heap_queue_version_tree.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/08 11:30:18 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/10/16 13:14:55 by cdric.b          ###   ########.fr       */
+/*   Updated: 2026/10/17 11:28:11 by cdric.b          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,21 @@ t_requests *create_request(int request_id, int coder_id, clock_t last_compilatio
     request->right = NULL;
     return (request);
 }
+
+
+// int heapfy(t_requests **arr_requests, int queue_size, int mode)
+// {
+
+//     int i;
+
+//     i = 0;
+//     while (arr_requests[i])
+//     {
+//         display_request(arr_requests[i++]);
+//     }
+    
+    
+// }
 
 int save_request(t_dongle *dongle, t_requests *request_node)
 {
