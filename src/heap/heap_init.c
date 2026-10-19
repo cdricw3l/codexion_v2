@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/18 09:01:04 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/10/18 10:01:01 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/10/19 16:33:27 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,5 @@ t_heap	*heap_init(void)
 	}
 	*heap->queue = NULL;
 	heap->size_queue = 0;
-	heap->add_node = heap_add_node;
-	heap->iter_queue = heap_iter;
-	heap->clear_queue = heap_clear;
 	return (heap);
 }

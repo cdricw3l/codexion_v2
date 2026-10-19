@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/10/16 08:13:31 by cdric.b          ###   ########.fr       */
+/*   Updated: 2026/10/19 16:20:02 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ typedef struct s_requests
     size_t              request_id;
     size_t              coder_id;
     clock_t             coder_last_compilation;
-    struct s_requests   *left;
-    struct s_requests   *right;
+
 
 } t_requests;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unit_heapfy.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/17 11:35:27 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/10/17 18:35:18 by cdric.b          ###   ########.fr       */
+/*   Updated: 2026/10/19 16:34:25 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,38 @@
 #include <string.h>
 
 
-
-void print_str(void *content)
+t_requests *create_request(int request_id, int coder_id, clock_t last_compilation)
 {
-    char *str;
+    t_requests *request;
 
-    str = (char *)content;
-    printf("content: %s\n", str);
+    request = malloc(sizeof(t_requests));
+    if (!request)
+    {
+        perror("Error creation request:");
+        return (NULL);
+    }
+    request->coder_id = coder_id;
+    request->request_id = request_id;
+    request->coder_last_compilation = last_compilation;
+    return (request);
 }
-
-void print_node(t_heap_node *node)
+void display_request(void *ptr)
 {
+    t_requests *request;
 
-    if (!node)
-        return ;
+    request = (t_requests *)ptr;
     NL;
-    printf("Node: %p\n", node);
-    print_str(node->content);
-    printf("Parent: %p\n", node->parent);
-    printf("Left: %p\n", node->left);
-    printf("Right: %p\n", node->right);
+    printf("Coder id: %zu\n", request->coder_id);
+    printf("Request id: %zu\n", request->request_id);
+    printf("Last compilation: %lu\n", request->coder_last_compilation);
     NL;
 
 }
 
-void heap_iter(t_heap_node *root, void (f)(t_heap_node *node))
-{
-    if (!root)
-        return;
-    heap_iter(root->left, f);
-    f(root);
-    heap_iter(root->right, f);
-}
+
+
+
+
 
 
 
@@ -79,16 +79,11 @@ int manual_heapfy(void)
     t_heap_node *node_10;
     t_heap_node *node_11;
     t_heap_node *node_12;
-    t_heap_node **queue;
-    size_t         heap_size;
+    t_heap *heap;
 
-    queue = malloc(sizeof(t_heap_node *));
-    if (!queue)
-    {
-        perror("Error initialisation queue: ");
+    heap = heap_init();
+    if (!heap)
         return (FALSE);
-    }
-
     node_1 = heap_new_node(strdup("1"));
     node_2 = heap_new_node(strdup("2"));
     node_3 = heap_new_node(strdup("3"));
@@ -117,42 +112,56 @@ int manual_heapfy(void)
     node_5->left = node_10;
     node_5->right = node_11;
 
-    heap_size = 11;
-    *queue = node_1;
+    heap->size_queue = 11;
+    *heap->queue = node_1;
     
-    heap_add_node(queue, node_12, &heap_size);
+    heap_add_node(heap, node_12);
 
     //heap_iter(*queue, print_node);
-    assert(heap_size == 12);
+    assert(heap->size_queue == 12);
     return (TRUE);
+}
+
+
+int cmp_request(void *r1, void *r2)
+{
+    t_requests *request_1;
+    t_requests *request_2;
+
+    request_1 = (t_requests *)r1;
+    request_2 = (t_requests *)r2;
+
+    if (request_1->request_id < request_2->request_id)
+        return (TRUE);
+    return (FALSE);
 }
 
 int auto_heapfy(void)
 {
-    t_heap_node **queue;
+    t_heap *heap;
     t_heap_node *node;
-    size_t      heap_size;
     int         i;
 
-    queue = malloc(sizeof(t_heap_node *));
-    if (!queue)
-    {
-        perror("Error initialisation queue: ");
+    heap = heap_init();
+    if (!heap)
         return (FALSE);
-    }
+    assert(heap->queue);
+    assert(!*heap->queue);
+    assert(heap->size_queue == 0);
     i = 1;
-    heap_size = 0;
-    *queue = NULL;
-    while (i <= 12)
+    while (i <= 10)
     {
-        node = heap_new_node(ft_itoa(i));
-        printf("voici i %d\n", i);
-        assert(heap_add_node(queue, node, &heap_size) == TRUE);
+        node = heap_new_node(create_request(i,0,0));
+        assert(heap_add_node(heap, node) == TRUE);
         i++;
     }
-    heap_iter(*queue, print_node);
-    heap_clear(*queue, free);
-    free(queue);
+    assert(heap_add_node(heap, heap_new_node(create_request(0,0,0))) == TRUE);
+    heapfy(heap, cmp_request);
+    heap_iter(*heap->queue, display_node, display_request);
+    heap_clear(heap->queue, free);
+    assert(*heap->queue == NULL);
+    heap_destroy(&heap);
+    assert(!heap);
     return (TRUE);
 }
 
