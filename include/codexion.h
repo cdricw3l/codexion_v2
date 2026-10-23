@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/10/19 16:20:02 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/10/23 15:23:48 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,12 @@ pthread_mutex_t	*init_dynamique_mutex(int nb);
 pthread_cond_t	*init_dynamique_cond(int nb);
 int             clean_dynamique_mutex(pthread_mutex_t **mutex, int nb);
 int             clean_dynamique_cond(pthread_cond_t **cond, int nb);
+
+
+// request
+
+void        display_request(void *ptr);
+int         cmp_request_fifo(void *r1, void *r2);
+t_requests  *create_request(int request_id, int coder_id, clock_t last_compilation);
 
 #endif

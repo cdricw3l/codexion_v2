@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/17 16:56:11 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/10/19 16:31:29 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/10/23 12:43:44 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@
 
 # include <stdlib.h>
 # include <stdio.h>
+# include <string.h>
 # include <limits.h>
+#include "../../include/color-codes.h"
 
 typedef struct s_heap_node
 {
@@ -51,7 +53,10 @@ void		heap_iter(t_heap_node *root, void (*f)(t_heap_node *,
 					void (*content)(void *)), void (*content)(void *));
 void		heap_clear(t_heap_node **queue, void (*f)(void *));
 void		heap_destroy(t_heap **heap);
-int			heapfy(t_heap *heap, int (*cmp)(void *p1, void *p2));
+int			heappush(t_heap *heap, int (*cmp)(void *p1, void *p2));
+void 		heappop(t_heap *heap, int (*cmp)(void *p1, void *p2), void (*del)(void *));
+void		heap_swap_node(t_heap_node *src, t_heap_node *dst);
 void		display_node(t_heap_node *node, void (*display_content)(void *));
+t_heap_node	**bfs_binary_tree_as_arr(t_heap *heap);
 
 #endif
