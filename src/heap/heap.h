@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/17 16:56:11 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/10/23 12:43:44 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/10/23 19:21:03 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ int			heap_add_node( t_heap *heap, t_heap_node *node);
 t_heap_node	*heap_get_node(t_heap_node *root, int target_node_idx);
 void		heap_iter(t_heap_node *root, void (*f)(t_heap_node *,
 					void (*content)(void *)), void (*content)(void *));
-void		heap_clear(t_heap_node **queue, void (*f)(void *));
+void		heap_clear(t_heap *heap, void (*f)(void *));
 void		heap_destroy(t_heap **heap);
-int			heappush(t_heap *heap, int (*cmp)(void *p1, void *p2));
-void 		heappop(t_heap *heap, int (*cmp)(void *p1, void *p2), void (*del)(void *));
+int			heappush(t_heap *heap, t_heap_node *node,  int (*cmp)(void *p1, void *p2));
+int 		heappop(t_heap *heap, int (*cmp)(void *p1, void *p2), void (*del_content)(void *));
 void		heap_swap_node(t_heap_node *src, t_heap_node *dst);
 void		display_node(t_heap_node *node, void (*display_content)(void *));
 t_heap_node	**bfs_binary_tree_as_arr(t_heap *heap);

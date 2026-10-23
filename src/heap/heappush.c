@@ -6,17 +6,45 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/17 18:39:24 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/10/21 15:56:25 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/10/23 19:11:26 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "heap.h"
 
-int	heappush(t_heap *heap, int (*cmp)(void *p1, void *p2))
+int	heap_add_node( t_heap *heap, t_heap_node *node)
+{
+	t_heap_node	*target_node;
+
+	if (!heap || !node)
+		return (FALSE);
+	if (!(*heap->queue))
+	{
+		*heap->queue = node;
+		heap->size_queue++;
+		return (TRUE);
+	}
+	target_node = heap_get_node(*heap->queue, (heap->size_queue + 1) / 2);
+	if (!target_node)
+		return (FALSE);
+	if ((heap->size_queue + 1) % 2 == 0 && !target_node->left)
+		target_node->left = node;
+	else if ((heap->size_queue + 1) % 2 != 0 && !target_node->right)
+		target_node->right = node;
+	else
+		return (FALSE);
+	node->parent = target_node;
+	heap->size_queue++;
+	return (TRUE);
+}
+
+int	heappush(t_heap *heap, t_heap_node *node,  int (*cmp)(void *p1, void *p2))
 {
 	t_heap_node	*current;
 
-	current = heap_get_node(*heap->queue, (heap->size_queue));
+	if (heap_add_node(heap, node) == FALSE)
+		return (FALSE);
+	current = node;
 	if (!current)
 		return (FALSE);
 	while (current)

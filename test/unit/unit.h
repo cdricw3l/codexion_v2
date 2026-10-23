@@ -18,7 +18,7 @@ t_requests *create_request(int request_id, int coder_id, clock_t last_compilatio
 void display_request(void *ptr);
 
 int unit_heap_queue_fifo(void);
-int unit_heapfy(void);
+int unit_heap(void);
 
 /* utils */
 char	*ft_itoa(int n);
