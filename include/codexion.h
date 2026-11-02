@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/02 13:04:50 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/02 13:06:10 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	            parsing_error_msg(int code, char *arg);
 
 /* utils */
 
-int             ft_is_digit(char c);
+size_t	        get_str_arr_len(char **str_arr);
 size_t	        ft_strlen(char *str);
 
 #endif
