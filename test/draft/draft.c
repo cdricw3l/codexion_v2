@@ -1,7 +1,12 @@
-#include "../0_include/test.h"
+#include "../include/test.h"
 
 int main(void)
 {
-    printf("TEST draft\n");
+    t_heap *heap;
+    t_heap_node *node;
+
+    heap = heap_init();
+    assert(heap);
+
     return (0);
 }

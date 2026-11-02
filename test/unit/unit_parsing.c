@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unit_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 21:08:11 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/09/03 04:14:48 by cdric.b          ###   ########.fr       */
+/*   Updated: 2026/11/02 13:13:07 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int unit_parsing(void)
 {
+    START_BLOCK;
     START_TEST;
     char *valide_arg_1[] = {"20", "500", "200", "100", "100", "10", "10", "fifo", NULL};
     char *valide_arg_2[] = {"20", "500", "200", "100", "100", "10", "10", "edf", NULL};

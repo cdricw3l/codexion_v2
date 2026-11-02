@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 12:54:28 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/02 13:06:00 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/02 17:23:40 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,25 @@ size_t	get_str_arr_len(char **str_arr)
 		size++;
 	}
 	return (size);
+}
+int	ft_is_digit(int c)
+{
+	return (c >= 48 && c <= 57);
+}
+
+int	ft_memcopy(void *src, void *dst, unsigned long size)
+{
+	unsigned long	i;
+
+	i = 0;
+	if (!dst)
+		return (ERR);
+	if (!src && size)
+		return (ERR);
+	while (i < size)
+	{
+		((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
+		i++;
+	}
+	return (OK);
 }

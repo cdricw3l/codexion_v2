@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/17 16:56:11 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/02 13:02:51 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/02 17:19:03 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef struct s_heap
 
 }	t_heap;
 
-t_heap *heap_init(void);
+t_heap 		*heap_init(void);
+t_heap_node heap_new_node(void *content);
 
 
 #endif

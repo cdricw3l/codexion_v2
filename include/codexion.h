@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/02 13:06:10 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/02 15:39:34 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@
 
 #define FALSE 0
 #define TRUE 1
-#define ERR -1
+#define ERR 0
+#define OK  1
 #define FIFO 0
 #define EDF 1
 #define LEFT 0
@@ -84,7 +85,8 @@ int	            parsing_error_msg(int code, char *arg);
 
 /* utils */
 
-size_t	        get_str_arr_len(char **str_arr);
-size_t	        ft_strlen(char *str);
-
+size_t  get_str_arr_len(char **str_arr);
+size_t  ft_strlen(char *str);
+int     ft_is_digit(int c);
+int     ft_memcopy(void *src, void *dst, unsigned long size);
 #endif
