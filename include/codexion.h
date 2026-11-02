@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/10/23 15:23:48 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/02 13:04:50 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,40 +71,6 @@ enum e_PARAMS
     scheduler
 };
 
-typedef struct s_requests
-{
-    size_t              request_id;
-    size_t              coder_id;
-    clock_t             coder_last_compilation;
-
-
-} t_requests;
-
-typedef struct s_dongle
-{
-    pthread_mutex_t dongle;
-    clock_t         last_use;
-    int             request_queue_size;
-    t_requests      **requests_queue;
-
-} t_dongle;
-
-
-
-
-/*
-    data arr:
-        - clock_t   timestamp
-        - t_dongle  dongles
-    mutext arr:
-        - mutext dongles
-        - mutext timestamps
-    mutext unique:
-        - display mutex
-        - simulation mutex
-    cond arr
-        - cond dongle
-*/
 
 /* display */
 void            display_params(int params[8], int nb);
@@ -112,28 +78,13 @@ void            display_params(int params[8], int nb);
 /* parsing */
 int             parse_arguments(char **args, int params[8]);
 
-/* error */
-int             msg_error(int code);
-int             parsing_error_msg(int code, char *arg);
-void            ft_putnbr_error(int fd, int nb, int base);
+/* Errror */
+
+int	            parsing_error_msg(int code, char *arg);
 
 /* utils */
 
 int             ft_is_digit(char c);
-size_t          get_str_arr_len(char **str_arr);
-
-/* thread utils */
-
-pthread_mutex_t	*init_dynamique_mutex(int nb);
-pthread_cond_t	*init_dynamique_cond(int nb);
-int             clean_dynamique_mutex(pthread_mutex_t **mutex, int nb);
-int             clean_dynamique_cond(pthread_cond_t **cond, int nb);
-
-
-// request
-
-void        display_request(void *ptr);
-int         cmp_request_fifo(void *r1, void *r2);
-t_requests  *create_request(int request_id, int coder_id, clock_t last_compilation);
+size_t	        ft_strlen(char *str);
 
 #endif
