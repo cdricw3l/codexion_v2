@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/02 15:39:34 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/03 09:07:57 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <string.h>    // strlen, strcmp, memcpy...
 #include <unistd.h>    // read, write, close, fork... (POSIX)
 #include <time.h>      //time
+#include <assert.h>      
 #include "color-codes.h"
 #include <pthread.h>
 

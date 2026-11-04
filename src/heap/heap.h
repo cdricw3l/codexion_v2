@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/17 16:56:11 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/02 21:21:14 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/03 09:10:24 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,17 @@ typedef struct s_heap_node
 
 typedef struct s_heap
 {
-	t_heap_node	*queue;
+	t_heap_node	**queue;
 	size_t		heap_size;		
 
 }	t_heap;
 
 t_heap		*heap_init(void);
-t_heap_node	heap_new_node(void *content);
+t_heap_node	*heap_new_node(void *content);
 void		heap_swap_node(t_heap_node *parent, t_heap_node *current);
 void		heap_clear(t_heap **heap, void (*del)(void *content));
-int			heap_push(t_heap *heap, t_heap_node node,
-				int (*cmp)(t_heap_node parent, t_heap_node current));
-
+int			heap_push(t_heap *heap, t_heap_node *node,
+				int (*cmp)(t_heap_node *parent, t_heap_node *current));
+t_heap_node	*heap_pop(t_heap *heap,int (*cmp)(t_heap_node *children_l, t_heap_node *children_r));
+t_heap_node	*heap_get_node(t_heap *heap, size_t idx);
 #endif
