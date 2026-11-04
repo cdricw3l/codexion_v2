@@ -6,18 +6,11 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/17 11:35:27 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/04 07:45:35 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/04 14:34:49 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../unit.h"
-
-
-
-/*heap test unit*/
-void unit_heap_new_node(void);
-void unit_heap_init(void);
-void unit_heap_max(void);
+#include "unit_heap.h"
 
 int unit_heap(void)
 {
@@ -26,5 +19,6 @@ int unit_heap(void)
 	unit_heap_init();
 	unit_heap_new_node();
 	unit_heap_max();
+	unit_heap_min();
 	return (TRUE);
 }

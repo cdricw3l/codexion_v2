@@ -3,7 +3,7 @@ CFLAGS=-Wall -Werror -Wextra -g
 #CFLAGS=-g
 TYPE ?= unit
 MEMORY_CHECK ?= 0
-MEMORY_LOG= memory.log
+MEMORY_LOG= unit_valgrind_report/memory.log
 
 
 
