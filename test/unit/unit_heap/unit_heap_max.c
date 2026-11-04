@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 07:39:28 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/04 07:46:45 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/04 08:49:46 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ void unit_heap_max_pop(void)
 	free(id);
 	assert(heap_push(heap, node, ft_cmp_max));
 
+    write(STDOUT_FILENO,BBLU"Expected error msg --> "CRESET, ft_strlen(BBLU"Expected error msg -->"CRESET));
+	assert(!heap_pop(heap, NULL));
+
 	t_heap_node *n;
 	size_t j;
 
@@ -83,7 +86,9 @@ void unit_heap_max_pop(void)
 		free(n->content);
 		free(n);
 	}
+    assert(heap && heap->queue && heap->heap_size == 0);
 	assert(!heap_pop(heap, ft_cmp_max));
+	assert(!heap_pop(NULL, ft_cmp_max));
 	/* clear fonction. Check with valgrind*/
 	heap_clear(&heap, clean_str_heap);
 	assert(!heap);

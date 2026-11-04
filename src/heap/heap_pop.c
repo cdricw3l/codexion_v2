@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 04:29:53 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/04 07:12:38 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/04 09:29:17 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,26 @@
 #define SWAP_LEFT	1
 #define SWAP_RIGHT	2
 
-int	get_direction(t_heap_node *current, t_heap_node *left,
+#define NEW_Q_ERR 0
+#define CMP_ERR 1
+
+static void	*heap_pop_err_msg(int err_code)
+{
+	char	*msg;
+
+	if (err_code == NEW_Q_ERR)
+		msg = BRED"[POP ERR] new queue malloc initialisation error"CRESET"\n";
+	else if (err_code == CMP_ERR)
+		msg = BRED\
+"[POP ERR] Please provide the comparison function for the heap reorganization."\
+CRESET"\n";
+	else
+		return (NULL);
+	write(STDERR_FILENO, msg, ft_strlen(msg));
+	return (NULL);
+}
+
+static int	get_direction(t_heap_node *current, t_heap_node *left,
 		t_heap_node *right, int (*cmp)(t_heap_node *, t_heap_node *))
 {
 	if (!cmp(current, left) && !cmp(current, right))
@@ -36,13 +55,14 @@ int	get_direction(t_heap_node *current, t_heap_node *left,
 	return (-1);
 }
 
-static void	heap_organise(t_heap *heap, int (*cmp)(t_heap_node *children_l, t_heap_node *children_r))
+static void	heap_pop_organise(t_heap *heap,
+		int (*cmp)(t_heap_node *children_l, t_heap_node *children_r))
 {
-	size_t current_idx;
-	t_heap_node *current;
-	t_heap_node *left;
-	t_heap_node *right;
-	int direction;
+	int			direction;
+	size_t		current_idx;
+	t_heap_node	*current;
+	t_heap_node	*left;
+	t_heap_node	*right;
 
 	current_idx = 0;
 	current = heap_get_node(heap, current_idx);
@@ -51,18 +71,11 @@ static void	heap_organise(t_heap *heap, int (*cmp)(t_heap_node *children_l, t_he
 	direction = get_direction(current, left, right, cmp);
 	while (direction)
 	{
-		if (direction == NO_SWAP)
-			return ;
-		else if ( direction == SWAP_RIGHT)
-		{
+		if (direction == SWAP_RIGHT)
 			heap_swap_node(current, right);
-			current_idx = 2 * current_idx + 2;
-		}
 		else if (direction == SWAP_LEFT)
-		{
 			heap_swap_node(current, left);
-			current_idx = 2 * current_idx + 1;
-		}
+		current_idx = 2 * current_idx + direction;
 		current = heap_get_node(heap, current_idx);
 		left = heap_get_node(heap, 2 * current_idx + 1);
 		right = heap_get_node(heap, 2 * current_idx + 2);
@@ -70,26 +83,25 @@ static void	heap_organise(t_heap *heap, int (*cmp)(t_heap_node *children_l, t_he
 	}
 }
 
-t_heap_node	*heap_pop(t_heap *heap,int (*cmp)(t_heap_node *children_l, t_heap_node *children_r))
+t_heap_node	*heap_pop(t_heap *heap, int (*cmp)(t_heap_node *, t_heap_node *))
 {
-	t_heap_node **new_queue;
-	t_heap_node *node;
-	char 		*err;
+	t_heap_node	**new_queue;
+	t_heap_node	*node;
 
-	if (heap->heap_size == 0)
+	if (!heap || !heap->queue || heap->heap_size == 0)
 		return (NULL);
+	if (!cmp)
+		return (heap_pop_err_msg(CMP_ERR));
 	heap_swap_node(heap->queue[0], heap->queue[heap->heap_size - 1]);
 	new_queue = malloc(sizeof(t_heap_node *) * (heap->heap_size - 1));
 	if (!new_queue)
-	{
-		err = "[POP] new queue malloc initialisation error\n";
-		write(STDERR_FILENO, err, ft_strlen(err));
-	}
-	ft_memcopy(heap->queue, new_queue, sizeof(t_heap_node *) * (heap->heap_size - 1));
+		return (heap_pop_err_msg(NEW_Q_ERR));
+	ft_memcopy(heap->queue, new_queue,
+		sizeof(t_heap_node *) * (heap->heap_size - 1));
 	node = heap_get_node(heap, heap->heap_size - 1);
 	heap->heap_size--;
 	free(heap->queue);
 	heap->queue = new_queue;
-	heap_organise(heap, cmp);
+	heap_pop_organise(heap, cmp);
 	return (node);
 }
