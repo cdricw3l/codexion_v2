@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 11:28:55 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/05 14:59:36 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/05 16:20:01 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,25 @@ typedef struct s_request
 {
 	size_t          request_id;
 	size_t          coder_id;
-    bool            *can_compile;
-    pthread_cond_t  *can_compile_cond;
-    pthread_mutex_t *can_compile_mu;
-    void            *next;
+	bool            *can_compile;
+	pthread_cond_t  *can_compile_cond;
+	pthread_mutex_t *can_compile_mu;
+	void            *next;
 
 } t_request;
 
 typedef struct s_request_queue
 {
-    t_request **queue;
-    size_t queue_size;
-    pthread_mutex_t queue_mutex;
-    
+	t_request **queue;
+	size_t queue_size;
+	pthread_mutex_t queue_mutex;
+	
 } t_request_queue;
 
+int				request_push(t_request_queue *queue, t_request *request);
+t_request       *request_new_node(t_coder *coder, t_request_queue *queue);
+t_request		*request_get_last_node(t_request *current);
 t_request_queue *request_queue_init(void);
-t_request *request_new_node(t_coder *coder, t_request_queue *queue);
+int request_destroy_queue(t_request_queue **q);
+
 #endif

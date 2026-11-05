@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 12:20:50 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/05 14:53:56 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/05 16:23:19 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_request_queue *request_queue_init(void)
         free(request_queue);
         return (err_msg(BRED"Error malloc allocation request queue"CRESET));
     }
+    *request_queue->queue = NULL;
     pthread_mutex_init(&request_queue->queue_mutex, NULL);
     request_queue->queue_size = 0;
     return (request_queue);
