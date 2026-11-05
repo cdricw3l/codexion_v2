@@ -15,6 +15,7 @@
 #include <assert.h>    // assertion
 #include <stdio.h>
 #include "../../src/heap/heap.h"
+#include "../../src/request/request.h"
 #include "../../include/codexion.h"
 
 

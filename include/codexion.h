@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/03 09:07:57 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/05 14:53:33 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 #include <assert.h>      
 #include "color-codes.h"
 #include <pthread.h>
+#include <stdbool.h>
+
+#include "../src/heap/heap.h"
 
 #define FALSE 0
 #define TRUE 1
@@ -74,6 +77,34 @@ enum e_PARAMS
 };
 
 
+
+
+typedef struct s_sim
+{
+    int type_queue;
+
+    bool            *can_compile;
+    pthread_mutex_t display_mu;
+    pthread_mutex_t request_queue_mu;
+    pthread_mutex_t *timestamp_mu;
+    pthread_mutex_t *can_compile_mu;
+    pthread_cond_t  *can_compile_cond;
+    time_t          *timestamp;
+
+} t_sim;
+
+
+typedef struct t_coder
+{
+    size_t          coder_id;
+    bool            *can_compile;
+    pthread_mutex_t *can_compile_mu;
+    pthread_cond_t  *can_compile_cond;
+
+} t_coder;
+
+
+
 /* display */
 void            display_params(int params[8], int nb);
 
@@ -82,6 +113,7 @@ int             parse_arguments(char **args, int params[8]);
 
 /* Errror */
 
+void            *err_msg(char *err);
 int	            parsing_error_msg(int code, char *arg);
 
 /* utils */

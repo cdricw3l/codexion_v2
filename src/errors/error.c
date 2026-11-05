@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 08:19:39 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/09/01 17:57:59 by cdric.b          ###   ########.fr       */
+/*   Updated: 2026/11/05 13:15:21 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,11 @@ int	msg_error(int code)
 	e_msg = get_error_msg(code);
 	write(STDERR_FILENO, e_msg, strlen(e_msg));
 	return (1);
+}
+
+void *err_msg(char *err)
+{
+    if (err)
+        write(STDERR_FILENO, err, ft_strlen(err));
+    return (NULL);
 }
