@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/06 07:10:58 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/06 08:36:36 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ struct s_request_queue
 {
 	t_request **queue;
 	size_t queue_size;
+	size_t request_counter;
 	pthread_mutex_t queue_mutex;
 	
 } ;
@@ -136,7 +137,8 @@ t_request		*request_get_last_node(t_request *current);
 int 			request_destroy_queue(t_request_queue **q);
 void            request_clear_queue(t_request_queue *queue);
 size_t			request_get_queue_size(t_request_queue *queue);
-void            request_display(t_request_queue *queue);
+void            request_display_queue(t_request_queue *queue);
+void            request_display_node(t_request *request);
 
 /****************************************************************************************************/
 

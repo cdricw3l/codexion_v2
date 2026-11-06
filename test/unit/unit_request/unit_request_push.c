@@ -6,58 +6,16 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 15:20:53 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 07:14:37 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/06 08:29:24 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "unit_request.h"
 
-#define NB_THREAD 2
-
-int check_queue_unique_request(t_request *root)
-{
-
-    t_request *next;
-
-    while (root)
-    {
-        next = root->next;
-        while (next)
-        {
-            if (root->request_id == next->request_id)
-                return (false);
-            next = next->next;
-        }
-        root = root->next;
-    }
-    return (TRUE);
-}
-
-t_coder *get_coder(size_t id, t_request_queue *queue);
 t_coder *init_coder(int nb, t_request_queue *queue);
+int check_queue_unique_request(t_request *root);
+void *push_request_routine(void *data);
 
-
-void *push_request_routine(void *data)
-{
-    t_coder *coder;
-    t_request *request;
-    size_t i;
-
-    coder = (t_coder *)data;
-    i = 0;
-    assert(coder->queue);
-    assert(coder->queue->queue);
-    // assert(!pthread_mutex_lock(&coder->queue->queue_mutex));
-    // assert(!pthread_mutex_unlock(&coder->queue->queue_mutex));
-    while (i < 10)
-    {
-        request = request_new_node(coder);
-        assert(request_push(coder->queue, request));
-        i++;
-        usleep(100000);
-    }
-    return (NULL);
-}
 static void thread_request_push(void)
 {
     START_TEST;

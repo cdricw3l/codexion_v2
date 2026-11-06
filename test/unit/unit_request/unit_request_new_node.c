@@ -6,13 +6,13 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 14:46:11 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 05:45:34 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/06 08:26:52 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "unit_request.h"
 
-t_coder *get_coder(size_t id, t_request_queue *queue);
+t_coder *init_coder(int nb, t_request_queue *queue);
 
 void unit_request_new_node(void)
 {
@@ -27,7 +27,7 @@ void unit_request_new_node(void)
     assert(queue);
     assert(queue->queue_size == 0);
     
-    coder = get_coder(0, queue);
+    coder = init_coder(1, queue);
 
 
     request = request_new_node(coder);

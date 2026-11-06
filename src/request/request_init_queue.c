@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 12:20:50 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 05:59:33 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/06 08:36:00 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ t_request_queue	*request_queue_init(void)
 	*request_queue->queue = NULL;
 	pthread_mutex_init(&request_queue->queue_mutex, NULL);
 	request_queue->queue_size = 0;
+	request_queue->request_counter = 0;
 	return (request_queue);
 }

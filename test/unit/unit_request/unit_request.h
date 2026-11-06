@@ -6,12 +6,14 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 12:35:07 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 07:12:30 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/06 08:15:35 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UNIT_REQUEST_H
 #define UNIT_REQUEST_H
+
+#define NB_THREAD 2
 
 
 #include "../unit.h"
