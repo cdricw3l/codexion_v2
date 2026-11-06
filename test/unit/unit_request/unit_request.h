@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 12:35:07 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 05:28:30 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/06 07:12:30 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ void unit_request_init(void);
 void unit_request_new_node(void);
 void unit_request_get_last_node(void);
 void unit_request_push(void);
+void unit_request_pop(void);
 
 #endif

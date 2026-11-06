@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 15:20:53 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 05:48:16 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/06 07:14:37 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,8 @@ int check_queue_unique_request(t_request *root)
     return (TRUE);
 }
 
-
-t_coder *init_coder(int nb, t_request_queue *queue)
-{
-    t_coder *coders;
-    int i;
-
-    coders = malloc(sizeof(t_coder) * nb);
-    assert(coders);
-    i = 0;
-    while (i < nb)
-    {
-        coders[i].can_compile = false;
-        pthread_cond_init(&coders[i].can_compile_cond, NULL);
-        pthread_mutex_init(&coders[i].can_compile_mu, NULL);
-        coders[i].coder_id = i;
-        coders[i].queue = queue;
-        i++;
-    }
-    return (coders);
-}
+t_coder *get_coder(size_t id, t_request_queue *queue);
+t_coder *init_coder(int nb, t_request_queue *queue);
 
 
 void *push_request_routine(void *data)
@@ -72,7 +54,7 @@ void *push_request_routine(void *data)
         request = request_new_node(coder);
         assert(request_push(coder->queue, request));
         i++;
-        usleep(200000);
+        usleep(100000);
     }
     return (NULL);
 }
@@ -97,20 +79,20 @@ static void thread_request_push(void)
             printf("Error thread_creation");
             return ;
         }
-        printf("Thread %ld is launched\n", coders[i].coder_id);
+        //printf("Thread %ld is launched\n", coders[i].coder_id);
         i++;
     }
     i = 0;
     while (i < NB_THREAD)
     {
         pthread_join(thread[i], NULL);
-        printf("Thread %ld is finish\n", coders[i].coder_id);
+        //printf("Thread %ld is finish\n", coders[i].coder_id);
         i++;
     }
     free(coders);
     assert(queue->queue_size == 20);
     assert(check_queue_unique_request(*queue->queue));
-    request_display(queue);
+    //request_display(queue);
     request_clear_queue(queue);
     request_destroy_queue(&queue);
     END_TEST;

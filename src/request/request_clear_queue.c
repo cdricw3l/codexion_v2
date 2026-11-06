@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 04:59:44 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 05:56:53 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/06 06:59:01 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	request_clear_queue(t_request_queue *queue)
 	t_request	*root;
 	t_request	*tmp;
 
-	if (!queue || !queue->queue)
+	if (!queue || !queue->queue || queue->queue_size == 0)
 		return ;
 	root = *queue->queue;
 	while (root)
