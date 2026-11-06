@@ -6,24 +6,24 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:15:09 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/05 16:21:15 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/06 05:57:14 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "request.h"
+#include "../../include/codexion.h"
 
-int request_destroy_queue(t_request_queue **q)
+int	request_destroy_queue(t_request_queue **q)
 {
-    t_request_queue *queue;
+	t_request_queue	*queue;
 
-    if (!q || !*q)
-        return (FALSE);
-    queue = *q;
-    if(queue->queue)
-        free(queue->queue);
-    if (pthread_mutex_destroy(&queue->queue_mutex))
-        err_msg(BRED"Error mutex destruction\n"CRESET);
-    free(*q);
-    *q = NULL;
-    return (TRUE);
+	if (!q || !*q)
+		return (FALSE);
+	queue = *q;
+	if (queue->queue)
+		free(queue->queue);
+	if (pthread_mutex_destroy(&queue->queue_mutex))
+		err_msg(BRED"Error mutex destruction\n"CRESET);
+	free(*q);
+	*q = NULL;
+	return (TRUE);
 }

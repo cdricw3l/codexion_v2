@@ -14,8 +14,7 @@
 #include <unistd.h>    // read, write, close, fork... (POSIX)
 #include <assert.h>    // assertion
 #include <stdio.h>
-#include "../../src/heap/heap.h"
-#include "../../src/request/request.h"
+
 #include "../../include/codexion.h"
 
 
@@ -42,6 +41,7 @@
     #include <arpa/inet.h>
     #include <netdb.h>
 */
+
 #define START_TEST printf(YEL"Start %s()"CRESET"\n", __func__)
 #define END_TEST printf(GRN"OK %s()"CRESET"\n", __func__)
 #define START_BLOCK printf(BBLU"----- %s() BLOCK -----"CRESET"\n", __func__)

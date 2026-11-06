@@ -6,11 +6,11 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 21:11:29 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/04 09:31:44 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/05 21:25:07 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "heap.h"
+#include "../../include/codexion.h"
 
 static void	heap_push_organise(t_heap *heap,
 		int (*cmp)(t_heap_node *, t_heap_node *))

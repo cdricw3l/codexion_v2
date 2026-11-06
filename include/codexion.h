@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/05 14:53:33 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/06 05:40:45 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 #include <pthread.h>
 #include <stdbool.h>
 
-#include "../src/heap/heap.h"
 
 #define FALSE 0
 #define TRUE 1
@@ -76,8 +75,20 @@ enum e_PARAMS
     scheduler
 };
 
+typedef struct s_request_queue t_request_queue;
+typedef struct s_request t_request;
 
 
+
+typedef struct s_coder
+{
+    size_t          coder_id;
+    bool            can_compile;
+    pthread_mutex_t can_compile_mu;
+    pthread_cond_t  can_compile_cond;
+    t_request_queue *queue;
+
+} t_coder;
 
 typedef struct s_sim
 {
@@ -94,14 +105,67 @@ typedef struct s_sim
 } t_sim;
 
 
-typedef struct t_coder
-{
-    size_t          coder_id;
-    bool            *can_compile;
-    pthread_mutex_t *can_compile_mu;
-    pthread_cond_t  *can_compile_cond;
 
-} t_coder;
+
+/****************************************** REQUEST MODULE ******************************************/
+
+struct s_request_queue
+{
+	t_request **queue;
+	size_t queue_size;
+	pthread_mutex_t queue_mutex;
+	
+} ;
+
+struct s_request
+{
+	size_t          request_id;
+	size_t          coder_id;
+	bool            *can_compile;
+	pthread_cond_t  *can_compile_cond;
+	pthread_mutex_t *can_compile_mu;
+	void            *next;
+
+} ;
+
+int				request_push(t_request_queue *queue, t_request *request);
+t_request       *request_new_node(t_coder *coder);
+t_request		*request_get_last_node(t_request *current);
+t_request_queue *request_queue_init(void);
+int 			request_destroy_queue(t_request_queue **q);
+void            request_clear_queue(t_request_queue *queue);
+size_t			request_get_queue_size(t_request_queue *queue);
+void            request_display(t_request_queue *queue);
+
+/****************************************************************************************************/
+
+/****************************************** HEAP MODULE *********************************************/
+
+typedef struct s_heap_node
+{
+	void				*content;
+
+}	t_heap_node;
+
+typedef struct s_heap
+{
+	t_heap_node	**queue;
+	size_t		heap_size;		
+
+}	t_heap;
+
+t_heap		*heap_init(void);
+t_heap_node	*heap_new_node(void *content);
+void		heap_swap_node(t_heap_node *parent, t_heap_node *current);
+void		heap_clear(t_heap **heap, void (*del)(void *));
+int			heap_push(t_heap *heap, t_heap_node *node,
+				int (*cmp)(t_heap_node *parent, t_heap_node *current));
+t_heap_node	*heap_pop(t_heap *heap, int (*cmp)(t_heap_node *, t_heap_node *));
+t_heap_node	*heap_get_node(t_heap *heap, size_t idx);
+
+/****************************************************************************************************/
+
+
 
 
 
@@ -122,4 +186,5 @@ size_t  get_str_arr_len(char **str_arr);
 size_t  ft_strlen(char *str);
 int     ft_is_digit(int c);
 int     ft_memcopy(void *src, void *dst, unsigned long size);
+
 #endif

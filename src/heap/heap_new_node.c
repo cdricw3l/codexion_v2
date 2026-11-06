@@ -6,11 +6,11 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 21:14:07 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/03 05:00:54 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/05 21:25:02 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "heap.h"
+#include "../../include/codexion.h"
 
 t_heap_node	*heap_new_node(void *content)
 {
