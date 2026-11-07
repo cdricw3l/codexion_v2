@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/06 08:36:36 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/06 20:21:00 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ typedef struct s_coder
     bool            can_compile;
     pthread_mutex_t can_compile_mu;
     pthread_cond_t  can_compile_cond;
+    time_t          *timestamp;
+    pthread_mutex_t *timestamp_mu;
     t_request_queue *queue;
 
 } t_coder;
