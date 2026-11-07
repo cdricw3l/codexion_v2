@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 20:21:33 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 16:05:46 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 18:10:45 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,17 +113,17 @@ t_sim *sim_init(int params[8])
     sim->can_compile_mu = init_dynamique_mutex(params[number_of_coders]);
     if (!sim->can_compile_mu)
         return (clean_sim(&sim));
+	sim->can_compile = can_compile_init(params[number_of_coders]);
+    if (!sim->can_compile)
+        return (clean_sim(&sim));
     sim->timestamp_mu = init_dynamique_mutex(params[number_of_coders]);
     if (!sim->timestamp_mu)
         return (clean_sim(&sim));
+	sim->timestamp = timestamp_init(params[number_of_coders]);
+    if (!sim->timestamp)
+        return (clean_sim(&sim));
     sim->dongle_mu = init_dynamique_mutex(params[number_of_coders]);
     if (!sim->dongle_mu)
-        return (clean_sim(&sim));
-    sim->can_compile = can_compile_init(params[number_of_coders]);
-    if (!sim->can_compile)
-        return (clean_sim(&sim));
-    sim->timestamp = timestamp_init(params[number_of_coders]);
-    if (!sim->timestamp)
         return (clean_sim(&sim));
     sim->display_mu = init_dynamique_mutex(1);
     if (!sim->display_mu)
@@ -131,8 +131,12 @@ t_sim *sim_init(int params[8])
     sim->request_queue_mu = init_dynamique_mutex(1);
     if (!sim->request_queue_mu)
         return (clean_sim(&sim));
+    sim->simulation_state_mu = init_dynamique_mutex(1);
+    if (!sim->simulation_state_mu)
+        return (clean_sim(&sim));
 	sim->queue = request_queue_init();
 	if (!sim->queue)
 		return (clean_sim(&sim));
+	sim->simulation_state = OFF;
     return (sim);
 }

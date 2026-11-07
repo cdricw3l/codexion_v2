@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 21:08:14 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 16:06:35 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 18:11:14 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void check_sim(t_sim *sim)
     assert(sim->timestamp);
     assert(sim->thread);
     assert(sim->queue);
+    assert(sim->simulation_state == OFF);
     while (i < NB_CODER)
     {
         assert(sim->can_compile[i] == false);
@@ -39,12 +40,16 @@ static void check_sim(t_sim *sim)
         assert(!pthread_mutex_unlock(&sim->timestamp_mu[i]));
         assert(!pthread_mutex_lock(&sim->dongle_mu[i]));
         assert(!pthread_mutex_unlock(&sim->dongle_mu[i]));
+        assert(!pthread_mutex_lock(&sim->timestamp_mu[i]));
+        assert(!pthread_mutex_unlock(&sim->timestamp_mu[i]));
         i++;
     }
     assert(!pthread_mutex_lock(sim->request_queue_mu));
     assert(!pthread_mutex_unlock(sim->request_queue_mu));
     assert(!pthread_mutex_lock(sim->display_mu));
     assert(!pthread_mutex_unlock(sim->display_mu));
+    assert(!pthread_mutex_lock(sim->simulation_state_mu));
+    assert(!pthread_mutex_unlock(sim->simulation_state_mu));
     
 }
 

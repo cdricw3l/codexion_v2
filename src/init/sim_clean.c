@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 12:49:24 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 16:13:22 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 18:11:59 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void *clean_sim(t_sim **s)
         free(sim->timestamp);
     if (sim->timestamp_mu)
         free(sim->timestamp_mu);
+    if (sim->simulation_state_mu)
+        free(sim->simulation_state_mu);
     if (sim->dongle_mu)
         free(sim->dongle_mu);
     if (sim->queue)

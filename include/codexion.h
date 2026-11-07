@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/07 16:23:43 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 18:14:45 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ typedef struct s_dongles
 
 typedef struct s_coder
 {
+    int             *simulation_state;
+    pthread_mutex_t *simulation_state_mu;
+    
     size_t          coder_id;
     bool            *can_compile;
     pthread_mutex_t *can_compile_mu;
@@ -97,21 +100,25 @@ typedef struct s_coder
     t_request_queue *queue;
     t_dongles       *dongle_left;
     t_dongles       *dongle_right;
+    time_t          *timestamp;
+    pthread_mutex_t *timestamp_mu;
     int             params[8];
 
 } t_coder;
 
 typedef struct s_sim
 {
+    int             simulation_state;
+    pthread_mutex_t *simulation_state_mu;
     bool            *can_compile;
     pthread_t       *thread;
     pthread_mutex_t *display_mu;
     pthread_mutex_t *request_queue_mu;
-    pthread_mutex_t *timestamp_mu;
     pthread_mutex_t *can_compile_mu;
     pthread_mutex_t *dongle_mu;
     pthread_cond_t  *can_compile_cond;
     time_t          *timestamp;
+    pthread_mutex_t *timestamp_mu;
     t_request_queue *queue;
     int             params[8];
 
