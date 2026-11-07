@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/06 08:36:36 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/06 21:15:13 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_coder
     pthread_mutex_t can_compile_mu;
     pthread_cond_t  can_compile_cond;
     t_request_queue *queue;
+    int             params[8];
 
 } t_coder;
 
@@ -95,16 +96,25 @@ typedef struct s_sim
     int type_queue;
 
     bool            *can_compile;
-    pthread_mutex_t display_mu;
-    pthread_mutex_t request_queue_mu;
+    pthread_mutex_t *display_mu;
+    pthread_mutex_t *request_queue_mu;
     pthread_mutex_t *timestamp_mu;
     pthread_mutex_t *can_compile_mu;
     pthread_cond_t  *can_compile_cond;
     time_t          *timestamp;
+    int             params[8];
 
 } t_sim;
 
+/****************************************** INITIALISATION MODULE ***********************************/
 
+t_sim           *sim_init(int params[8]);
+pthread_t	    *init_threads(int nb);
+pthread_cond_t	*init_dynamique_cond(int nb);
+pthread_mutex_t	*init_dynamique_mutex(int nb);
+void            *clean_dynamique_mutex(pthread_mutex_t **mutex, int nb);
+void            *clean_dynamique_cond(pthread_cond_t **cond, int nb);
+void            *clean_sim(t_sim **s);
 
 
 /****************************************** REQUEST MODULE ******************************************/

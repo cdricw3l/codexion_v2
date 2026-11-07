@@ -2,15 +2,13 @@
 
 int main(void)
 {
-    bool can_compile;
-    bool *can;
+    START_TEST;
+    t_sim *sim;
+    int params[8];  
 
-    can_compile = true;
-    can = &can_compile;
-
-    assert(*can == true);
-
-    printf("voici l'adresse %p\n", &can_compile);
-    printf("voici l'adresse %p\n", can);
+    params[number_of_coders] = 8;
+    sim = sim_init(params);
+    printf(BGRN"INITIALISATION OK"CRESET"\n");
+    clean_sim(&sim);
     return (0);
 }

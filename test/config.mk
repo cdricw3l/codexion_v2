@@ -3,7 +3,7 @@ CC=gcc
 CFLAGS=-g
 TYPE ?= unit
 MEMORY_CHECK ?= 0
-MEMORY_LOG= unit_valgrind_report/memory.log
+MEMORY_LOG= ../valgrind_report/memory.log
 
 
 
