@@ -6,13 +6,11 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 20:21:33 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 21:14:58 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 08:49:33 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
-
-
 
 static bool *can_compile_init(int nb)
 {
@@ -23,6 +21,17 @@ static bool *can_compile_init(int nb)
         return (NULL);
     memset(can_compile, false, sizeof(bool) * nb);
     return (can_compile);
+}
+
+static time_t *timestamp_init(int nb)
+{
+    time_t *timestamp;
+
+    timestamp = malloc(sizeof(time_t) * nb);
+    if (!timestamp)
+        return (NULL);
+    memset(timestamp, 0, sizeof(time_t) * nb);
+    return (timestamp);
 }
 
 t_sim *sim_init(int params[8])
@@ -45,7 +54,7 @@ t_sim *sim_init(int params[8])
     sim->timestamp_mu = init_dynamique_mutex(params[number_of_coders]);
     if (!sim->timestamp_mu)
         return (clean_sim(&sim));
-    sim->timestamp = malloc(sizeof(time_t) * params[number_of_coders]);
+    sim->timestamp = timestamp_init(params[number_of_coders]);
     if (!sim->timestamp)
         return (clean_sim(&sim));
     sim->display_mu = init_dynamique_mutex(1);
