@@ -3,12 +3,11 @@
 int main(void)
 {
     START_TEST;
-    t_sim *sim;
-    int params[8];  
+    
 
-    params[number_of_coders] = 8;
-    sim = sim_init(params);
-    printf(BGRN"INITIALISATION OK"CRESET"\n");
-    clean_sim(&sim);
+    pthread_t *thread;
+    thread = malloc(sizeof(pthread_t) * 10);
+    assert(thread);
+    assert(&thread[0]);
     return (0);
 }

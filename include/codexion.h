@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/06 21:15:13 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 16:23:43 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,29 +79,40 @@ typedef struct s_request_queue t_request_queue;
 typedef struct s_request t_request;
 
 
+typedef struct s_dongles
+{
+    size_t id;
+    time_t          last_use;
+    pthread_mutex_t *dongle;
+    
+} t_dongles;
+
 
 typedef struct s_coder
 {
     size_t          coder_id;
-    bool            can_compile;
-    pthread_mutex_t can_compile_mu;
-    pthread_cond_t  can_compile_cond;
+    bool            *can_compile;
+    pthread_mutex_t *can_compile_mu;
+    pthread_cond_t  *can_compile_cond;
     t_request_queue *queue;
+    t_dongles       *dongle_left;
+    t_dongles       *dongle_right;
     int             params[8];
 
 } t_coder;
 
 typedef struct s_sim
 {
-    int type_queue;
-
     bool            *can_compile;
+    pthread_t       *thread;
     pthread_mutex_t *display_mu;
     pthread_mutex_t *request_queue_mu;
     pthread_mutex_t *timestamp_mu;
     pthread_mutex_t *can_compile_mu;
+    pthread_mutex_t *dongle_mu;
     pthread_cond_t  *can_compile_cond;
     time_t          *timestamp;
+    t_request_queue *queue;
     int             params[8];
 
 } t_sim;
@@ -109,9 +120,9 @@ typedef struct s_sim
 /****************************************** INITIALISATION MODULE ***********************************/
 
 t_sim           *sim_init(int params[8]);
-pthread_t	    *init_threads(int nb);
-pthread_cond_t	*init_dynamique_cond(int nb);
-pthread_mutex_t	*init_dynamique_mutex(int nb);
+t_dongles       *dongle_init(int nb, t_sim *sim);
+t_coder         *coders_init(int params[8], t_sim *sim, t_dongles *dongle);
+
 void            *clean_dynamique_mutex(pthread_mutex_t **mutex, int nb);
 void            *clean_dynamique_cond(pthread_cond_t **cond, int nb);
 void            *clean_sim(t_sim **s);
@@ -172,7 +183,7 @@ t_heap_node	*heap_new_node(void *content);
 void		heap_swap_node(t_heap_node *parent, t_heap_node *current);
 void		heap_clear(t_heap **heap, void (*del)(void *));
 int			heap_push(t_heap *heap, t_heap_node *node,
-				int (*cmp)(t_heap_node *parent, t_heap_node *current));
+				int (*cmp)(t_heap_node *, t_heap_node *));
 t_heap_node	*heap_pop(t_heap *heap, int (*cmp)(t_heap_node *, t_heap_node *));
 t_heap_node	*heap_get_node(t_heap *heap, size_t idx);
 
@@ -199,5 +210,5 @@ size_t  get_str_arr_len(char **str_arr);
 size_t  ft_strlen(char *str);
 int     ft_is_digit(int c);
 int     ft_memcopy(void *src, void *dst, unsigned long size);
-
+int     get_dongle(int id, int number_of_coder, int type);
 #endif

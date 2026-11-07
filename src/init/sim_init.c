@@ -6,11 +6,73 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 20:21:33 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 08:49:33 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 16:05:46 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
+
+static pthread_t	*threads_init(int nb)
+{
+	pthread_t	*thrd_coder;
+
+	thrd_coder = malloc(sizeof(pthread_t) * nb);
+	if (!thrd_coder)
+		return (NULL);
+	return (thrd_coder);
+}
+
+
+static pthread_mutex_t	*init_dynamique_mutex(int nb)
+{
+	pthread_mutex_t	*mu;
+	int				i;
+	int				j;
+
+	mu = malloc(sizeof(pthread_mutex_t) * nb);
+	if (!mu)
+		return (NULL);
+	i = 0;
+	while (i < nb)
+	{
+		if (pthread_mutex_init(&mu[i], NULL))
+		{
+			j = 0;
+			while (j < i)
+				pthread_mutex_destroy(&mu[j++]);
+			free(mu);
+			return (NULL);
+		}
+		i++;
+	}
+	return (mu);
+}
+
+static pthread_cond_t	*init_dynamique_cond(int nb)
+{
+	pthread_cond_t	*cond;
+	int				i;
+	int				j;
+
+	cond = malloc(sizeof(pthread_cond_t) * nb);
+	if (!cond)
+		return (NULL);
+	i = 0;
+	while (i < nb)
+	{
+		if (pthread_cond_init(&cond[i], NULL))
+		{
+			j = 0;
+			while (j < i)
+				pthread_cond_destroy(&cond[j++]);
+			free(cond);
+			return (NULL);
+		}
+		i++;
+	}
+	return (cond);
+}
+
 
 static bool *can_compile_init(int nb)
 {
@@ -42,17 +104,23 @@ t_sim *sim_init(int params[8])
     memset(sim, 0, sizeof(t_sim));
     if (!sim)
         return (err_msg(BRED"Error malloc init simulation\n"CRESET));
+	sim->thread = threads_init(params[number_of_coders]);
+	if (!sim->thread)
+		return (clean_sim(&sim));
     sim->can_compile_cond = init_dynamique_cond(params[number_of_coders]);
     if (!sim->can_compile_cond)
         return (clean_sim(&sim));
     sim->can_compile_mu = init_dynamique_mutex(params[number_of_coders]);
     if (!sim->can_compile_mu)
         return (clean_sim(&sim));
-    sim->can_compile = can_compile_init(params[number_of_coders]);
-    if (!sim->can_compile)
-        return (clean_sim(&sim));
     sim->timestamp_mu = init_dynamique_mutex(params[number_of_coders]);
     if (!sim->timestamp_mu)
+        return (clean_sim(&sim));
+    sim->dongle_mu = init_dynamique_mutex(params[number_of_coders]);
+    if (!sim->dongle_mu)
+        return (clean_sim(&sim));
+    sim->can_compile = can_compile_init(params[number_of_coders]);
+    if (!sim->can_compile)
         return (clean_sim(&sim));
     sim->timestamp = timestamp_init(params[number_of_coders]);
     if (!sim->timestamp)
@@ -63,5 +131,8 @@ t_sim *sim_init(int params[8])
     sim->request_queue_mu = init_dynamique_mutex(1);
     if (!sim->request_queue_mu)
         return (clean_sim(&sim));
+	sim->queue = request_queue_init();
+	if (!sim->queue)
+		return (clean_sim(&sim));
     return (sim);
 }

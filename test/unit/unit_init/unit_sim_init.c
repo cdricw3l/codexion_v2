@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unit_init_sim.c                                    :+:      :+:    :+:   */
+/*   unit_sim_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 21:08:14 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 08:50:55 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 16:06:35 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../unit.h"
-
-#define NB_CODER 8
+#include "unit_init.h"
 
 static void check_sim(t_sim *sim)
 {
@@ -22,22 +20,25 @@ static void check_sim(t_sim *sim)
     assert(sim);
     assert(sim->can_compile);
     assert(sim->can_compile_cond);
-    assert(sim->can_compile_mu);
     assert(sim->display_mu);
+    assert(sim->can_compile_mu);
     assert(sim->request_queue_mu);
-    assert(sim->timestamp);
     assert(sim->timestamp_mu);
+    assert(sim->dongle_mu);
+    assert(sim->timestamp);
+    assert(sim->thread);
+    assert(sim->queue);
     while (i < NB_CODER)
     {
         assert(sim->can_compile[i] == false);
         assert(sim->timestamp[i] == 0);
-        
+        assert(!pthread_cond_signal(&sim->can_compile_cond[i]));
         assert(!pthread_mutex_lock(&sim->can_compile_mu[i]));
         assert(!pthread_mutex_unlock(&sim->can_compile_mu[i]));
-        assert(!pthread_cond_signal(&sim->can_compile_cond[i]));
         assert(!pthread_mutex_lock(&sim->timestamp_mu[i]));
         assert(!pthread_mutex_unlock(&sim->timestamp_mu[i]));
-
+        assert(!pthread_mutex_lock(&sim->dongle_mu[i]));
+        assert(!pthread_mutex_unlock(&sim->dongle_mu[i]));
         i++;
     }
     assert(!pthread_mutex_lock(sim->request_queue_mu));
@@ -47,7 +48,7 @@ static void check_sim(t_sim *sim)
     
 }
 
-void unit_init_sim(void)
+void unit_sim_init(void)
 {
     START_TEST;
     t_sim *sim;

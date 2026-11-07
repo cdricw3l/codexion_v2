@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 12:20:50 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 08:38:31 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 16:13:57 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ t_request	*request_new_node(t_coder *coder)
 		free(request);
 		return (err_msg(BRED"Error mutex unlock new request"CRESET));
 	}
-	request->can_compile_cond = &coder->can_compile_cond;
-	request->can_compile_mu = &coder->can_compile_mu;
-	request->can_compile = &coder->can_compile;
+	request->can_compile_cond = coder->can_compile_cond;
+	request->can_compile_mu = coder->can_compile_mu;
+	request->can_compile = coder->can_compile;
 	request->next = NULL;
 	return (request);
 }

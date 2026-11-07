@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_clean_pthread.c                              :+:      :+:    :+:   */
+/*   sim_clean.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/10 15:36:39 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/06 21:15:02 by cebouhad         ###   ########.fr       */
+/*   Created: 2026/11/07 12:49:24 by cebouhad          #+#    #+#             */
+/*   Updated: 2026/11/07 16:13:22 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void *clean_sim(t_sim **s)
     t_sim *sim;
 
     sim = *s;
+    if (sim->thread)
+        free(sim->thread);
     if (sim->can_compile)
         free(sim->can_compile);
     if (sim->can_compile_cond)
@@ -68,6 +70,10 @@ void *clean_sim(t_sim **s)
         free(sim->timestamp);
     if (sim->timestamp_mu)
         free(sim->timestamp_mu);
+    if (sim->dongle_mu)
+        free(sim->dongle_mu);
+    if (sim->queue)
+        request_destroy_queue(&sim->queue);
     free(*s);
     return(NULL);
 }
