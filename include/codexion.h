@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/08 05:50:53 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/08 08:42:11 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,33 +46,33 @@
 
 enum e_error_init
 {
-    CODER,
-    STATE,
-    STATE_MUTEX,
-    TIMESTAMPS,
-    TIMESTAMPS_MUTEX,
-    CODER_MUTEX,
-    CODER_COND,
-    COUNTER,
-    COUNTER_MU
+	CODER,
+	STATE,
+	STATE_MUTEX,
+	TIMESTAMPS,
+	TIMESTAMPS_MUTEX,
+	CODER_MUTEX,
+	CODER_COND,
+	COUNTER,
+	COUNTER_MU
 };
 
 enum e_PARSING_ERROR
 {
-    NB_ARG,
-    BAD_ARG
+	NB_ARG,
+	BAD_ARG
 };
 
 enum e_PARAMS
 {
-    number_of_coders,
-    time_to_burnout,
-    time_to_compile,
-    time_to_debug,
-    time_to_refactor,
-    number_of_compiles_required,
-    dongle_cooldown,
-    scheduler
+	number_of_coders,
+	time_to_burnout,
+	time_to_compile,
+	time_to_debug,
+	time_to_refactor,
+	number_of_compiles_required,
+	dongle_cooldown,
+	scheduler
 };
 
 typedef struct s_request_queue t_request_queue;
@@ -80,59 +80,68 @@ typedef struct s_request t_request;
 typedef struct s_heap_node t_heap_node;
 typedef struct s_heap t_heap;
 
+
+typedef struct s_monitoring
+{
+	int             params[8];
+	int             *simulation_state;
+	pthread_mutex_t *simulation_state_mu;
+	time_t          *timestamp;
+	pthread_mutex_t *timestamp_mu;
+	   
+} t_monitoring;
+
 typedef struct s_scheduler
 {
-    int             params[8];
-    t_request_queue *queue;
-    t_heap          **heaps;
-    pthread_t       scheduler_thread;
-
+	int             params[8];
+	t_request_queue *queue;
+	t_heap          **heaps;
+	pthread_t       scheduler_thread;
 
 } t_scheduler;
 
 typedef struct s_dongles
 {
-    size_t id;
-    time_t          last_use;
-    pthread_mutex_t *dongle;
-    
+	size_t id;
+	time_t          last_use;
+	pthread_mutex_t *dongle;
+	
 } t_dongles;
 
 
 typedef struct s_coder
 {
-    int             *simulation_state;
-    pthread_mutex_t *simulation_state_mu;
-    
-    size_t          coder_id;
-    bool            *can_compile;
-    pthread_mutex_t *can_compile_mu;
-    pthread_cond_t  *can_compile_cond;
-    t_request_queue *queue;
-    t_dongles       *dongle_left;
-    t_dongles       *dongle_right;
-    time_t          *timestamp;
-    pthread_mutex_t *timestamp_mu;
-    pthread_mutex_t *display_mu;
-    int             params[8];
+	int             *simulation_state;
+	pthread_mutex_t *simulation_state_mu;
+	size_t          coder_id;
+	bool            *can_compile;
+	pthread_mutex_t *can_compile_mu;
+	pthread_cond_t  *can_compile_cond;
+	t_request_queue *queue;
+	t_dongles       *dongle_left;
+	t_dongles       *dongle_right;
+	time_t          *timestamp;
+	pthread_mutex_t *timestamp_mu;
+	pthread_mutex_t *display_mu;
+	int             params[8];
 
 } t_coder;
 
 typedef struct s_sim
 {
-    int             simulation_state;
-    pthread_mutex_t *simulation_state_mu;
-    bool            *can_compile;
-    pthread_t       *thread;
-    pthread_mutex_t *display_mu;
-    pthread_mutex_t *request_queue_mu;
-    pthread_mutex_t *can_compile_mu;
-    pthread_mutex_t *dongle_mu;
-    pthread_cond_t  *can_compile_cond;
-    time_t          *timestamp;
-    pthread_mutex_t *timestamp_mu;
-    t_request_queue *queue;
-    int             params[8];
+	int             simulation_state;
+	pthread_mutex_t *simulation_state_mu;
+	bool            *can_compile;
+	pthread_t       *thread;
+	pthread_mutex_t *display_mu;
+	pthread_mutex_t *request_queue_mu;
+	pthread_mutex_t *can_compile_mu;
+	pthread_mutex_t *dongle_mu;
+	pthread_cond_t  *can_compile_cond;
+	time_t          *timestamp;
+	pthread_mutex_t *timestamp_mu;
+	t_request_queue *queue;
+	int             params[8];
 
 } t_sim;
 
@@ -142,10 +151,11 @@ t_sim           *sim_init(int params[8]);
 t_dongles       *dongle_init(int nb, t_sim *sim);
 t_coder         *coders_init(int params[8], t_sim *sim, t_dongles *dongle);
 t_scheduler     *scheduler_init(int params[8], t_request_queue *queue);
-void            *clean_dynamique_mutex(pthread_mutex_t **mutex, int nb);
-void            *clean_dynamique_cond(pthread_cond_t **cond, int nb);
+t_monitoring 	*monitoring_init(int params[8], t_sim *sim);
 void            *sim_clean(t_sim **s);
 void            *scheduler_clean(t_scheduler **s);
+void            *clean_dynamique_mutex(pthread_mutex_t **mutex, int nb);
+void            *clean_dynamique_cond(pthread_cond_t **cond, int nb);
 
 
 /****************************************** REQUEST MODULE ******************************************/
