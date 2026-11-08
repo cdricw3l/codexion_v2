@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 12:49:24 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 20:00:34 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/08 05:48:28 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void *clean_dynamique_cond(pthread_cond_t **cond, int nb)
     return (NULL);
 }
 
-void *clean_sim(t_sim **s)
+void *sim_clean(t_sim **s)
 {
     t_sim *sim;
 

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 21:08:14 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 20:04:11 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/08 05:52:28 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ void unit_sim_init(void)
         return ;
     check_sim(sim, params);
     printf(BGRN"INITIALISATION OK"CRESET"\n");
-    clean_sim(&sim);
+    sim_clean(&sim);
     END_TEST;
 }

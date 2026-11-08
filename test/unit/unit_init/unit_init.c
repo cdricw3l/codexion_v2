@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 21:07:31 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 14:48:56 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/08 04:29:00 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@ int unit_init(void)
 	unit_sim_init();
 	unit_dongle_init();
 	unit_coder_init();
+	unit_scheduler_init();
 	return (TRUE);
 }

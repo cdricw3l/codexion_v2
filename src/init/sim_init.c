@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 20:21:33 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 20:00:45 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/08 05:52:16 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,37 +106,37 @@ t_sim *sim_init(int params[8])
         return (err_msg(BRED"Error malloc init simulation\n"CRESET));
 	sim->thread = threads_init(params[number_of_coders]);
 	if (!sim->thread)
-		return (clean_sim(&sim));
+		return (sim_clean(&sim));
     sim->can_compile_cond = init_dynamique_cond(params[number_of_coders]);
     if (!sim->can_compile_cond)
-        return (clean_sim(&sim));
+        return (sim_clean(&sim));
     sim->can_compile_mu = init_dynamique_mutex(params[number_of_coders]);
     if (!sim->can_compile_mu)
-        return (clean_sim(&sim));
+        return (sim_clean(&sim));
 	sim->can_compile = can_compile_init(params[number_of_coders]);
     if (!sim->can_compile)
-        return (clean_sim(&sim));
+        return (sim_clean(&sim));
     sim->timestamp_mu = init_dynamique_mutex(params[number_of_coders]);
     if (!sim->timestamp_mu)
-        return (clean_sim(&sim));
+        return (sim_clean(&sim));
 	sim->timestamp = timestamp_init(params[number_of_coders]);
     if (!sim->timestamp)
-        return (clean_sim(&sim));
+        return (sim_clean(&sim));
     sim->dongle_mu = init_dynamique_mutex(params[number_of_coders]);
     if (!sim->dongle_mu)
-        return (clean_sim(&sim));
+        return (sim_clean(&sim));
     sim->display_mu = init_dynamique_mutex(1);
     if (!sim->display_mu)
-        return (clean_sim(&sim));
+        return (sim_clean(&sim));
     sim->request_queue_mu = init_dynamique_mutex(1);
     if (!sim->request_queue_mu)
-        return (clean_sim(&sim));
+        return (sim_clean(&sim));
     sim->simulation_state_mu = init_dynamique_mutex(1);
     if (!sim->simulation_state_mu)
-        return (clean_sim(&sim));
+        return (sim_clean(&sim));
 	sim->queue = request_queue_init();
 	if (!sim->queue)
-		return (clean_sim(&sim));
+		return (sim_clean(&sim));
 	sim->simulation_state = OFF;
     ft_memcopy(params, sim->params, sizeof(int) * 8);
     return (sim);

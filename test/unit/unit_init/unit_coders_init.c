@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:47:25 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 20:21:17 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/08 05:52:41 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,6 @@ void unit_coder_init(void)
     check_coder_thread(sim, coders);
     free(dongles);
     free(coders);
-    clean_sim(&sim);
+    sim_clean(&sim);
     END_TEST;
 }

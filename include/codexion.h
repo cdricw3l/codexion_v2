@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/07 20:20:24 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/08 05:50:53 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,18 @@ enum e_PARAMS
 
 typedef struct s_request_queue t_request_queue;
 typedef struct s_request t_request;
+typedef struct s_heap_node t_heap_node;
+typedef struct s_heap t_heap;
 
+typedef struct s_scheduler
+{
+    int             params[8];
+    t_request_queue *queue;
+    t_heap          **heaps;
+    pthread_t       scheduler_thread;
+
+
+} t_scheduler;
 
 typedef struct s_dongles
 {
@@ -130,10 +141,11 @@ typedef struct s_sim
 t_sim           *sim_init(int params[8]);
 t_dongles       *dongle_init(int nb, t_sim *sim);
 t_coder         *coders_init(int params[8], t_sim *sim, t_dongles *dongle);
-
+t_scheduler     *scheduler_init(int params[8], t_request_queue *queue);
 void            *clean_dynamique_mutex(pthread_mutex_t **mutex, int nb);
 void            *clean_dynamique_cond(pthread_cond_t **cond, int nb);
-void            *clean_sim(t_sim **s);
+void            *sim_clean(t_sim **s);
+void            *scheduler_clean(t_scheduler **s);
 
 
 /****************************************** REQUEST MODULE ******************************************/
@@ -173,18 +185,16 @@ void            request_display_node(t_request *request);
 
 /****************************************** HEAP MODULE *********************************************/
 
-typedef struct s_heap_node
+struct s_heap_node
 {
 	void				*content;
+};
 
-}	t_heap_node;
-
-typedef struct s_heap
+struct s_heap
 {
 	t_heap_node	**queue;
 	size_t		heap_size;		
-
-}	t_heap;
+};
 
 t_heap		*heap_init(void);
 t_heap_node	*heap_new_node(void *content);

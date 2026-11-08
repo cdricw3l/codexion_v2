@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 13:18:34 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 14:49:09 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/08 05:52:37 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ void unit_dongle_init(void)
         i++;
     }
     free(dongles);
-    clean_sim(&sim);
+    sim_clean(&sim);
     END_TEST;
 }
