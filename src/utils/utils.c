@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 12:53:00 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 21:12:04 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/08 09:11:33 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_memcopy(void *src, void *dst, unsigned long size)
 	return (TRUE);
 }
 
-int	get_dongle(int id, int number_of_coder, int type)
+int	get_dongle_id(int id, int number_of_coder, int type)
 {
 	if (type == RIGHT)
 		return (id);

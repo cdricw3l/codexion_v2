@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/08 08:42:11 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/08 10:46:18 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,11 @@ void            *sim_clean(t_sim **s);
 void            *scheduler_clean(t_scheduler **s);
 void            *clean_dynamique_mutex(pthread_mutex_t **mutex, int nb);
 void            *clean_dynamique_cond(pthread_cond_t **cond, int nb);
-
+pthread_t		*threads_init(int nb);
+pthread_mutex_t	*init_dynamique_mutex(int nb);
+pthread_cond_t	*init_dynamique_cond(int nb);
+bool			*can_compile_init(int nb);
+time_t			*timestamp_init(int nb);
 
 /****************************************** REQUEST MODULE ******************************************/
 
@@ -239,5 +243,5 @@ size_t  get_str_arr_len(char **str_arr);
 size_t  ft_strlen(char *str);
 int     ft_is_digit(int c);
 int     ft_memcopy(void *src, void *dst, unsigned long size);
-int     get_dongle(int id, int number_of_coder, int type);
+int     get_dongle_id(int id, int number_of_coder, int type);
 #endif

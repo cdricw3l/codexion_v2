@@ -1,0 +1,58 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   scheduler_init.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/08 09:22:08 by cebouhad          #+#    #+#             */
+/*   Updated: 2026/11/08 09:30:49 by cebouhad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/codexion.h"
+
+static void	*scheduler_error(t_scheduler **scheduler)
+{
+	free(*scheduler);
+	*scheduler = NULL;
+	return (err_msg("Error initilisation scheduler\n"));
+}
+
+static void	*scheduler_heap_error(t_scheduler **scheduler, size_t end)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < end)
+		free((*scheduler)->heaps[i++]);
+	err_msg("Error initilisation heap scheduler\n");
+	return (scheduler_error(scheduler));
+}
+
+t_scheduler	*scheduler_init(int params[8], t_request_queue *queue)
+{
+	size_t		i;
+	size_t		j;
+	t_scheduler	*scheduler;
+
+	if (!queue)
+		return (NULL);
+	scheduler = malloc(sizeof(t_scheduler));
+	if (!scheduler)
+		return (err_msg("Error initilisation scheduler\n"));
+	scheduler->heaps = malloc(sizeof(t_heap *) * params[number_of_coders]);
+	if (!scheduler->heaps)
+		return (scheduler_error(&scheduler));
+	i = 0;
+	while (i < params[number_of_coders])
+	{
+		scheduler->heaps[i] = heap_init();
+		if (!scheduler->heaps[i])
+			return (scheduler_heap_error(&scheduler, i));
+		i++;
+	}
+	scheduler->queue = queue;
+	ft_memcopy(params, scheduler->params, sizeof(int) * 8);
+	return (scheduler);
+}
