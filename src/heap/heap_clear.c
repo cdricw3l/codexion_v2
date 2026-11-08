@@ -6,13 +6,13 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 21:10:49 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/05 21:24:44 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 14:19:25 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
 
-void	heap_clear(t_heap **heap, void (*del)(void *content))
+void	heap_clear(t_heap **heap, void (*del)(void *))
 {
 	size_t	i;
 	t_heap	*h;

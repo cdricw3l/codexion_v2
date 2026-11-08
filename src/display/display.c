@@ -6,11 +6,18 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 05:55:52 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/05 12:47:21 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 20:20:07 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
+
+void *safe_display(char *msg, pthread_mutex_t *display_mutex)
+{
+    pthread_mutex_lock(display_mutex);
+    printf("%s\n", msg);
+    pthread_mutex_unlock(display_mutex);
+}
 
 void display_params(int params[8], int nb)
 {

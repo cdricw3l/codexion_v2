@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 05:27:38 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 08:18:20 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 16:13:04 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_coder *init_coder(int nb, t_request_queue *queue)
     while (i < nb)
     {
         coders[i].can_compile = false;
-        pthread_cond_init(&coders[i].can_compile_cond, NULL);
-        pthread_mutex_init(&coders[i].can_compile_mu, NULL);
+        pthread_cond_init(coders[i].can_compile_cond, NULL);
+        pthread_mutex_init(coders[i].can_compile_mu, NULL);
         coders[i].coder_id = i;
         coders[i].queue = queue;
         i++;

@@ -3,7 +3,7 @@ CC=gcc
 CFLAGS=-g
 TYPE ?= unit
 MEMORY_CHECK ?= 0
-MEMORY_LOG= unit_valgrind_report/memory.log
+MEMORY_LOG= ../valgrind_report/memory.log
 
 
 
@@ -13,7 +13,7 @@ else
 	ifeq ($(MEMORY_CHECK),1)
 		MEMORY_CHECK_ARG= valgrind  --leak-check=full --track-origins=yes --show-leak-kinds=all --log-file=$(MEMORY_LOG)
 	else ifeq($(MEMORY_CHECK),2)
-		MEMORY_CHECK_ARG= valgrind  --tool=helgrind --track-lockorders=yes --log-file=$(MEMORY_LOG)
+		MEMORY_CHECK_ARG= valgrind  --tool=helgrind --history-level=none --track-lockorders=yes --log-file=$(MEMORY_LOG)
 	endif
 endif
 

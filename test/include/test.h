@@ -44,7 +44,7 @@
 
 #define START_TEST printf(YEL"Start %s()"CRESET"\n", __func__)
 #define END_TEST printf(GRN"OK %s()"CRESET"\n", __func__)
-#define START_BLOCK printf(BBLU"----- %s() BLOCK -----"CRESET"\n", __func__)
+#define START_BLOCK printf("\n"BBLU"----- %s() BLOCK -----"CRESET"\n", __func__)
 
 
 #endif

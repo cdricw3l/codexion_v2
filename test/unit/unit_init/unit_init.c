@@ -1,12 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   queue.c                                            :+:      :+:    :+:   */
+/*   unit_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/11/05 11:24:52 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/05 11:24:53 by cebouhad         ###   ########.fr       */
+/*   Created: 2026/11/06 21:07:31 by cebouhad          #+#    #+#             */
+/*   Updated: 2026/11/08 04:29:00 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "unit_init.h"
+
+int unit_init(void)
+{
+	START_BLOCK;
+
+	unit_sim_init();
+	unit_dongle_init();
+	unit_coder_init();
+	unit_scheduler_init();
+	return (TRUE);
+}
