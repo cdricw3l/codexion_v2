@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 20:21:33 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 18:10:45 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 20:00:45 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,5 +138,6 @@ t_sim *sim_init(int params[8])
 	if (!sim->queue)
 		return (clean_sim(&sim));
 	sim->simulation_state = OFF;
+    ft_memcopy(params, sim->params, sizeof(int) * 8);
     return (sim);
 }

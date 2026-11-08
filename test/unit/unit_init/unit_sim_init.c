@@ -6,18 +6,26 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 21:08:14 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 18:11:14 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 20:04:11 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "unit_init.h"
 
-static void check_sim(t_sim *sim)
+static void check_sim(t_sim *sim,int params[8])
 {
     size_t i;
 
     i = 0;
     assert(sim);
+    assert(sim->params[number_of_coders] == params[number_of_coders]);
+    assert(sim->params[time_to_burnout] == params[time_to_burnout]);
+    assert(sim->params[time_to_compile] == params[time_to_compile]);
+    assert(sim->params[time_to_debug] == params[time_to_debug]);
+    assert(sim->params[time_to_refactor] == params[time_to_refactor]);
+    assert(sim->params[number_of_compiles_required] == params[number_of_compiles_required]);
+    assert(sim->params[dongle_cooldown] == params[dongle_cooldown]);
+    assert(sim->params[scheduler] == params[scheduler]);
     assert(sim->can_compile);
     assert(sim->can_compile_cond);
     assert(sim->display_mu);
@@ -57,13 +65,14 @@ void unit_sim_init(void)
 {
     START_TEST;
     t_sim *sim;
-    int params[8];  
+    int params[8];
+    
 
-    params[number_of_coders] = NB_CODER;
+    unit_get_param(params);
     sim = sim_init(params);
     if (!sim)
         return ;
-    check_sim(sim);
+    check_sim(sim, params);
     printf(BGRN"INITIALISATION OK"CRESET"\n");
     clean_sim(&sim);
     END_TEST;

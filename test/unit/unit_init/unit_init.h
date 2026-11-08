@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 21:09:55 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 14:48:46 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 20:03:07 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 #include "../unit.h"
 
-#define NB_CODER 8
 
 
 void unit_sim_init(void);

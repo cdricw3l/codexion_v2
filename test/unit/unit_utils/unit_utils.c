@@ -6,11 +6,23 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 13:07:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/04 14:41:24 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 20:30:47 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../unit.h"
+
+void unit_get_param(int params[8])
+{
+    params[number_of_coders] = NB_CODER;
+    params[time_to_burnout] = 500;
+    params[time_to_compile] = 200;
+    params[time_to_debug] = 100;
+    params[time_to_refactor] = 100;
+    params[number_of_compiles_required] = 20;
+    params[dongle_cooldown] = 10;
+    params[scheduler] = FIFO;
+}
 
 void unit_ft_strlen(void)
 {

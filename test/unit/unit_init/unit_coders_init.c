@@ -6,11 +6,53 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:47:25 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 18:13:41 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 20:21:17 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "unit_init.h"
+
+void *check_coder_routine(void *data)
+{
+    t_coder *coder;
+    size_t i;
+
+    coder = (t_coder *)data;
+    i = 0;
+
+    while (i < coder->params[number_of_compiles_required])
+    {
+        
+        pthread_mutex_lock(coder->timestamp_mu);
+        (*coder->timestamp)++;
+        pthread_mutex_unlock(coder->timestamp_mu);
+        i++;
+    }
+    
+}
+
+void check_coder_thread(t_sim *sim, t_coder *coders)
+{
+    size_t i;
+
+    i = 0;
+    while (i < sim->params[number_of_coders])
+    {
+        if (pthread_create(&sim->thread[i], NULL,check_coder_routine, &coders[i]))
+        {
+            err_msg("Error thread_create in check_coder_thread\n");
+            return ;
+        }
+        i++;
+    }
+    i = 0;
+    while (i < sim->params[number_of_coders])
+    {
+        pthread_join(sim->thread[i], NULL);
+        assert(*(coders[i].timestamp) == sim->params[number_of_compiles_required]);
+        i++;
+    }
+}
 
 void check_coder(int params[8], t_coder *coders, t_sim *sim, t_dongles *dongles)
 {
@@ -33,6 +75,8 @@ void check_coder(int params[8], t_coder *coders, t_sim *sim, t_dongles *dongles)
     assert(coders->params[scheduler] == params[scheduler]);
     while (i < params[number_of_coders])
     {
+        assert(*(coders[i].timestamp)==0);
+        assert(coders[i].display_mu == sim->display_mu);
         assert(coders[i].coder_id == i);
         assert(coders[i].simulation_state == &sim->simulation_state);
         assert(coders[i].simulation_state_mu == sim->simulation_state_mu);
@@ -53,19 +97,10 @@ void unit_coder_init(void)
     t_sim *sim;
     t_coder *coders;
     t_dongles *dongles;
-    int params[8];  
+    int params[8];
+    
 
-    params[number_of_coders] = NB_CODER;
-    params[time_to_burnout] = 500;
-    params[time_to_compile] = 200;
-    params[time_to_debug] = 100;
-    params[time_to_refactor] = 100;
-    params[number_of_compiles_required] = 10;
-    params[dongle_cooldown] = 10;
-    params[scheduler] = FIFO;
-
-
-    params[number_of_coders] = NB_CODER;
+    unit_get_param(params);
     sim = sim_init(params);
     if (!sim)
         return ;
@@ -75,9 +110,9 @@ void unit_coder_init(void)
     coders = coders_init(params, sim, dongles);
     assert(coders);
     check_coder(params, coders, sim, dongles);
+    check_coder_thread(sim, coders);
     free(dongles);
     free(coders);
-
     clean_sim(&sim);
     END_TEST;
 }

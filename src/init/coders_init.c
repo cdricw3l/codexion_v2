@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:37:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 18:08:28 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 20:14:17 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_coder *coders_init(int params[8], t_sim *sim, t_dongles *dongle)
         coders[i].simulation_state_mu = sim->simulation_state_mu;
         coders[i].timestamp = &sim->timestamp[i];
         coders[i].timestamp_mu = &sim->timestamp_mu[i];
+        coders[i].display_mu = sim->display_mu;
         ft_memcopy(params, coders[i].params, sizeof(int) * 8);
         i++;
     }

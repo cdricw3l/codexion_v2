@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/07 18:14:45 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/07 20:20:24 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ typedef struct s_coder
     t_dongles       *dongle_right;
     time_t          *timestamp;
     pthread_mutex_t *timestamp_mu;
+    pthread_mutex_t *display_mu;
     int             params[8];
 
 } t_coder;
@@ -201,6 +202,7 @@ t_heap_node	*heap_get_node(t_heap *heap, size_t idx);
 
 
 /* display */
+void            *safe_display(char *msg, pthread_mutex_t *display_mutex);
 void            display_params(int params[8], int nb);
 
 /* parsing */
