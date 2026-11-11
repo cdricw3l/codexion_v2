@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 10:44:15 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/08 10:53:21 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/11 10:38:03 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ time_t	*timestamp_init(int nb)
 {
 	time_t	*timestamp;
 
-	timestamp = malloc(sizeof(time_t) * nb);
+	timestamp = malloc(sizeof(clock_t) * nb);
 	if (!timestamp)
 		return (NULL);
-	memset(timestamp, 0, sizeof(time_t) * nb);
+	memset(timestamp, 0, sizeof(clock_t) * nb);
 	return (timestamp);
 }

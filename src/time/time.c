@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdric.b <cdric.b@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 08:07:31 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/08/13 12:00:45 by cdric.b          ###   ########.fr       */
+/*   Updated: 2026/11/11 10:46:40 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,39 @@ clock_t time_calculation(struct timespec time)
     return ((n_to_sec + time.tv_nsec) / 1000000);
 }
 
+/**
+ * set the timestamp of the last compilation in nano second
+ */
+void set_timestamp(t_coder *coder)
+{
+    struct timespec now;
+
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    pthread_mutex_lock(coder->timestamp_mu);
+    *(coder->timestamp) = (now.tv_nsec + second_to_nano(now.tv_sec));
+    pthread_mutex_unlock(coder->timestamp_mu);
+}
+/**
+ * get the timestamp of the last compilation in milli second
+ */
+clock_t get_timestamp(t_coder *coder)
+{
+    clock_t timestamp;
+
+    pthread_mutex_lock(coder->timestamp_mu);
+    timestamp =  *(coder->timestamp);
+    pthread_mutex_unlock(coder->timestamp_mu);
+    return (timestamp);
+}
+
+clock_t get_now(void)
+{
+    struct timespec n;
+    clock_t now;
+
+    now = n.tv_nsec + second_to_nano(n.tv_sec);
+    return(now);
+}
 
 
 // void set_timestamp(t_coder *coder, int type)

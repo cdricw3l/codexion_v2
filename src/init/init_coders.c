@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   coders_init.c                                      :+:      :+:    :+:   */
+/*   init_coders.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:37:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/08 09:19:32 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/09 10:53:31 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_dongles	*get_dongle(int coder_id,
 
 t_coder	*coders_init(int p[8], t_sim *sim, t_dongles *dgl)
 {
-	size_t	i;
+	int	i;
 	t_coder	*coders;
 
 	coders = malloc(sizeof(t_coder) * p[number_of_coders]);
@@ -41,7 +41,7 @@ t_coder	*coders_init(int p[8], t_sim *sim, t_dongles *dgl)
 		coders[i].timestamp = &sim->timestamp[i];
 		coders[i].timestamp_mu = &sim->timestamp_mu[i];
 		coders[i].display_mu = sim->display_mu;
-		ft_memcopy(p, coders[i].params, sizeof(int) * 8);
+		ft_memcopy(p, &coders[i].params, sizeof(int) * 8);
 		i++;
 	}
 	return (coders);

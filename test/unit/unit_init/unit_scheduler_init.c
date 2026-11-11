@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 04:28:18 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/08 05:53:02 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/11 06:05:27 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,14 @@ void unit_scheduler_init(void)
     assert(dongles);
     coders = coders_init(params, sim, dongles);
     assert(coders);
-    scheduler = scheduler_init(params, sim->queue);
+    scheduler = scheduler_init(params, sim);
     assert(scheduler);
     assert(scheduler->queue == sim->queue);
     assert(sim->queue == scheduler->queue);
     assert(sim->queue == coders->queue);
+    assert(scheduler->simulation_state == &sim->simulation_state);
+    assert(scheduler->simulation_state_mu == sim->simulation_state_mu);
+
     i = 0;
     while (i < sim->params[number_of_coders])
     {

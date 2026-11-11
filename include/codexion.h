@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/08 10:46:18 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/11 11:19:44 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 #define CODER_MAX 200
 #define PARAMS_SIZE 8
 #define NL printf("\n")
+
 
 enum e_error_init
 {
@@ -86,7 +87,7 @@ typedef struct s_monitoring
 	int             params[8];
 	int             *simulation_state;
 	pthread_mutex_t *simulation_state_mu;
-	time_t          *timestamp;
+	clock_t          *timestamp;
 	pthread_mutex_t *timestamp_mu;
 	   
 } t_monitoring;
@@ -97,6 +98,8 @@ typedef struct s_scheduler
 	t_request_queue *queue;
 	t_heap          **heaps;
 	pthread_t       scheduler_thread;
+	int             *simulation_state;
+	pthread_mutex_t *simulation_state_mu;
 
 } t_scheduler;
 
@@ -111,6 +114,7 @@ typedef struct s_dongles
 
 typedef struct s_coder
 {
+	clock_t			simulation_start;
 	int             *simulation_state;
 	pthread_mutex_t *simulation_state_mu;
 	size_t          coder_id;
@@ -120,7 +124,7 @@ typedef struct s_coder
 	t_request_queue *queue;
 	t_dongles       *dongle_left;
 	t_dongles       *dongle_right;
-	time_t          *timestamp;
+	clock_t          *timestamp;				// -> last compile start
 	pthread_mutex_t *timestamp_mu;
 	pthread_mutex_t *display_mu;
 	int             params[8];
@@ -138,7 +142,7 @@ typedef struct s_sim
 	pthread_mutex_t *can_compile_mu;
 	pthread_mutex_t *dongle_mu;
 	pthread_cond_t  *can_compile_cond;
-	time_t          *timestamp;
+	clock_t          *timestamp;
 	pthread_mutex_t *timestamp_mu;
 	t_request_queue *queue;
 	int             params[8];
@@ -150,7 +154,7 @@ typedef struct s_sim
 t_sim           *sim_init(int params[8]);
 t_dongles       *dongle_init(int nb, t_sim *sim);
 t_coder         *coders_init(int params[8], t_sim *sim, t_dongles *dongle);
-t_scheduler     *scheduler_init(int params[8], t_request_queue *queue);
+t_scheduler		*scheduler_init(int params[8], t_sim *sim);
 t_monitoring 	*monitoring_init(int params[8], t_sim *sim);
 void            *sim_clean(t_sim **s);
 void            *scheduler_clean(t_scheduler **s);
@@ -221,12 +225,18 @@ t_heap_node	*heap_get_node(t_heap *heap, size_t idx);
 
 /****************************************************************************************************/
 
+/****************************************** TIME MODULE *********************************************/
 
-
-
+long	second_to_nano(long sec);
+long	nano_to_ms(long nano);
+struct timespec time_diff(struct timespec start, struct timespec end);
+void	set_timestamp(t_coder *coder);
+clock_t get_timestamp(t_coder *coder);
+clock_t get_now();
+/****************************************************************************************************/
 
 /* display */
-void            *safe_display(char *msg, pthread_mutex_t *display_mutex);
+void            safe_display(char *msg, pthread_mutex_t *display_mutex);
 void            display_params(int params[8], int nb);
 
 /* parsing */
@@ -244,4 +254,8 @@ size_t  ft_strlen(char *str);
 int     ft_is_digit(int c);
 int     ft_memcopy(void *src, void *dst, unsigned long size);
 int     get_dongle_id(int id, int number_of_coder, int type);
+
+int		get_sim_state(int *state, pthread_mutex_t *state_mutex);
+void	set_sim_state(int *state, pthread_mutex_t *state_mutex, int new_state);
+
 #endif

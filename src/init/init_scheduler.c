@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scheduler_init.c                                   :+:      :+:    :+:   */
+/*   init_scheduler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 09:22:08 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/08 09:30:49 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/11 06:03:28 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,12 @@ static void	*scheduler_heap_error(t_scheduler **scheduler, size_t end)
 	return (scheduler_error(scheduler));
 }
 
-t_scheduler	*scheduler_init(int params[8], t_request_queue *queue)
+t_scheduler	*scheduler_init(int params[8], t_sim *sim)
 {
-	size_t		i;
-	size_t		j;
+	int			i;
 	t_scheduler	*scheduler;
 
-	if (!queue)
+	if (!sim)
 		return (NULL);
 	scheduler = malloc(sizeof(t_scheduler));
 	if (!scheduler)
@@ -52,7 +51,9 @@ t_scheduler	*scheduler_init(int params[8], t_request_queue *queue)
 			return (scheduler_heap_error(&scheduler, i));
 		i++;
 	}
-	scheduler->queue = queue;
+	scheduler->queue = sim->queue;
+	scheduler->simulation_state = &sim->simulation_state;
+	scheduler->simulation_state_mu = sim->simulation_state_mu;
 	ft_memcopy(params, scheduler->params, sizeof(int) * 8);
 	return (scheduler);
 }

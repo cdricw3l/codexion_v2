@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scheduler_clean.c                                  :+:      :+:    :+:   */
+/*   clean_scheduler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 05:48:12 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/08 09:21:12 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/08 14:07:30 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*scheduler_clean(t_scheduler **s)
 {
-	size_t		i;
+	int			i;
 	t_scheduler	*scheduler;
 
 	scheduler = *s;

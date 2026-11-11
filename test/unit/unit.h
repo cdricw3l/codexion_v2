@@ -3,7 +3,6 @@
 
 #include "../include/test.h"
 
-#define NB_CODER 8
 
 
 int     unit_request(void);
@@ -14,7 +13,7 @@ int     unit_init(void);
 
 /* unit utils */
 char	*ft_itoa(int n);
-void unit_get_param(int params[8]);
+void    unit_get_param(int params[8]);
 
 
 
