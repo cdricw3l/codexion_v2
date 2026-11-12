@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 20:25:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/12 17:08:35 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 17:17:21 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,12 @@ int unit_monitoring(void)
 
     
     unit_monitoring_thread(sim, coders, monitor);
+    free(monitor);
+    free(coders);
+    free(dongle);
+    scheduler_clean(&scheduler);
+    sim_clean(&sim);
+
     return (TRUE);
 
 }
