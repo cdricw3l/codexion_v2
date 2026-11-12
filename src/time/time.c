@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 08:07:31 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/11 10:46:40 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/11 20:59:52 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,14 @@ void set_timestamp(t_coder *coder)
 /**
  * get the timestamp of the last compilation in milli second
  */
-clock_t get_timestamp(t_coder *coder)
+clock_t get_timestamp(clock_t *timestamp, pthread_mutex_t *timestamp_mu)
 {
-    clock_t timestamp;
+    clock_t time;
 
-    pthread_mutex_lock(coder->timestamp_mu);
-    timestamp =  *(coder->timestamp);
-    pthread_mutex_unlock(coder->timestamp_mu);
-    return (timestamp);
+    pthread_mutex_lock(timestamp_mu);
+    time = *timestamp;
+    pthread_mutex_unlock(timestamp_mu);
+    return (time);
 }
 
 clock_t get_now(void)
@@ -102,6 +102,7 @@ clock_t get_now(void)
     struct timespec n;
     clock_t now;
 
+    clock_gettime(CLOCK_MONOTONIC, &n);
     now = n.tv_nsec + second_to_nano(n.tv_sec);
     return(now);
 }

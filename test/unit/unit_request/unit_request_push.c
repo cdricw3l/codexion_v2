@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 15:20:53 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 16:12:28 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 00:45:38 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,13 @@ static void thread_request_push(void)
     while (i < NB_THREAD)
     {
         pthread_join(thread[i], NULL);
-        //printf("Thread %ld is finish\n", coders[i].coder_id);
+        free(coders[i].can_compile);
+        free(coders[i].can_compile_cond);
+        free(coders[i].can_compile_mu);
+                //printf("Thread %ld is finish\n", coders[i].coder_id);
         i++;
     }
+    
     free(coders);
     assert(queue->queue_size == 20);
     assert(check_queue_unique_request(*queue->queue));

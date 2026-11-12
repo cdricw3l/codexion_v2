@@ -6,18 +6,11 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 05:55:52 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/08 14:04:45 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/11 22:38:30 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
-
-void safe_display(char *msg, pthread_mutex_t *display_mutex)
-{
-    pthread_mutex_lock(display_mutex);
-    printf("%s\n", msg);
-    pthread_mutex_unlock(display_mutex);
-}
 
 void display_params(int params[8], int nb)
 {
@@ -34,4 +27,30 @@ void display_params(int params[8], int nb)
     else if (params[scheduler] == EDF)
         printf("edf"CRESET"\n");
     printf("\n");
+}
+
+void display_action(t_coder *coder,int action)
+{
+    clock_t now;
+    clock_t time;
+    now = get_now();
+
+    time = (now - coder->simulation_start) / 1000000;
+    pthread_mutex_lock(coder->display_mu);
+    if (action == TAKE)
+    {
+        printf("%ld %ld has taken dongle\n", time, coder->coder_id);
+        printf("%ld %ld has taken dongle\n", time, coder->coder_id);
+    }
+    if (action == COMPILE)
+        printf("%ld %ld is compiling\n", time, coder->coder_id);
+    if (action == DEBUG)
+        printf("%ld %ld is debugging\n", time, coder->coder_id);
+    if (action == REFACTO)
+        printf("%ld %ld is refactoring\n", time, coder->coder_id);
+    if (action == BURNED)
+        printf("%ld %ld burned out\n", time, coder->coder_id);
+    if (action == END)
+        printf("%ld %ld end of the simulation\n", time, coder->coder_id);
+    pthread_mutex_unlock(coder->display_mu);
 }

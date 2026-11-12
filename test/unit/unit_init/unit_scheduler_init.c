@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 04:28:18 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/11 06:05:27 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 00:41:46 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void *scheduler_coder_routine(void *ptr)
     {
         request = request_new_node(coder);
         assert(request);
-        assert(request_push(coder->queue, request));
         i++;
     }
     return (NULL);
@@ -69,7 +68,7 @@ void unit_scheduler_init(void)
     
     sim = sim_init(params);
     assert(sim);
-    dongles = dongle_init(params[number_of_coders], sim);
+    dongles = dongle_init(params, sim);
     assert(dongles);
     coders = coders_init(params, sim, dongles);
     assert(coders);

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:47:25 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/09 10:53:12 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/11 20:55:41 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ void unit_coder_init(void)
     sim = sim_init(params);
     if (!sim)
         return ;
-    assert(dongle_init(1, NULL) == NULL);
-    dongles = dongle_init(NB_CODER, sim);
+    assert(dongle_init(params, NULL) == NULL);
+    dongles = dongle_init(params, sim);
     assert(dongles);
     coders = coders_init(params, sim, dongles);
     assert(coders);
