@@ -46,7 +46,7 @@
 #define END_TEST printf(GRN"OK %s()"CRESET"\n", __func__)
 #define START_BLOCK printf("\n"BBLU"----- %s() BLOCK -----"CRESET"\n", __func__)
 
-#define NB_CODER 8
+#define NB_CODER 10
 
 
 #endif

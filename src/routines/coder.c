@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/11 23:39:14 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 16:35:39 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,23 +59,44 @@ void	*coder_routine(void *data)
 	return (NULL);
 }
 
-int launch_coders(t_sim *sim, t_coder *coders,  void *(*routine)(void *), int mode)
+int launch_coders(t_sim *sim, t_coder *coders,  void *(*routine)(void *), int mode, clock_t start)
 {
 	size_t i;
 
 	i = 0;
 	while (i < sim->params[number_of_coders])
 	{
-		if (i % 2 == mode)
+		if (i % 2 == 0)
 		{
+			coders[i].simulation_start = start;
+			set_timestamp(&coders[i]);
 			if (pthread_create(&sim->thread[i], NULL, routine, &coders[i]))
 			{
 				err_msg("Error lauch thread coder\n");
 				return (FALSE);
 			}
-			i++;
 		}
+		i++;
+
 	}
+	i = 0;
+	while (i < sim->params[number_of_coders])
+	{
+		
+		if (i % 2 != 0)
+		{
+			coders[i].simulation_start = start;
+			set_timestamp(&coders[i]);
+			if (pthread_create(&sim->thread[i], NULL, routine, &coders[i]))
+			{
+				err_msg("Error lauch thread coder\n");
+				return (FALSE);
+			}
+		}
+		i++;
+
+	}
+	
 	return (TRUE);
 }
 int joint_coders(t_sim *sim)
@@ -97,7 +118,10 @@ int joint_coders(t_sim *sim)
 void action(t_coder *coder, int action)
 {
 	if (action == COMPILE)
+	{
 		usleep(coder->params[time_to_compile] * 1000);
+        set_timestamp(coder);
+	}
     if (action == DEBUG)
         usleep(coder->params[time_to_debug] * 1000);
     if (action == REFACTO)

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 05:55:52 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/11 22:38:30 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 16:03:57 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void display_action(t_coder *coder,int action)
     now = get_now();
 
     time = (now - coder->simulation_start) / 1000000;
+    if(!get_sim_state(coder->simulation_state, coder->simulation_state_mu))
+        return ;
     pthread_mutex_lock(coder->display_mu);
     if (action == TAKE)
     {
@@ -43,7 +45,9 @@ void display_action(t_coder *coder,int action)
         printf("%ld %ld has taken dongle\n", time, coder->coder_id);
     }
     if (action == COMPILE)
+    {
         printf("%ld %ld is compiling\n", time, coder->coder_id);
+    }
     if (action == DEBUG)
         printf("%ld %ld is debugging\n", time, coder->coder_id);
     if (action == REFACTO)

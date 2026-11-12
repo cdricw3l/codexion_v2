@@ -6,11 +6,50 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 20:25:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/12 00:16:13 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 17:08:35 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "unit_monitoring.h"
+
+int check_timestamp(t_monitoring *monitor, size_t coder_id)
+{
+    clock_t now;
+    clock_t elapsed;
+
+    now = get_now();
+
+    elapsed = (now - get_timestamp(&monitor->timestamp[coder_id], &monitor->timestamp_mu[coder_id])) / 1000000;
+    //printf("start: %ld end: %ld\n", now, get_timestamp(&monitor->timestamp[coder_id], &monitor->timestamp_mu[coder_id]));
+    //printf("coder id: %ld elapsed: %ld\n", coder_id, elapsed);
+    if (elapsed > monitor->params[time_to_burnout])
+    {
+        return (FALSE);
+    }
+    return(TRUE);
+}
+
+void *monitoring_thread(void *data)
+{
+    t_monitoring *monitoring;
+    size_t i;
+    monitoring = (t_monitoring *)data;
+
+    while (get_sim_state(monitoring->simulation_state, monitoring->simulation_state_mu))
+    {
+        i = 0;
+        while (i < monitoring->params[number_of_coders])
+        {
+            if (!check_timestamp(monitoring, i))
+            {
+                display_action(&monitoring->coders[i], 4);
+                set_sim_state(monitoring->simulation_state, monitoring->simulation_state_mu, OFF);
+                return (NULL);
+            }
+            i++;
+        }
+    }
+}
 
 
 void *unit_coder_monitor_routine(void *data)
@@ -21,16 +60,19 @@ void *unit_coder_monitor_routine(void *data)
     coder = (t_coder *)data;
     i = 0;
 
-    while (coder->params[number_of_coders] > i)
+    while (get_sim_state(coder->simulation_state, coder->simulation_state_mu) && coder->params[number_of_compiles_required] > i)
     {
-        pthread_mutex_lock(coder->dongle_left->dongle);
-        pthread_mutex_lock(coder->dongle_right->dongle);
+        assert(!pthread_mutex_lock(coder->dongle_right->dongle));
+        assert(!pthread_mutex_lock(coder->dongle_left->dongle));
         display_action(coder, COMPILE);
         action(coder, COMPILE);
+        assert(!pthread_mutex_unlock(coder->dongle_right->dongle));
+        assert(!pthread_mutex_unlock(coder->dongle_left->dongle));
         display_action(coder, DEBUG);
         action(coder, DEBUG);
         display_action(coder, REFACTO);
         action(coder, REFACTO);
+        i++;
     }
     return (NULL);
 }
@@ -38,13 +80,25 @@ void *unit_coder_monitor_routine(void *data)
 static void unit_monitoring_thread(t_sim *sim, t_coder *coder, t_monitoring *monitor)
 {
     START_TEST;
+    clock_t start;
+    pthread_t monitor_thread;
+
     set_sim_state(&sim->simulation_state, sim->simulation_state_mu, ON);
-    assert(!launch_coders(sim, coder, unit_coder_monitor_routine, PAIR));
-    assert(launch_coders(sim, coder, unit_coder_monitor_routine, IMPAIRE));
+    start = get_now();
+    assert(launch_coders(sim, coder, unit_coder_monitor_routine, PAIR, start));
+    assert(!pthread_create(&monitor_thread, NULL, monitoring_thread, monitor));
     assert(joint_coders(sim));
+    set_sim_state(&sim->simulation_state, sim->simulation_state_mu, OFF);
+    pthread_join(monitor_thread, NULL);
     END_TEST;
 }
 
+void unit_check_timestamp(t_coder *coders, t_monitoring *monitoring)
+{
+    t_coder *coder;
+
+    coder = &coders[0];
+}
 
 int unit_monitoring(void)
 {
@@ -57,7 +111,9 @@ int unit_monitoring(void)
 
     int param[8];
     unit_get_param(param);
+    display_params(param, param[number_of_coders]);
 
+    //assert(param[time_to_burnout] < param[time_to_refactor]+param[time_to_compile]+param[time_to_debug]);
     sim = sim_init(param);
     assert(sim);
     dongle = dongle_init(param, sim);
@@ -68,6 +124,11 @@ int unit_monitoring(void)
     assert(scheduler);
     monitor = monitoring_init(param, sim, coders);
     assert(monitor);
+    // set_timestamp(&coders[0]);
+    // usleep(param[time_to_compile] * 1000);
+    // assert(check_timestamp(monitor,0));
+
+    
     unit_monitoring_thread(sim, coders, monitor);
     return (TRUE);
 

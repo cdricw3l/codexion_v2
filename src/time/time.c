@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 08:07:31 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/11 20:59:52 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 03:14:49 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void set_timestamp(t_coder *coder)
     pthread_mutex_unlock(coder->timestamp_mu);
 }
 /**
- * get the timestamp of the last compilation in milli second
+ * get the timestamp of the last compilation in nano second
  */
 clock_t get_timestamp(clock_t *timestamp, pthread_mutex_t *timestamp_mu)
 {

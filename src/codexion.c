@@ -43,7 +43,7 @@ int main(int argc, char **argv)
         free(coders);
         return (1);
     }
-    monitoring = monitoring_init(params, sim);
+    monitoring = monitoring_init(params, sim,coders);
     if (!monitoring)
     {
         sim_clean(&sim);
