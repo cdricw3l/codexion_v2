@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/12 03:13:58 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 22:50:43 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,11 +259,12 @@ void            display_params(int params[8], int nb);
 #define PAIR 	0
 #define IMPAIRE 1
 
-int launch_coders(t_sim *sim, t_coder *coders,  void *(*routine)(void *), int mode, clock_t start);
+int 	launch_coders(t_sim *sim, t_coder *coders,  void *(*routine)(void *), clock_t start);
+void	*scheduler_routine(void *data);
 void	*monitoring_routine(void *data);
 void	*coder_routine(void *data);
 int		joint_coders(t_sim *sim);
-void action(t_coder *coder, int action);
+void 	action(t_coder *coder, int action);
 
 /****************************************************************************************************/
 /* parsing */

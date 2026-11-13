@@ -23,6 +23,9 @@ SRCS=	src/codexion.c \
 		src/init/init_scheduler.c \
 		src/init/init_sim.c \
 		src/init/init_utils.c \
+		src/routines/coder.c \
+		src/routines/monitoring.c \
+		src/routines/scheduler.c \
 		src/heap/heap_clear.c \
 		src/heap/heap_get_node.c \
 		src/heap/heap_init.c \
@@ -40,7 +43,8 @@ SRCS=	src/codexion.c \
 		src/request/request_pop.c \
 		src/request/request_push.c \
 		src/time/time.c \
-		src/utils/utils.c \
+		src/utils/utils_1.c \
+		src/utils/utils_2.c \
 		src/display/display.c \
 		src/errors/error.c
 
@@ -59,17 +63,17 @@ TYPE ?= unit
 $(NAME): $(OBJECT_SRCS)
 	@$(CC) $(CFLAGS) $(OBJECT_SRCS) -o $(NAME)
 
-ARG=20 500 200 100 100 10 10 fifo
+ARG=8 500 200 100 100 10 10 fifo
 
-ifeq ($(shell uname),Darwin)
-	MEMORY_CHECK_ARG= leaks -atExit --
-else
-	ifeq ($(MEMORY_CHECK),1)
-		MEMORY_CHECK_ARG= valgrind  --leak-check=full --track-origins=yes --show-leak-kinds=all --log-file=$(MEMORY_LOG)
-	else ifeq($(MEMORY_CHECK),2)
-		MEMORY_CHECK_ARG= valgrind  --tool=helgrind  --track-lockorders=yes --log-file=$(MEMORY_LOG)
-	endif
-endif
+# ifeq ($(shell uname),Darwin)
+# 	MEMORY_CHECK_ARG= leaks -atExit --
+# else
+# 	ifeq ($(MEMORY_CHECK),1)
+# 		MEMORY_CHECK_ARG= valgrind  --leak-check=full --track-origins=yes --show-leak-kinds=all --log-file=$(MEMORY_LOG)
+# 	else ifeq($(MEMORY_CHECK),2)
+# 		MEMORY_CHECK_ARG= valgrind  --tool=helgrind  --track-lockorders=yes --log-file=$(MEMORY_LOG)
+# 	endif
+# endif
 
 run: $(NAME)
 	./$(NAME) $(ARG)

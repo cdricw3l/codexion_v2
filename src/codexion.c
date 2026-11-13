@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     sim = sim_init(params);
     if (!sim)
         return (1);
-    dongles = dongle_init(params[number_of_coders], sim);
+    dongles = dongle_init(params, sim);
     if (!dongles)
     {
         sim_clean(&sim);
@@ -35,7 +35,7 @@ int main(int argc, char **argv)
         free(dongles);
         return (1);
     }
-    scheduler = scheduler_init(params, sim->queue);
+    scheduler = scheduler_init(params, sim);
     if (!scheduler)
     {
         sim_clean(&sim);
@@ -52,6 +52,19 @@ int main(int argc, char **argv)
         scheduler_clean(&scheduler);
         return (1);
     }
+    clock_t start;
+    //pthread_t monitor_thread;
+    pthread_t scheduler_thread;
+
+    start = get_now();
+    set_sim_state(&sim->simulation_state, sim->simulation_state_mu, ON);
+    assert(launch_coders(sim, coders, coder_routine, start));
+    assert(!pthread_create(&scheduler_thread, NULL, scheduler_routine, scheduler));
+    //assert(!pthread_create(&monitor_thread, NULL, monitoring_routine, monitoring));
+    joint_coders(sim);
+    pthread_join(scheduler_thread, NULL);
+    //pthread_join(monitor_thread, NULL);
+
     sim_clean(&sim);
     free(dongles);
     free(coders);

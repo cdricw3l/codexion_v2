@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 15:01:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/11 21:32:43 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 23:05:19 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ void *monitoring_routine(void *data)
     t_monitoring *monitor;
     clock_t last_compil;
     clock_t now;
-    size_t i;
+    int     i;
 
     monitor = (t_monitoring *)data;
+    printf("start Monitoring\n");
     while (get_sim_state(monitor->simulation_state, monitor->simulation_state_mu) == ON)
     {
         i = 0;

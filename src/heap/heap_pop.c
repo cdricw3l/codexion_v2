@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 04:29:53 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/05 21:25:04 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/13 08:12:43 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@
 
 #define NEW_Q_ERR 0
 #define CMP_ERR 1
+
+
+typedef struct s_direction
+{
+	int direction;
+	t_heap_node	*current;
+	t_heap_node	*left;
+	t_heap_node	*right;
+
+} t_direction;
 
 static void	*heap_pop_err_msg(int err_code)
 {
@@ -64,6 +74,8 @@ static void	heap_pop_organise(t_heap *heap,
 	t_heap_node	*left;
 	t_heap_node	*right;
 
+	if (heap->heap_size == 0)
+		return ;
 	current_idx = 0;
 	current = heap_get_node(heap, current_idx);
 	left = heap_get_node(heap, 2 * current_idx + 1);
@@ -88,17 +100,24 @@ t_heap_node	*heap_pop(t_heap *heap, int (*cmp)(t_heap_node *, t_heap_node *))
 	t_heap_node	**new_queue;
 	t_heap_node	*node;
 
+
 	if (!heap || !heap->queue || heap->heap_size == 0)
 		return (NULL);
+	
 	if (!cmp)
 		return (heap_pop_err_msg(CMP_ERR));
+	
 	heap_swap_node(heap->queue[0], heap->queue[heap->heap_size - 1]);
+
 	new_queue = malloc(sizeof(t_heap_node *) * (heap->heap_size - 1));
 	if (!new_queue)
 		return (heap_pop_err_msg(NEW_Q_ERR));
+	
 	ft_memcopy(heap->queue, new_queue,
 		sizeof(t_heap_node *) * (heap->heap_size - 1));
+	
 	node = heap_get_node(heap, heap->heap_size - 1);
+	
 	heap->heap_size--;
 	free(heap->queue);
 	heap->queue = new_queue;

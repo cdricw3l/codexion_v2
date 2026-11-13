@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 20:25:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/12 17:17:21 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 22:37:38 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,23 @@ void *monitoring_thread(void *data)
     }
 }
 
+void *unit_scheduler_routine(void *data)
+{
+    t_scheduler *scheduler;
+    t_request *request;
+    
+    scheduler = (t_scheduler *)data;
+    while (get_sim_state(scheduler->simulation_state, scheduler->simulation_state_mu))
+    {
+        
+    }
+    
+}
 
 void *unit_coder_monitor_routine(void *data)
 {
     t_coder *coder;
+    t_request *request;
     size_t  i;
 
     coder = (t_coder *)data;
@@ -62,18 +75,28 @@ void *unit_coder_monitor_routine(void *data)
 
     while (get_sim_state(coder->simulation_state, coder->simulation_state_mu) && coder->params[number_of_compiles_required] > i)
     {
+        request = request_new_node(coder);
+        pthread_mutex_lock(coder->can_compile_mu);
+        while (*coder->can_compile == FALSE)
+        {
+            pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
+        }
+        
         assert(!pthread_mutex_lock(coder->dongle_right->dongle));
         assert(!pthread_mutex_lock(coder->dongle_left->dongle));
         display_action(coder, COMPILE);
         action(coder, COMPILE);
         assert(!pthread_mutex_unlock(coder->dongle_right->dongle));
         assert(!pthread_mutex_unlock(coder->dongle_left->dongle));
+        *coder->can_compile == FALSE;
+        pthread_mutex_unlock(coder->can_compile_mu);
         display_action(coder, DEBUG);
         action(coder, DEBUG);
         display_action(coder, REFACTO);
         action(coder, REFACTO);
         i++;
     }
+    assert(i == coder->params[number_of_compiles_required]);
     return (NULL);
 }
 
@@ -85,7 +108,7 @@ static void unit_monitoring_thread(t_sim *sim, t_coder *coder, t_monitoring *mon
 
     set_sim_state(&sim->simulation_state, sim->simulation_state_mu, ON);
     start = get_now();
-    assert(launch_coders(sim, coder, unit_coder_monitor_routine, PAIR, start));
+    assert(launch_coders(sim, coder, unit_coder_monitor_routine, start));
     assert(!pthread_create(&monitor_thread, NULL, monitoring_thread, monitor));
     assert(joint_coders(sim));
     set_sim_state(&sim->simulation_state, sim->simulation_state_mu, OFF);

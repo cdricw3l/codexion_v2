@@ -6,21 +6,28 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/12 16:35:39 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 23:03:32 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
 
+
+
 static void	coder_action(t_coder *coder)
 {
-	display_action(coder, TAKE);
-	set_timestamp(coder);
-	usleep(coder->params[time_to_compile]);
+	assert(!pthread_mutex_lock(coder->dongle_right->dongle));
+	assert(!pthread_mutex_lock(coder->dongle_left->dongle));
+	display_action(coder, COMPILE);
+	action(coder, COMPILE);
+	assert(!pthread_mutex_unlock(coder->dongle_right->dongle));
+	assert(!pthread_mutex_unlock(coder->dongle_left->dongle));
+	*coder->can_compile = FALSE;
+	pthread_mutex_unlock(coder->can_compile_mu);
 	display_action(coder, DEBUG);
-	usleep(coder->params[time_to_debug]);
+	action(coder, DEBUG);
 	display_action(coder, REFACTO);
-	usleep(coder->params[time_to_debug]);
+	action(coder, REFACTO);
 }
 
 static int	create_and_push_request(t_coder *coder)
@@ -30,18 +37,17 @@ static int	create_and_push_request(t_coder *coder)
 	request = request_new_node(coder);
 	if (!request)
 		return (FALSE);
-	if (request_push(coder->queue, request))
-		return (TRUE);
-	free(request);
-	return (FALSE);
+	return (TRUE);
 }
 
 void	*coder_routine(void *data)
 {
-	size_t		i;
+	int			i;
 	t_coder		*coder;
 
 	coder = (t_coder *)data;
+	i = 0;
+	
 	while (i < coder->params[number_of_compiles_required]
 		&& get_sim_state(coder->simulation_state,coder->simulation_state_mu))
 	{
@@ -53,15 +59,19 @@ void	*coder_routine(void *data)
 		}
 		pthread_mutex_lock(coder->can_compile_mu);
 		while (*coder->can_compile == FALSE)
+		{
+			printf("coder %ld is waiting\n", coder->coder_id);
 			pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
-		
+		}
+		coder_action(coder);
+		i++;
 	}
 	return (NULL);
 }
 
-int launch_coders(t_sim *sim, t_coder *coders,  void *(*routine)(void *), int mode, clock_t start)
+int launch_coders(t_sim *sim, t_coder *coders,  void *(*routine)(void *), clock_t start)
 {
-	size_t i;
+	int i;
 
 	i = 0;
 	while (i < sim->params[number_of_coders])
@@ -101,7 +111,7 @@ int launch_coders(t_sim *sim, t_coder *coders,  void *(*routine)(void *), int mo
 }
 int joint_coders(t_sim *sim)
 {
-	size_t i;
+	int i;
 
 	i = 0;
 	while (i < sim->params[number_of_coders])
