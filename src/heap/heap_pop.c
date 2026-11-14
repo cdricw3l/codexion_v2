@@ -6,11 +6,11 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 04:29:53 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/13 08:12:43 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/13 10:03:33 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/codexion.h"
+#include "heap.h"
 
 /*
 
@@ -20,22 +20,9 @@
 
 */
 
-#define NO_SWAP 	0
-#define SWAP_LEFT	1
-#define SWAP_RIGHT	2
-
-#define NEW_Q_ERR 0
-#define CMP_ERR 1
-
-
-typedef struct s_direction
-{
-	int direction;
-	t_heap_node	*current;
-	t_heap_node	*left;
-	t_heap_node	*right;
-
-} t_direction;
+int		ft_memcopy(void *src, void *dst, unsigned long size);
+void	*err_msg(char *err);
+size_t	ft_strlen(char *str);
 
 static void	*heap_pop_err_msg(int err_code)
 {
@@ -49,49 +36,44 @@ static void	*heap_pop_err_msg(int err_code)
 CRESET"\n";
 	else
 		return (NULL);
-	write(STDERR_FILENO, msg, ft_strlen(msg));
-	return (NULL);
+	return (err_msg(msg));
 }
 
-static int	get_direction(t_heap_node *current, t_heap_node *left,
-		t_heap_node *right, int (*cmp)(t_heap_node *, t_heap_node *))
+static int	get_direction(t_heap *heap, t_direction *direction,
+		int (*cmp)(t_heap_node *, t_heap_node *))
 {
-	if (!cmp(current, left) && !cmp(current, right))
-		return (NO_SWAP);
-	if (!cmp(left, right))
-		return (SWAP_LEFT);
-	if (cmp(left, right))
-		return (SWAP_RIGHT);
-	return (-1);
+	direction->current = heap_get_node(heap, direction->current_idx);
+	direction->left = heap_get_node(heap, 2 * direction->current_idx + 1);
+	direction->right = heap_get_node(heap, 2 * direction->current_idx + 2);
+	if (!direction->right && !direction->left)
+		direction->direction = NO_SWAP;
+	else if (!cmp(direction->current, direction->left)
+		&& !cmp(direction->current, direction->right))
+		direction->direction = NO_SWAP;
+	else if (!cmp(direction->left, direction->right))
+		direction->direction = SWAP_LEFT;
+	else if (cmp(direction->left, direction->right))
+		direction->direction = SWAP_RIGHT;
+	return (direction->direction);
 }
 
 static void	heap_pop_organise(t_heap *heap,
 		int (*cmp)(t_heap_node *children_l, t_heap_node *children_r))
 {
-	int			direction;
-	size_t		current_idx;
-	t_heap_node	*current;
-	t_heap_node	*left;
-	t_heap_node	*right;
+	t_direction	direction;
 
 	if (heap->heap_size == 0)
 		return ;
-	current_idx = 0;
-	current = heap_get_node(heap, current_idx);
-	left = heap_get_node(heap, 2 * current_idx + 1);
-	right = heap_get_node(heap, 2 * current_idx + 2);
-	direction = get_direction(current, left, right, cmp);
-	while (direction)
+	direction.current_idx = 0;
+	get_direction(heap, &direction, cmp);
+	while (direction.direction)
 	{
-		if (direction == SWAP_RIGHT)
-			heap_swap_node(current, right);
-		else if (direction == SWAP_LEFT)
-			heap_swap_node(current, left);
-		current_idx = 2 * current_idx + direction;
-		current = heap_get_node(heap, current_idx);
-		left = heap_get_node(heap, 2 * current_idx + 1);
-		right = heap_get_node(heap, 2 * current_idx + 2);
-		direction = get_direction(current, left, right, cmp);
+		if (direction.direction == SWAP_RIGHT)
+			heap_swap_node(direction.current, direction.right);
+		else if (direction.direction == SWAP_LEFT)
+			heap_swap_node(direction.current, direction.left);
+		direction.current_idx = 2 * direction.current_idx + direction.direction;
+		get_direction(heap, &direction, cmp);
 	}
 }
 
@@ -100,24 +82,17 @@ t_heap_node	*heap_pop(t_heap *heap, int (*cmp)(t_heap_node *, t_heap_node *))
 	t_heap_node	**new_queue;
 	t_heap_node	*node;
 
-
 	if (!heap || !heap->queue || heap->heap_size == 0)
 		return (NULL);
-	
 	if (!cmp)
 		return (heap_pop_err_msg(CMP_ERR));
-	
 	heap_swap_node(heap->queue[0], heap->queue[heap->heap_size - 1]);
-
 	new_queue = malloc(sizeof(t_heap_node *) * (heap->heap_size - 1));
 	if (!new_queue)
 		return (heap_pop_err_msg(NEW_Q_ERR));
-	
 	ft_memcopy(heap->queue, new_queue,
 		sizeof(t_heap_node *) * (heap->heap_size - 1));
-	
 	node = heap_get_node(heap, heap->heap_size - 1);
-	
 	heap->heap_size--;
 	free(heap->queue);
 	heap->queue = new_queue;

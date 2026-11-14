@@ -11,6 +11,7 @@ int     unit_utils(void);
 int     unit_heap(void);
 int     unit_init(void);
 int     unit_monitoring(void);
+void    unit_scheduler(void);
 
 /* unit utils */
 char	*ft_itoa(int n);

@@ -6,91 +6,96 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/13 00:08:33 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 00:18:03 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
 
-int fifo(t_heap_node *n1, t_heap_node *n2)
+int	fifo(t_heap_node *n1, t_heap_node *n2)
 {
-    t_request *request_1;
-    t_request *request_2;
+	t_request	*request_1;
+	t_request	*request_2;
 
-    request_1 = (t_request *)n1->content;
-    request_2 = (t_request *)n2->content;
-    if (request_1->request_id > request_2->request_id)
-        return (TRUE);
-    return (FALSE);
+	request_1 = (t_request *)n1->content;
+	request_2 = (t_request *)n2->content;
+	if (request_1->request_id > request_2->request_id)
+		return (TRUE);
+	return (FALSE);
 }
 
-static void get_dongle(size_t id, int params[8], int dongle[2])
+void	get_dongle_arr(size_t id, int params[8], int dongle[2])
 {
-    dongle[LEFT] = get_dongle_id(id, params[number_of_coders], LEFT);
-    dongle[RIGHT] = get_dongle_id(id, params[number_of_coders], RIGHT);
-    if (id == 2)
-        assert(dongle[LEFT] == 1 && dongle[RIGHT] == 2);
+	dongle[LEFT] = get_dongle_id(id, params[number_of_coders], LEFT);
+	dongle[RIGHT] = get_dongle_id(id, params[number_of_coders], RIGHT);
+	if (id == 2)
+		assert(dongle[LEFT] == 1 && dongle[RIGHT] == 2);
 }
 
-void who_can_compile(t_scheduler *scheduler)
+static void	process_request(int dongle_id[2], t_scheduler *scheduler,
+		t_heap_node *node_left, t_heap_node *node_right)
 {
-    int i;
-    t_heap_node *node;
-    t_request *request;
-    int dongle[2] = {-1, -1};
+	t_request	*request_left;
+	t_request	*request_right;
 
-    i = 0;
-    while (i < scheduler->params[number_of_coders])
-    {
-        get_dongle(i, scheduler->params, dongle);
-
-        if (((t_request *)(scheduler->heaps[dongle[LEFT]]->queue[0]->content))->coder_id == ((t_request *)(scheduler->heaps[dongle[RIGHT]]->queue[0]->content))->coder_id)
-        {
-            assert(scheduler->heaps[dongle[LEFT]]);
-            node = heap_pop(scheduler->heaps[dongle[LEFT]], fifo);
-            request = (t_request *)node->content;
-            assert(node);
-            heap_pop(scheduler->heaps[dongle[RIGHT]], fifo);
-            pthread_mutex_lock(request->can_compile_mu);
-            *request->can_compile = TRUE;
-            pthread_mutex_unlock(request->can_compile_mu);
-            printf("Send the signal\n");
-            request_display_node(request);
-            pthread_cond_signal(request->can_compile_cond);
-
-        }
-        i++;
-    }
+	request_left = (t_request *)node_left->content;
+	request_right = (t_request *)node_right->content;
+	if (request_left->coder_id == request_right->coder_id)
+	{
+		heap_pop(scheduler->heaps[dongle_id[LEFT]], fifo);
+		heap_pop(scheduler->heaps[dongle_id[RIGHT]], fifo);
+		assert(!pthread_mutex_lock(request_left->can_compile_mu));
+		*request_left->can_compile = TRUE;
+		assert(!pthread_mutex_unlock(request_left->can_compile_mu));
+		assert(!pthread_cond_signal(request_left->can_compile_cond));
+	}
 }
 
-
-void *scheduler_routine(void *data)
+void	who_can_compile(t_scheduler *scheduler)
 {
+	int			i;
+	t_heap_node	*node_left;
+	t_heap_node	*node_right;
+	int			dongle_id[2];
 
-    t_scheduler *scheduler;
-    t_request   *request;
-    t_heap_node *node1;
-    t_heap_node *node2;
-    int dongle[2] = {-1, -1};
-    int nb;
-    
-    scheduler = (t_scheduler *)data;
-    nb = 0;
-    printf("start scheduler\n");
-    while (get_sim_state(scheduler->simulation_state, scheduler->simulation_state_mu) == ON)
-    {
-        request = request_pop(scheduler->queue);
-        if (request)
-        {
-            node1 = heap_new_node(request);
-            node2 = heap_new_node(request);
-            get_dongle(request->coder_id, scheduler->params, dongle);
-            assert(heap_push(scheduler->heaps[dongle[LEFT]], node1, fifo)); 
-            assert(heap_push(scheduler->heaps[dongle[RIGHT]], node2, fifo));
-            who_can_compile(scheduler);
-            usleep(100000);
-            nb++;
-        }
-    }
-    return (NULL);
+	i = 0;
+	while (i < scheduler->params[number_of_coders])
+	{
+		get_dongle_arr(i, scheduler->params, dongle_id);
+		if (!scheduler->heaps[dongle_id[LEFT]]->heap_size
+			|| !scheduler->heaps[dongle_id[RIGHT]]->heap_size)
+		{
+			i++;
+			continue ;
+		}
+		node_left = scheduler->heaps[dongle_id[LEFT]]->queue[0];
+		node_right = scheduler->heaps[dongle_id[RIGHT]]->queue[0];
+		process_request(dongle_id, scheduler, node_left, node_right);
+		i++;
+	}
+}
+
+void	*scheduler_routine(void *data)
+{
+	t_scheduler	*scheduler;
+	t_request	*request;
+	t_heap_node	*node;
+	int			dongle[2];
+
+	scheduler = (t_scheduler *)data;
+	while (get_sim_state(scheduler->simulation_state,
+			scheduler->simulation_state_mu) == ON)
+	{
+		request = request_pop(scheduler->queue);
+		if (request)
+		{
+			node = heap_new_node(request);
+			get_dongle_arr(request->coder_id, scheduler->params, dongle);
+			assert(heap_push(scheduler->heaps[dongle[LEFT]], node, fifo));
+			assert(heap_push(scheduler->heaps[dongle[RIGHT]], node, fifo));
+			who_can_compile(scheduler);
+			usleep(100000);
+		}
+	}
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 18:09:57 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/12 22:50:43 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/13 23:57:54 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #include "color-codes.h"
 #include <pthread.h>
 #include <stdbool.h>
+#include "../src/heap/heap.h"
 
 
 #define FALSE 0
@@ -213,29 +214,7 @@ void            request_display_node(t_request *request);
 
 /****************************************************************************************************/
 
-/****************************************** HEAP MODULE *********************************************/
 
-struct s_heap_node
-{
-	void				*content;
-};
-
-struct s_heap
-{
-	t_heap_node	**queue;
-	size_t		heap_size;		
-};
-
-t_heap		*heap_init(void);
-t_heap_node	*heap_new_node(void *content);
-void		heap_swap_node(t_heap_node *parent, t_heap_node *current);
-void		heap_clear(t_heap **heap, void (*del)(void *));
-int			heap_push(t_heap *heap, t_heap_node *node,
-				int (*cmp)(t_heap_node *, t_heap_node *));
-t_heap_node	*heap_pop(t_heap *heap, int (*cmp)(t_heap_node *, t_heap_node *));
-t_heap_node	*heap_get_node(t_heap *heap, size_t idx);
-
-/****************************************************************************************************/
 
 /****************************************** TIME MODULE *********************************************/
 
@@ -265,6 +244,7 @@ void	*monitoring_routine(void *data);
 void	*coder_routine(void *data);
 int		joint_coders(t_sim *sim);
 void 	action(t_coder *coder, int action);
+int fifo(t_heap_node *n1, t_heap_node *n2);
 
 /****************************************************************************************************/
 /* parsing */
@@ -285,5 +265,6 @@ int     get_dongle_id(int id, int number_of_coder, int type);
 
 int		get_sim_state(int *state, pthread_mutex_t *state_mutex);
 void	set_sim_state(int *state, pthread_mutex_t *state_mutex, int new_state);
+void	get_dongle_arr(size_t id, int params[8], int dongle[2]);
 
 #endif

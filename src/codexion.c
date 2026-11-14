@@ -62,6 +62,7 @@ int main(int argc, char **argv)
     assert(!pthread_create(&scheduler_thread, NULL, scheduler_routine, scheduler));
     //assert(!pthread_create(&monitor_thread, NULL, monitoring_routine, monitoring));
     joint_coders(sim);
+    set_sim_state(&sim->simulation_state, sim->simulation_state_mu, OFF);
     pthread_join(scheduler_thread, NULL);
     //pthread_join(monitor_thread, NULL);
 
