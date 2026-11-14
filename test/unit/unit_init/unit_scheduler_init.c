@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 04:28:18 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/08 05:53:02 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 00:41:46 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void *scheduler_coder_routine(void *ptr)
     {
         request = request_new_node(coder);
         assert(request);
-        assert(request_push(coder->queue, request));
         i++;
     }
     return (NULL);
@@ -69,15 +68,18 @@ void unit_scheduler_init(void)
     
     sim = sim_init(params);
     assert(sim);
-    dongles = dongle_init(params[number_of_coders], sim);
+    dongles = dongle_init(params, sim);
     assert(dongles);
     coders = coders_init(params, sim, dongles);
     assert(coders);
-    scheduler = scheduler_init(params, sim->queue);
+    scheduler = scheduler_init(params, sim);
     assert(scheduler);
     assert(scheduler->queue == sim->queue);
     assert(sim->queue == scheduler->queue);
     assert(sim->queue == coders->queue);
+    assert(scheduler->simulation_state == &sim->simulation_state);
+    assert(scheduler->simulation_state_mu == sim->simulation_state_mu);
+
     i = 0;
     while (i < sim->params[number_of_coders])
     {

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 07:06:22 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 08:38:50 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 00:45:55 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ void thread_request_pop(void)
     while (i < NB_THREAD)
     {
         pthread_join(thread_coder[i], NULL);
+        free(coders[i].can_compile);
+        free(coders[i].can_compile_cond);
+        free(coders[i].can_compile_mu);
         //printf("Thread %ld is finish\n", coders[i].coder_id);
         i++;
     }

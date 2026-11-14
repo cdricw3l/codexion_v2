@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:47:25 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/08 05:52:41 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/11 20:55:41 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ void check_coder(int params[8], t_coder *coders, t_sim *sim, t_dongles *dongles)
         assert(coders[i].can_compile == &sim->can_compile[i]);
         assert(coders[i].can_compile_cond == &sim->can_compile_cond[i]);
         assert(coders[i].can_compile_mu == &sim->can_compile_mu[i]);
-        assert(coders[i].dongle_left == &dongles[get_dongle(i, params[number_of_coders], LEFT)]);
-        assert(coders[i].dongle_right == &dongles[get_dongle(i, params[number_of_coders], RIGHT)]);
+        assert(coders[i].dongle_left == &dongles[get_dongle_id(i, params[number_of_coders], LEFT)]);
+        assert(coders[i].dongle_right == &dongles[get_dongle_id(i, params[number_of_coders], RIGHT)]);
         assert(coders[i].queue == sim->queue);
         i++;
     }
@@ -104,8 +104,8 @@ void unit_coder_init(void)
     sim = sim_init(params);
     if (!sim)
         return ;
-    assert(dongle_init(1, NULL) == NULL);
-    dongles = dongle_init(NB_CODER, sim);
+    assert(dongle_init(params, NULL) == NULL);
+    dongles = dongle_init(params, sim);
     assert(dongles);
     coders = coders_init(params, sim, dongles);
     assert(coders);

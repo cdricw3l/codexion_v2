@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 13:07:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 20:30:47 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 21:26:44 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void unit_get_param(int params[8])
 {
     params[number_of_coders] = NB_CODER;
-    params[time_to_burnout] = 500;
+    params[time_to_burnout] = 410;
     params[time_to_compile] = 200;
     params[time_to_debug] = 100;
     params[time_to_refactor] = 100;
-    params[number_of_compiles_required] = 20;
+    params[number_of_compiles_required] = 10;
     params[dongle_cooldown] = 10;
     params[scheduler] = FIFO;
 }

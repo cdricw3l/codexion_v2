@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 05:27:38 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/07 16:13:04 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 00:39:43 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ t_coder *init_coder(int nb, t_request_queue *queue)
     i = 0;
     while (i < nb)
     {
-        coders[i].can_compile = false;
+        coders[i].can_compile = can_compile_init(1);
+        coders[i].can_compile_cond = init_dynamique_cond(1);
+        coders[i].can_compile_mu = init_dynamique_mutex(1);
         pthread_cond_init(coders[i].can_compile_cond, NULL);
         pthread_mutex_init(coders[i].can_compile_mu, NULL);
         coders[i].coder_id = i;
@@ -43,7 +45,13 @@ int check_queue_unique_request(t_request *root)
         while (next)
         {
             if (root->request_id == next->request_id)
+            {
+                printf("Root:\n");
+                request_display_node(root);
+                printf("Next:\n");
+                request_display_node(next);
                 return (false);
+            }
             next = next->next;
         }
         root = root->next;
@@ -65,8 +73,7 @@ void *push_request_routine(void *data)
     // assert(!pthread_mutex_unlock(&coder->queue->queue_mutex));
     while (i < 10)
     {
-        request = request_new_node(coder);
-        assert(request_push(coder->queue, request));
+        assert(request_new_node(coder));
         i++;
         usleep(100000);
     }

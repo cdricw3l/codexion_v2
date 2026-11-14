@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 14:46:11 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 08:26:52 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/12 00:42:49 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,21 @@ void unit_request_new_node(void)
     queue = request_queue_init();
     assert(queue);
     assert(queue->queue_size == 0);
-    
     coder = init_coder(1, queue);
 
 
     request = request_new_node(coder);
     assert(request);
     assert(request->coder_id == coder->coder_id);
-    assert(request->request_id == queue->queue_size);
+    assert(request->request_id == queue->request_counter - 1);
     
     assert(*request->can_compile == false);
 	assert(request->next == NULL);
 
     free(request);
+    free(coder->can_compile);
+    free(coder->can_compile_cond);
+    free(coder->can_compile_mu);
     free(coder);
     
     assert(!request_new_node(NULL));
