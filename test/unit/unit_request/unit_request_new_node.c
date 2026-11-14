@@ -29,13 +29,13 @@ void unit_request_push(void)
     coder = init_coder(1, queue);
 
 
-    request = request_push(coder);
-    assert(request);
-    assert(request->coder_id == coder->coder_id);
-    assert(request->request_id == queue->request_counter - 1);
+    assert(request_push(coder));
+    assert(queue->queue[0]);
+    assert(queue->queue[0]->coder_id == coder->coder_id);
+    assert(queue->queue[0]->request_id == queue->request_counter - 1);
     
-    assert(*request->can_compile == false);
-	assert(request->next == NULL);
+    assert(*queue->queue[0]->can_compile == false);
+	assert(queue->queue[0]->next == NULL);
 
     free(request);
     free(coder->can_compile);
