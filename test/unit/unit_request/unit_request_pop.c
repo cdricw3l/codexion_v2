@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 07:06:22 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 15:22:05 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 16:51:51 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static void simple_request_pop(void)
 	START_TEST;
 
     t_request_queue *queue;
+    t_coder *coder;
     t_request r1;
     t_request r2;
     t_request r3;
