@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 04:29:53 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/13 10:03:33 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 12:31:42 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 int		ft_memcopy(void *src, void *dst, unsigned long size);
 void	*err_msg(char *err);
-size_t	ft_strlen(char *str);
 
 static void	*heap_pop_err_msg(int err_code)
 {

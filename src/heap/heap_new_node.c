@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 21:14:07 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/05 21:25:02 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 12:31:33 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_heap_node	*heap_new_node(void *content)
 	if (!node)
 	{
 		err = "new node malloc initialisation error\n";
-		write(STDERR_FILENO, err, ft_strlen(err));
+		write(STDERR_FILENO, err, strlen(err));
 	}
 	node->content = content;
 	return (node);

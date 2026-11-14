@@ -6,29 +6,28 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 08:19:39 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/05 13:15:21 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 14:26:48 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
 #define BASE_16 "0123456789ABCDEF"
 
-
-void ft_putnbr_error(int fd, int nb, int base)
+void	ft_putnbr_error(int fd, int nb, int base)
 {
-    long n;
-    char c;
-    
-    n = nb;
-    if (nb < 0)
-    {
-        write(fd, "-", 1);
-        n = n *-1;
-    }
-    if (nb >= base)
-        ft_putnbr_error(fd, nb / base, base);
-    c =  BASE_16[nb % base];
-    write(fd, &c, 1);
+	long	n;
+	char	c;
+
+	n = nb;
+	if (nb < 0)
+	{
+		write(fd, "-", 1);
+		n = n * -1;
+	}
+	if (nb >= base)
+		ft_putnbr_error(fd, nb / base, base);
+	c = BASE_16[nb % base];
+	write(fd, &c, 1);
 }
 
 int	parsing_error_msg(int code, char *arg)
@@ -53,41 +52,9 @@ int	parsing_error_msg(int code, char *arg)
 	return (FALSE);
 }
 
-static char	*get_error_msg(int code)
+void	*err_msg(char *err)
 {
-	if (code == STATE)
-		return ("Error initialisation state coders\n");
-	if (code == STATE_MUTEX)
-		return ("Error initialisation state mutex coders\n");
-	if (code == CODER)
-		return ("Error initialisation thread coders\n");
-	if (code == TIMESTAMPS)
-		return ("Error initialisation timestamps\n");
-	if (code == TIMESTAMPS_MUTEX)
-		return ("Error initialisation timestamps mutext\n");
-	if (code == CODER_MUTEX)
-		return ("Error initialisation coder mutext\n");
-	if (code == CODER_COND)
-		return ("Error initialisation coder cond\n");
-	if (code == COUNTER)
-		return ("Error initialisation coder counter\n");
-	if (code == COUNTER_MU)
-		return ("Error initialisation coder counter mutex\n");
-	return ("");
-}
-
-int	msg_error(int code)
-{
-	char	*e_msg;
-
-	e_msg = get_error_msg(code);
-	write(STDERR_FILENO, e_msg, strlen(e_msg));
-	return (1);
-}
-
-void *err_msg(char *err)
-{
-    if (err)
-        write(STDERR_FILENO, err, ft_strlen(err));
-    return (NULL);
+	if (err)
+		write(STDERR_FILENO, err, strlen(err));
+	return (NULL);
 }

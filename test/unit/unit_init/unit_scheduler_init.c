@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 04:28:18 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/12 00:41:46 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 12:45:15 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void *scheduler_coder_routine(void *ptr)
     i = 0;
     while (i < coder->params[number_of_compiles_required])
     {
-        request = request_new_node(coder);
+        request = request_push(coder);
         assert(request);
         i++;
     }

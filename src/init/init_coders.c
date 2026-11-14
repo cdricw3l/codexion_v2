@@ -6,21 +6,24 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:37:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/12 21:50:42 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 12:38:04 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
 
 static t_dongles	*get_dongle(int coder_id,
-	int nb_of_coder, int type, t_dongles *dongle)
+	int params[8], int type, t_dongles *dongle)
 {
-	return (&dongle[get_dongle_id(coder_id, nb_of_coder, type)]);
+	int	dongle_id[2];
+
+	get_dongle_arr(coder_id, params, dongle_id);
+	return (&dongle[dongle_id[type]]);
 }
 
 t_coder	*coders_init(int p[8], t_sim *sim, t_dongles *dgl)
 {
-	int	i;
+	int		i;
 	t_coder	*coders;
 
 	coders = malloc(sizeof(t_coder) * p[number_of_coders]);
@@ -34,8 +37,8 @@ t_coder	*coders_init(int p[8], t_sim *sim, t_dongles *dgl)
 		coders[i].can_compile_mu = &sim->can_compile_mu[i];
 		coders[i].can_compile_cond = &sim->can_compile_cond[i];
 		coders[i].queue = sim->queue;
-		coders[i].dongle_left = get_dongle(i, p[number_of_coders], LEFT, dgl);
-		coders[i].dongle_right = get_dongle(i, p[number_of_coders], RIGHT, dgl);
+		coders[i].dongle_left = get_dongle(i, p, LEFT, dgl);
+		coders[i].dongle_right = get_dongle(i, p, RIGHT, dgl);
 		coders[i].simulation_state = &sim->simulation_state;
 		coders[i].simulation_state_mu = sim->simulation_state_mu;
 		coders[i].timestamp = &sim->timestamp[i];

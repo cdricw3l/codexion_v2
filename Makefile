@@ -23,6 +23,7 @@ SRCS=	src/codexion.c \
 		src/init/init_scheduler.c \
 		src/init/init_sim.c \
 		src/init/init_utils.c \
+		src/thread_managment/thread_managment.c \
 		src/routines/coder.c \
 		src/routines/monitoring.c \
 		src/routines/scheduler.c \
@@ -39,9 +40,8 @@ SRCS=	src/codexion.c \
 		src/request/request_get_last_node.c \
 		src/request/request_get_queue_size.c \
 		src/request/request_init_queue.c \
-		src/request/request_new_node.c \
-		src/request/request_pop.c \
 		src/request/request_push.c \
+		src/request/request_pop.c \
 		src/time/time.c \
 		src/utils/utils_1.c \
 		src/utils/utils_2.c \

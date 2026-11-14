@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 20:25:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/12 22:37:38 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 12:45:15 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void *unit_coder_monitor_routine(void *data)
 
     while (get_sim_state(coder->simulation_state, coder->simulation_state_mu) && coder->params[number_of_compiles_required] > i)
     {
-        request = request_new_node(coder);
+        request = request_push(coder);
         pthread_mutex_lock(coder->can_compile_mu);
         while (*coder->can_compile == FALSE)
         {

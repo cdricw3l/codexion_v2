@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/13 09:53:29 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/13 10:04:56 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 14:32:22 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <sys/types.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "../../include/color-codes.h"
+# include "../../include/color_codes.h"
 
 # define NO_SWAP 	0
 # define SWAP_LEFT	1

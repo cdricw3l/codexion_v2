@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 01:40:58 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 12:37:05 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,6 @@ int	edf(t_heap_node *n1, t_heap_node *n2)
 	if (request_1->request_id > request_2->request_id)
 		return (TRUE);
 	return (FALSE);
-}
-
-void	get_dongle_arr(size_t id, int params[8], int dongle[2])
-{
-	dongle[LEFT] = get_dongle_id(id, params[number_of_coders], LEFT);
-	dongle[RIGHT] = get_dongle_id(id, params[number_of_coders], RIGHT);
-	if (id == 2)
-		assert(dongle[LEFT] == 1 && dongle[RIGHT] == 2);
 }
 
 static void	process_request(int dongle_id[2], t_scheduler *scheduler,

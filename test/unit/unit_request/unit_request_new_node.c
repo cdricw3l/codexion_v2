@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unit_request_new_node.c                            :+:      :+:    :+:   */
+/*   unit_request_push.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,7 +14,7 @@
 
 t_coder *init_coder(int nb, t_request_queue *queue);
 
-void unit_request_new_node(void)
+void unit_request_push(void)
 {
 	START_TEST;
 
@@ -29,7 +29,7 @@ void unit_request_new_node(void)
     coder = init_coder(1, queue);
 
 
-    request = request_new_node(coder);
+    request = request_push(coder);
     assert(request);
     assert(request->coder_id == coder->coder_id);
     assert(request->request_id == queue->request_counter - 1);
@@ -43,7 +43,7 @@ void unit_request_new_node(void)
     free(coder->can_compile_mu);
     free(coder);
     
-    assert(!request_new_node(NULL));
+    assert(!request_push(NULL));
 
     free(queue->queue);
     free(queue);

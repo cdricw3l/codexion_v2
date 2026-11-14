@@ -6,128 +6,75 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 08:07:31 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/12 03:14:49 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 13:53:23 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
 
-long second_to_nano(long sec)
+/*
+	second_to_nano = sec * 1000000000
+	ms_to_nano = ms * 1000000
+	nano_to_ms = ms / 1000000
+*/
+
+struct timespec	time_diff(struct timespec start, struct timespec end)
 {
-    return (sec * 1000000000);
+	struct timespec	temp;
+
+	if ((end.tv_nsec - start.tv_nsec) < 0)
+	{
+		temp.tv_sec = end.tv_sec - start.tv_sec - 1;
+		temp.tv_nsec = 1000000000 + end.tv_nsec - start.tv_nsec;
+	}
+	else
+	{
+		temp.tv_sec = end.tv_sec - start.tv_sec;
+		temp.tv_nsec = end.tv_nsec - start.tv_nsec;
+	}
+	return (temp);
 }
 
-long ms_to_nano(long ms)
+clock_t	time_calculation(struct timespec time)
 {
-    return (ms * 1000000);
-}
+	clock_t	n_to_sec;
 
-long nano_to_ms(long nano)
-{
-    return (nano / 1000000);
-}
-struct timespec futuristic_timespec(int ms)
-{
-    struct timespec now;
-    struct timespec futuristic;
-    
-    clock_gettime(CLOCK_REALTIME, &now);
-    if(now.tv_nsec + ms_to_nano(ms) > 999999999)
-    {
-
-        futuristic.tv_nsec = ms_to_nano(ms) - (999999999 - now.tv_nsec);
-        futuristic.tv_sec = now.tv_sec + 1;
-    }
-    else
-    {
-        futuristic.tv_sec = now.tv_sec;
-        futuristic.tv_nsec = now.tv_nsec + ms_to_nano(ms);
-    }
-    return (futuristic);
-}
-
-struct timespec time_diff(struct timespec start, struct timespec end)
-{
-    struct timespec temp;
-
-    if ((end.tv_nsec - start.tv_nsec) < 0)
-    {
-        temp.tv_sec = end.tv_sec  - start.tv_sec - 1;
-        temp.tv_nsec =  1000000000 + end.tv_nsec - start.tv_nsec;
-    }
-    else
-    {
-        temp.tv_sec = end.tv_sec - start.tv_sec;
-        temp.tv_nsec = end.tv_nsec - start.tv_nsec;
-    }
-    return temp;
-}
-
-clock_t time_calculation(struct timespec time)
-{
-    /* convert second to nano*/
-    clock_t n_to_sec;
-
-    n_to_sec  = time.tv_sec * 1000000000;
-    return ((n_to_sec + time.tv_nsec) / 1000000);
+	n_to_sec = time.tv_sec * 1000000000;
+	return ((n_to_sec + time.tv_nsec) / 1000000);
 }
 
 /**
  * set the timestamp of the last compilation in nano second
  */
-void set_timestamp(t_coder *coder)
+void	set_timestamp(t_coder *coder)
 {
-    struct timespec now;
+	struct timespec	now;
 
-    clock_gettime(CLOCK_MONOTONIC, &now);
-    pthread_mutex_lock(coder->timestamp_mu);
-    *(coder->timestamp) = (now.tv_nsec + second_to_nano(now.tv_sec));
-    pthread_mutex_unlock(coder->timestamp_mu);
+	clock_gettime(CLOCK_MONOTONIC, &now);
+	pthread_mutex_lock(coder->timestamp_mu);
+	*(coder->timestamp) = (now.tv_nsec + (now.tv_sec * 1000000000));
+	pthread_mutex_unlock(coder->timestamp_mu);
 }
+
 /**
  * get the timestamp of the last compilation in nano second
  */
-clock_t get_timestamp(clock_t *timestamp, pthread_mutex_t *timestamp_mu)
+clock_t	get_timestamp(clock_t *timestamp, pthread_mutex_t *timestamp_mu)
 {
-    clock_t time;
+	clock_t	time;
 
-    pthread_mutex_lock(timestamp_mu);
-    time = *timestamp;
-    pthread_mutex_unlock(timestamp_mu);
-    return (time);
+	pthread_mutex_lock(timestamp_mu);
+	time = *timestamp;
+	pthread_mutex_unlock(timestamp_mu);
+	return (time);
 }
 
-clock_t get_now(void)
+clock_t	get_now(void)
 {
-    struct timespec n;
-    clock_t now;
+	struct timespec	n;
+	clock_t			now;
 
-    clock_gettime(CLOCK_MONOTONIC, &n);
-    now = n.tv_nsec + second_to_nano(n.tv_sec);
-    return(now);
+	clock_gettime(CLOCK_MONOTONIC, &n);
+	now = n.tv_nsec + (n.tv_sec * 1000000000);
+	return (now);
 }
-
-
-// void set_timestamp(t_coder *coder, int type)
-// {
-    
-//     timespec_t now;
-
-//     clock_gettime(CLOCK_MONOTONIC, &now);
-//     if(type == TIMESTAMP_COMPILATION)
-//     {
-//         pthread_mutex_lock(coder->coder_mutex.timestamp_f);
-//         *(coder->last_compilation) = now.tv_nsec + second_to_nano(now.tv_sec);
-//         coder->nb_of_compil++;
-//         pthread_mutex_unlock(coder->coder_mutex.timestamp_f);
-//     }    
-//     else if(type == TIMESTAMP_DONGLE)
-//     {   
-//         pthread_mutex_lock(coder->coder_mutex.dongle_l.dongle);
-// 	    pthread_mutex_lock(coder->coder_mutex.dongle_r.dongle);
-//         coder->coder_mutex.dongle_l.last_use = now.tv_nsec + second_to_nano(now.tv_sec);
-//         coder->coder_mutex.dongle_r.last_use = now.tv_nsec + second_to_nano(now.tv_sec);
-//         pthread_mutex_unlock(coder->coder_mutex.dongle_l.dongle);
-// 	    pthread_mutex_unlock(coder->coder_mutex.dongle_r.dongle);
-//     }
-// }

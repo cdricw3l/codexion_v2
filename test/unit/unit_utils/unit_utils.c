@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 13:07:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/12 21:26:44 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 12:32:02 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,7 @@ void unit_get_param(int params[8])
     params[scheduler] = FIFO;
 }
 
-void unit_ft_strlen(void)
-{
-    START_TEST;
-    
-    assert(ft_strlen(NULL) == 0);
-    assert(ft_strlen("") == strlen(""));
-    assert(ft_strlen("hello world") == strlen("hello world"));
-    assert(ft_strlen("\n\n]ndwqdhello world") == strlen("\n\n]ndwqdhello world"));
 
-    END_TEST;
-}
 
 void unit_ft_isdigit(void)
 {
@@ -57,7 +47,6 @@ void unit_ft_isdigit(void)
 int unit_utils(void)
 {
     START_BLOCK;
-	unit_ft_strlen();
     unit_ft_isdigit();
 	return (TRUE);
 }

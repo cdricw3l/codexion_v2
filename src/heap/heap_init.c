@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 12:47:41 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/05 21:24:58 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 12:31:24 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_heap	*heap_init(void)
 	if (!heap)
 	{
 		err = "heap malloc initialisation error\n";
-		write(STDERR_FILENO, err, ft_strlen(err));
+		write(STDERR_FILENO, err, strlen(err));
 	}
 	heap->heap_size = 0;
 	heap->queue = NULL;

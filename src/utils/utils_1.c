@@ -1,44 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 12:53:00 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/08 09:11:33 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 14:02:41 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
-
-size_t ft_strlen(char *str)
-{
-	size_t len;
-
-	len = 0;
-	while (str && str[len])
-		len++;
-	return (len);
-}
-
-void *init_dyn_arr(int nb, int size)
-{
-	int *arr;
-
-	arr = malloc(size * nb);
-	if(!arr)
-		return (NULL);
-	memset(arr, 0, size * nb);
-	return (arr);
-}
-
-int	max(int a, int b)
-{
-	if (a < b)
-		return (b);
-	return (a);
-}
 
 size_t	get_str_arr_len(char **str_arr)
 {
@@ -85,4 +57,12 @@ int	get_dongle_id(int id, int number_of_coder, int type)
 			return (id - 1);
 	}
 	return (-1);
+}
+
+void	get_dongle_arr(size_t id, int params[8], int dongle[2])
+{
+	dongle[LEFT] = get_dongle_id(id, params[number_of_coders], LEFT);
+	dongle[RIGHT] = get_dongle_id(id, params[number_of_coders], RIGHT);
+	if (id == 2)
+		assert(dongle[LEFT] == 1 && dongle[RIGHT] == 2);
 }

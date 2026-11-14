@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 05:27:38 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/12 00:39:43 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 12:45:15 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void *push_request_routine(void *data)
     // assert(!pthread_mutex_unlock(&coder->queue->queue_mutex));
     while (i < 10)
     {
-        assert(request_new_node(coder));
+        assert(request_push(coder));
         i++;
         usleep(100000);
     }

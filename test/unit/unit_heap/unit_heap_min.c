@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 07:39:28 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/04 14:39:27 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 12:31:46 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void unit_heap_min_pop(t_heap *heap)
 	START_TEST;
 	t_heap_node *n;
 	
-    write(STDOUT_FILENO,BBLU"\tExpected error msg --> "CRESET, ft_strlen(BBLU"\tExpected error msg -->"CRESET));
+    write(STDOUT_FILENO,BBLU"\tExpected error msg --> "CRESET, strlen(BBLU"\tExpected error msg -->"CRESET));
 	assert(!heap_pop(heap, NULL));
 
 	while (heap->heap_size)

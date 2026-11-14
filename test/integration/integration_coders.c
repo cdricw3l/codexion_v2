@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 09:52:15 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/11 10:47:53 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/14 12:45:15 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void *coder_routine(void *data)
     t_request *request;
 
     coder = (t_coder *)data;
-    request = request_new_node(coder);
+    request = request_push(coder);
     assert(request_push(coder->queue, request));
     return (NULL);
 }
