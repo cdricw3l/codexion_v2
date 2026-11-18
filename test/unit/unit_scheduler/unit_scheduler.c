@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/13 12:43:30 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 00:03:27 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/18 01:04:20 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,5 +149,10 @@ void unit_scheduler(void)
         assert(scheduler->heaps[i]->heap_size == 0);
         i++;
     }
+
+    sim_clean(&sim);
+    scheduler_clean(&scheduler);
+    free(dongle);
+    free(coders);
     END_TEST;
 }

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 05:48:12 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/08 14:07:30 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/18 01:05:23 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*scheduler_clean(t_scheduler **s)
 	scheduler = *s;
 	i = 0;
 	while (i < scheduler->params[number_of_coders])
-		free(scheduler->heaps[i++]);
+		free(&scheduler->heaps[i++]);
 	free(scheduler->heaps);
 	free(*s);
 	*s = NULL;

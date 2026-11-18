@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 15:20:53 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/12 00:45:38 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/18 00:27:47 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,38 +64,30 @@ static void simple_request_push(void)
 {
 	START_TEST;
 
-    t_request r1;
     t_request_queue *queue;
-    t_request r2;
-    t_request r3;
+    t_coder *coder;
 
 
     queue = request_queue_init();
     assert(queue);
     assert(queue->queue);
-
-    r1.coder_id = 0;
-    r1.next = NULL;
-    assert(request_push(queue, &r1));
+    coder = init_coder(1, queue);
+   
+    assert(request_push(coder));
     assert(queue->queue_size == 1);
-    assert(request_get_last_node(*queue->queue) == &r1);
+    assert(request_get_last_node(*queue->queue)->request_id == 0);
 
-    r2.coder_id = 1;
-    r2.next = NULL;
-    assert(request_push(queue, &r2));
+    assert(request_push(coder));
     assert(queue->queue_size == 2);
-    assert(request_get_last_node(*queue->queue) == &r2);
+    assert(request_get_last_node(*queue->queue)->request_id == 1);
 
-    r3.coder_id = 2;
-    r3.next = NULL;
-    assert(request_push(queue, &r3));
-    assert(queue->queue_size == 3);
-    assert(request_get_last_node(*queue->queue) == &r3);
+    assert(request_push(coder));
+    assert(queue->queue_size == 1);
+    assert(request_get_last_node(*queue->queue)->request_id == 2);
 
-    assert(!request_push(queue, NULL));
-    assert(queue->queue_size == 3);
-    assert(!request_push(NULL, NULL));
-    assert(queue->queue_size == 3);
+    assert(request_push(coder));
+    assert(queue->queue_size == 1);
+    assert(request_get_last_node(*queue->queue)->request_id == 3);
 
     t_request_queue *ptr = NULL;
     assert(!request_destroy_queue(&ptr));

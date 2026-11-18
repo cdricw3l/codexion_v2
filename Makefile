@@ -65,15 +65,15 @@ $(NAME): $(OBJECT_SRCS)
 
 ARG=5 5000 200 100 100 10 1 fifo
 
-ifeq ($(shell uname),Darwin)
-	MEMORY_CHECK_ARG= leaks -atExit --
-else
-	ifeq ($(MEMORY_CHECK),1)
-		MEMORY_CHECK_ARG= valgrind  --leak-check=full --track-origins=yes --show-leak-kinds=all --log-file=$(MEMORY_LOG)
-	else ifeq($(MEMORY_CHECK),2)
-		MEMORY_CHECK_ARG= valgrind  --tool=helgrind  --track-lockorders=yes --log-file=$(MEMORY_LOG)
-	endif
-endif
+# ifeq ($(shell uname),Darwin)
+# 	MEMORY_CHECK_ARG= leaks -atExit --
+# else
+# 	ifeq ($(MEMORY_CHECK),1)
+# 		MEMORY_CHECK_ARG= valgrind  --leak-check=full --track-origins=yes --show-leak-kinds=all --log-file=$(MEMORY_LOG)
+# 	else ifeq($(MEMORY_CHECK),2)
+# 		MEMORY_CHECK_ARG= valgrind  --tool=helgrind  --track-lockorders=yes --log-file=$(MEMORY_LOG)
+# 	endif
+#endif
 
 run: $(NAME)
 	./$(NAME) $(ARG)

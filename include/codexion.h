@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 15:11:26 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/18 00:43:40 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,7 @@ void			request_clear_queue(t_request_queue *queue);
 size_t			request_get_queue_size(t_request_queue *queue);
 void			request_display_queue(t_request_queue *queue);
 void			request_display_node(t_request *request);
+void			destroy_request(t_request *request);
 
 /****************************************** TIME MODULE */
 
