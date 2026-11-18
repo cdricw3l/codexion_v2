@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 04:29:53 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 12:31:42 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/18 16:47:07 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,13 @@ t_heap_node	*heap_pop(t_heap *heap, int (*cmp)(t_heap_node *, t_heap_node *))
 		return (NULL);
 	if (!cmp)
 		return (heap_pop_err_msg(CMP_ERR));
+	if (heap->heap_size == 1)
+	{
+		node = heap->queue[0];
+		heap->heap_size--;
+		*heap->queue = NULL;
+		return (node);
+	}
 	heap_swap_node(heap->queue[0], heap->queue[heap->heap_size - 1]);
 	new_queue = malloc(sizeof(t_heap_node *) * (heap->heap_size - 1));
 	if (!new_queue)

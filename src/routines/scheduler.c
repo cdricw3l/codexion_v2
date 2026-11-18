@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/18 01:03:11 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/18 16:49:07 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static void	process_request(int dongle_id[2], t_scheduler *scheduler,
 {
 	t_request	*request_left;
 	t_request	*request_right;
-	t_heap_node *n1;
-	t_heap_node *n2;
+	t_heap_node	*n1;
+	t_heap_node	*n2;
 
 	request_left = (t_request *)node_left->content;
 	request_right = (t_request *)node_right->content;
@@ -54,10 +54,10 @@ static void	process_request(int dongle_id[2], t_scheduler *scheduler,
 		*request_left->can_compile = TRUE;
 		assert(!pthread_mutex_unlock(request_left->can_compile_mu));
 		assert(!pthread_cond_signal(request_left->can_compile_cond));
-		/* n1->content and n2->content are same content. Only one content free*/
 		free(n1->content);
 		free(n1);
 		free(n2);
+		/* n1->content and n2->content are same content. Only one content free*/
 		
 	}
 }
@@ -81,7 +81,10 @@ void	who_can_compile(t_scheduler *scheduler)
 		}
 		node_left = scheduler->heaps[dongle_id[LEFT]]->queue[0];
 		node_right = scheduler->heaps[dongle_id[RIGHT]]->queue[0];
-		process_request(dongle_id, scheduler, node_left, node_right);
+		if (node_left && node_right)
+		{
+			process_request(dongle_id, scheduler, node_left, node_right);
+		}
 		i++;
 	}
 }
@@ -104,9 +107,10 @@ void	*scheduler_routine(void *data)
 			get_dongle_arr(request->coder_id, scheduler->params, dongle);
 			assert(heap_push(scheduler->heaps[dongle[LEFT]], node, fifo));
 			assert(heap_push(scheduler->heaps[dongle[RIGHT]], node, fifo));
-			who_can_compile(scheduler);
-			usleep(100000);
+			
 		}
+		who_can_compile(scheduler);
+		usleep(100000);
 	}
 	return (NULL);
 }

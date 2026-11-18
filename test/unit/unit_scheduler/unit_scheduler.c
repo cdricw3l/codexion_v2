@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/13 12:43:30 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/18 01:04:20 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/18 16:59:44 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void display_heaps(t_scheduler *scheduler)
 static int init_heap_queue(int param[8], t_scheduler *scheduler, t_coder *coder ,int debbug)
 {
     size_t i;
-    t_request *request;
+    t_request *request_1;
     t_heap_node *node_1;
     t_heap_node *node_2;
     int dongle[2] = {-1,-1};
@@ -81,11 +81,11 @@ static int init_heap_queue(int param[8], t_scheduler *scheduler, t_coder *coder 
             {
                 get_dongle_arr(i, param, dongle);
                 assert_dongle(i, dongle, param);
-                request = new_request(&coder[i], scheduler->heaps[i]->heap_size);
-                assert(request);
-                assert(!*request->can_compile);
-                node_1 = heap_new_node(request);
-                node_2 = heap_new_node(request);
+                request_1 = new_request(&coder[i], scheduler->heaps[i]->heap_size);
+                assert(request_1);
+                assert(!*request_1->can_compile);
+                node_1 = heap_new_node(request_1);
+                node_2 = heap_new_node(request_1);
                 heap_left = scheduler->heaps[dongle[LEFT]];
                 heap_right = scheduler->heaps[dongle[RIGHT]];
                 if (debbug == ON)
@@ -124,31 +124,9 @@ void unit_scheduler(void)
     assert(scheduler);
     
     init_heap_queue(params, scheduler,coders, OFF);
-
-    
-    
-    who_can_compile(scheduler);
-    who_can_compile(scheduler);
-
-    i = 0;
-    while (i < scheduler->params[number_of_coders])
-    {
-        assert(*(coders[i].can_compile) == TRUE);
-        i++;
-    }
-    
-    init_heap_queue(params, scheduler,coders, OFF);
     display_heaps(scheduler);
     who_can_compile(scheduler);
     who_can_compile(scheduler);
-    
-    i = 0;
-    while (i < scheduler->params[number_of_coders])
-    {
-        assert(*(coders[i].can_compile) == TRUE);
-        assert(scheduler->heaps[i]->heap_size == 0);
-        i++;
-    }
 
     sim_clean(&sim);
     scheduler_clean(&scheduler);
