@@ -1,4 +1,6 @@
-*This project has been created as part of the 42 curriculum by .*
+*This project has been created as part of the 42 curriculum by cebouhad*
+
+![Texte alternatif](codexion.png)
 
 # 🔄 Template
 

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/18 16:49:07 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/18 17:17:06 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ void	*scheduler_routine(void *data)
 {
 	t_scheduler	*scheduler;
 	t_request	*request;
-	t_heap_node	*node;
+	t_heap_node	*node_1;
+	t_heap_node	*node_2;
 	int			dongle[2];
 
 	scheduler = (t_scheduler *)data;
@@ -103,10 +104,11 @@ void	*scheduler_routine(void *data)
 		request = request_pop(scheduler->queue);
 		if (request)
 		{
-			node = heap_new_node(request);
+			node_1 = heap_new_node(request);
+			node_2 = heap_new_node(request);
 			get_dongle_arr(request->coder_id, scheduler->params, dongle);
-			assert(heap_push(scheduler->heaps[dongle[LEFT]], node, fifo));
-			assert(heap_push(scheduler->heaps[dongle[RIGHT]], node, fifo));
+			assert(heap_push(scheduler->heaps[dongle[LEFT]], node_1, fifo));
+			assert(heap_push(scheduler->heaps[dongle[RIGHT]], node_2, fifo));
 			
 		}
 		who_can_compile(scheduler);

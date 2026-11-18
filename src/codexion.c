@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:28:27 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 15:15:57 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/18 17:11:56 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 	t_scheduler		*scheduler;
 	t_monitoring	*monitoring;
 	clock_t			start;
-	pthread_t		monitor_thread;
+	// pthread_t		monitor_thread;
 	pthread_t		scheduler_thread;
 
 	if (!parse_arguments(&argv[1], params))
@@ -70,11 +70,11 @@ int	main(int argc, char **argv)
 	set_sim_state(&sim->simulation_state, sim->simulation_state_mu, ON);
 	assert(launch_coders(sim, coders, coder_routine, start));
 	assert(!pthread_create(&scheduler_thread, NULL, scheduler_routine, scheduler));
-	assert(!pthread_create(&monitor_thread, NULL, monitoring_routine, monitoring));
+	// assert(!pthread_create(&monitor_thread, NULL, monitoring_routine, monitoring));
 	joint_coders(sim);
 	set_sim_state(&sim->simulation_state, sim->simulation_state_mu, OFF);
 	pthread_join(scheduler_thread, NULL);
-	pthread_join(monitor_thread, NULL);
+	// pthread_join(monitor_thread, NULL);
 	sim_clean(&sim);
 	free(dongles);
 	free(coders);
