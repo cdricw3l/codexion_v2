@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 04:29:53 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/18 20:55:11 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/18 21:04:10 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ t_heap_node	*heap_pop(t_heap *heap, int (*cmp)(t_heap_node *, t_heap_node *))
 
 	if (!heap || !heap->queue || heap->heap_size <= 0)
 		return (NULL);
-	if (!cmp)
-		return (heap_pop_err_msg(CMP_ERR));
 	if (heap->heap_size == 1)
 	{
 		node = heap->queue[0];

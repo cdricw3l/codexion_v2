@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 15:01:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 11:33:09 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 00:27:18 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*monitoring_routine(void *data)
 {
 	t_monitoring	*monitor;
-	clock_t			last_compil;
+	uint64_t			last_compil;
 	int				i;
 
 	monitor = (t_monitoring *)data;
@@ -35,6 +35,7 @@ void	*monitoring_routine(void *data)
 					monitor->simulation_state_mu, OFF);
 				return (NULL);
 			}
+			usleep(10000);
 			i++;
 		}
 	}

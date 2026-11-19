@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 08:07:31 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 13:53:23 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 00:27:18 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ struct timespec	time_diff(struct timespec start, struct timespec end)
 	return (temp);
 }
 
-clock_t	time_calculation(struct timespec time)
+uint64_t	time_calculation(struct timespec time)
 {
-	clock_t	n_to_sec;
+	uint64_t	n_to_sec;
 
 	n_to_sec = time.tv_sec * 1000000000;
 	return ((n_to_sec + time.tv_nsec) / 1000000);
@@ -59,9 +59,9 @@ void	set_timestamp(t_coder *coder)
 /**
  * get the timestamp of the last compilation in nano second
  */
-clock_t	get_timestamp(clock_t *timestamp, pthread_mutex_t *timestamp_mu)
+uint64_t	get_timestamp(uint64_t *timestamp, pthread_mutex_t *timestamp_mu)
 {
-	clock_t	time;
+	uint64_t	time;
 
 	pthread_mutex_lock(timestamp_mu);
 	time = *timestamp;
@@ -69,10 +69,10 @@ clock_t	get_timestamp(clock_t *timestamp, pthread_mutex_t *timestamp_mu)
 	return (time);
 }
 
-clock_t	get_now(void)
+uint64_t	get_now(void)
 {
 	struct timespec	n;
-	clock_t			now;
+	uint64_t			now;
 
 	clock_gettime(CLOCK_MONOTONIC, &n);
 	now = n.tv_nsec + (n.tv_sec * 1000000000);

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 12:17:47 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 12:21:57 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 00:27:18 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ int	joint_coders(t_sim *sim)
 		}
 		i++;
 	}
+	printf("All coder are joined\n");
 	return (TRUE);
 }
 
 int	launch_coders(t_sim *sim, t_coder *coders,
-		void *(*routine)(void *), clock_t start)
+		void *(*routine)(void *), uint64_t start)
 {
 	int	i;
 	int	even_odd;
@@ -53,6 +54,7 @@ int	launch_coders(t_sim *sim, t_coder *coders,
 			}
 			i++;
 		}
+		usleep(10000);
 		even_odd++;
 	}
 	return (TRUE);

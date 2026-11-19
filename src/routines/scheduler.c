@@ -6,36 +6,17 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/18 20:57:00 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/18 23:49:15 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
 
-int	fifo(t_heap_node *n1, t_heap_node *n2)
-{
-	t_request	*request_1;
-	t_request	*request_2;
 
-	request_1 = (t_request *)n1->content;
-	request_2 = (t_request *)n2->content;
-	if (request_1->request_id > request_2->request_id)
-		return (TRUE);
-	return (FALSE);
-}
 
-int	edf(t_heap_node *n1, t_heap_node *n2)
-{
-	t_request	*request_1;
-	t_request	*request_2;
-
-	request_1 = (t_request *)n1->content;
-	request_2 = (t_request *)n2->content;
-	if (request_1->request_id > request_2->request_id)
-		return (TRUE);
-	return (FALSE);
-}
-
+/* 
+	n1->content and n2->content are same content. Only one content free
+*/
 static void	process_request(int dongle_id[2], t_scheduler *scheduler,
 		t_heap_node *node_left, t_heap_node *node_right)
 {
@@ -46,21 +27,25 @@ static void	process_request(int dongle_id[2], t_scheduler *scheduler,
 
 	request_left = (t_request *)node_left->content;
 	request_right = (t_request *)node_right->content;
+
 	if (request_left->coder_id == request_right->coder_id)
 	{
+
 		assert(dongle_id[LEFT] != dongle_id[RIGHT]);
 		n1 = heap_pop(scheduler->heaps[dongle_id[LEFT]], fifo);
 		n2 = heap_pop(scheduler->heaps[dongle_id[RIGHT]], fifo);
 		assert(!pthread_mutex_lock(request_left->can_compile_mu));
 		*request_left->can_compile = TRUE;
-		assert(!pthread_mutex_unlock(request_left->can_compile_mu));
+		//printf("coder  %ld ok on %p\n", request_left->coder_id, request_left->can_compile_cond);
+		assert(*request_left->can_compile == TRUE);
 		assert(!pthread_cond_signal(request_left->can_compile_cond));
-		/* n1->content and n2->content are same content. Only one content free*/
+		assert(!pthread_mutex_unlock(request_left->can_compile_mu));
+
 		free(n1->content);
 		free(n1);
 		free(n2);
-		
 	}
+	
 }
 
 void	who_can_compile(t_scheduler *scheduler)
@@ -91,6 +76,34 @@ void	who_can_compile(t_scheduler *scheduler)
 	}
 }
 
+void *clean_request_queue(t_scheduler *scheduler)
+{
+	size_t i;
+	size_t j;
+	t_request *r;
+	t_request **q;
+
+	i = 0;
+	q = scheduler->queue->queue;
+	while (i < scheduler->queue->queue_size)
+		pthread_cond_signal(q[i++]->can_compile_cond);
+	i = 0;
+	while (i < scheduler->params[number_of_coders])
+	{
+		j = 0;
+		while(j < scheduler->heaps[i]->heap_size)
+		{
+
+			r = scheduler->heaps[i]->queue[j]->content;
+			request_display_node(r);
+			pthread_cond_signal(r->can_compile_cond);
+			j++;
+		}
+		i++;
+	}
+	return (NULL);
+}
+
 void	*scheduler_routine(void *data)
 {
 	t_scheduler	*scheduler;
@@ -111,10 +124,8 @@ void	*scheduler_routine(void *data)
 			get_dongle_arr(request->coder_id, scheduler->params, dongle);
 			assert(heap_push(scheduler->heaps[dongle[LEFT]], node_1, fifo));
 			assert(heap_push(scheduler->heaps[dongle[RIGHT]], node_2, fifo));
-			
 		}
 		who_can_compile(scheduler);
-		usleep(100000);
 	}
-	return (NULL);
+	return (clean_request_queue(scheduler));
 }

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/18 00:43:40 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 00:27:37 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>    // read, write, close, fork... (POSIX)
 # include <time.h>      //time
 # include <assert.h>      
+#include <stdint.h>
 # include "color_codes.h"
 # include <pthread.h>
 # include <stdbool.h>
@@ -80,7 +81,7 @@ typedef struct s_monitoring
 	int				params[8];
 	int				*simulation_state;
 	pthread_mutex_t	*simulation_state_mu;
-	clock_t			*timestamp;
+	uint64_t			*timestamp;
 	pthread_mutex_t	*timestamp_mu;
 	t_coder			*coders;
 
@@ -108,7 +109,7 @@ typedef struct s_dongles
 struct s_coder
 {
 	int				params[8];
-	clock_t			simulation_start;
+	uint64_t			simulation_start;
 	int				*simulation_state;
 	pthread_mutex_t	*simulation_state_mu;
 	size_t			coder_id;
@@ -118,7 +119,7 @@ struct s_coder
 	t_request_queue	*queue;
 	t_dongles		*dongle_left;
 	t_dongles		*dongle_right;
-	clock_t			*timestamp;
+	uint64_t			*timestamp;
 	pthread_mutex_t	*timestamp_mu;
 	pthread_mutex_t	*display_mu;
 
@@ -133,7 +134,7 @@ typedef struct s_sim
 	bool			*can_compile;
 	pthread_mutex_t	*can_compile_mu;
 	pthread_cond_t	*can_compile_cond;
-	clock_t			*timestamp;
+	uint64_t			*timestamp;
 	pthread_mutex_t	*timestamp_mu;
 	t_request_queue	*queue;
 	pthread_mutex_t	*request_queue_mu;
@@ -177,7 +178,7 @@ struct s_request
 	bool			*can_compile;
 	pthread_cond_t	*can_compile_cond;
 	pthread_mutex_t	*can_compile_mu;
-	clock_t			*last_compile;
+	uint64_t			*last_compile;
 	void			*next;
 
 } ;
@@ -195,11 +196,11 @@ void			destroy_request(t_request *request);
 
 /****************************************** TIME MODULE */
 
-clock_t			get_now(void);
+uint64_t			get_now(void);
 /* peut etre pas utile time_diff*/
 struct timespec	time_diff(struct timespec start, struct timespec end);
 void			set_timestamp(t_coder *coder);
-clock_t			get_timestamp(clock_t *timestamp,
+uint64_t			get_timestamp(uint64_t *timestamp,
 					pthread_mutex_t *timestamp_mu);
 
 /****************************************** DISPLAY MODULE */
@@ -210,7 +211,7 @@ void			display_params(int params[8], int nb);
 /****************************************** THREAD MANAGMENT MODULE */
 
 int				launch_coders(t_sim *sim, t_coder *coders,
-					void *(*routine)(void *), clock_t start);
+					void *(*routine)(void *), uint64_t start);
 int				joint_coders(t_sim *sim);
 
 /****************************************** ROUTINE MODULE */

@@ -2,9 +2,13 @@
 
 ![Texte alternatif](codexion.png)
 
-# 🔄 Template
 
 ## 📖 Description
+
+## Sheduler
+
+![Texte alternatif](src/routines/scheduler_thread.png)
+
 
 ## ⚙️ Instructions
 

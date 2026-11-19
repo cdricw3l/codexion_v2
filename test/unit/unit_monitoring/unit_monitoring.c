@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 20:25:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 15:19:27 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 00:27:18 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static void	unit_action(t_coder *coder, int action)
 
 int check_timestamp(t_monitoring *monitor, size_t coder_id)
 {
-    clock_t now;
-    clock_t elapsed;
+    uint64_t now;
+    uint64_t elapsed;
 
     now = get_now();
 
@@ -116,7 +116,7 @@ void *unit_coder_monitor_routine(void *data)
 static void unit_monitoring_thread(t_sim *sim, t_coder *coder, t_monitoring *monitor)
 {
     START_TEST;
-    clock_t start;
+    uint64_t start;
     pthread_t monitor_thread;
 
     set_sim_state(&sim->simulation_state, sim->simulation_state_mu, ON);
