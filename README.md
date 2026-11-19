@@ -5,9 +5,7 @@
 
 ## 📖 Description
 
-## Sheduler
 
-![Texte alternatif](src/routines/scheduler_thread.png)
 
 
 ## ⚙️ Instructions
@@ -34,6 +32,10 @@ make test TYPE=unit MEMORY_CHECK=1
 ### Cleaning
 
 ## 🏗️ Project Structure
+
+## Scheduler / coder relationship
+
+![Texte alternatif](src/routines/scheduler_thread.png)
 
 ## 💵 Bonus
 
