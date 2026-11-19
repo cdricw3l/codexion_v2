@@ -38,6 +38,8 @@ static t_request	*new_request(t_coder *coder)
 	if (!request)
 		return (err_msg(BRED"Error malloc allocation new request"CRESET));
 	request->coder_id = coder->coder_id;
+	request->dongle_l = coder->dongle_left;
+	request->dongle_r = coder->dongle_right;
 	request->last_compile = coder->timestamp;
 	request->request_id = coder->queue->request_counter;
 	request->can_compile_cond = coder->can_compile_cond;

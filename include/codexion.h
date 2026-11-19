@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 00:27:37 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 04:09:10 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ typedef struct s_monitoring
 	int				params[8];
 	int				*simulation_state;
 	pthread_mutex_t	*simulation_state_mu;
-	uint64_t			*timestamp;
+	uint64_t		*timestamp;
 	pthread_mutex_t	*timestamp_mu;
 	t_coder			*coders;
 
@@ -101,8 +101,11 @@ typedef struct s_scheduler
 typedef struct s_dongles
 {
 	size_t			id;
+	size_t			is_used;
 	time_t			last_use;
 	pthread_mutex_t	*dongle;
+	pthread_mutex_t	is_used_mu;
+
 
 }	t_dongles;
 
@@ -178,7 +181,9 @@ struct s_request
 	bool			*can_compile;
 	pthread_cond_t	*can_compile_cond;
 	pthread_mutex_t	*can_compile_mu;
-	uint64_t			*last_compile;
+	uint64_t		*last_compile;
+	t_dongles		*dongle_l;
+	t_dongles		*dongle_r;
 	void			*next;
 
 } ;
@@ -240,5 +245,8 @@ int				get_sim_state(int *state, pthread_mutex_t *state_mutex);
 void			set_sim_state(int *state, pthread_mutex_t *state_mutex,
 					int new_state);
 void			get_dongle_arr(size_t id, int params[8], int dongle[2]);
+int 			get_dongle_state(t_dongles *dongle);
+void 			set_can_compile(t_coder *coder, bool value);
+bool 			get_can_compile(t_coder *coder);
 
 #endif

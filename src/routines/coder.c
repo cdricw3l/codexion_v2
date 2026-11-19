@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/18 23:52:30 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 04:27:43 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,66 @@ static void	action(t_coder *coder, int action)
 		usleep(coder->params[time_to_refactor] * 1000);
 }
 
+void set_dongle_state(t_dongles *dongle, int state)
+{
+	pthread_mutex_lock(&dongle->is_used_mu);
+	dongle->is_used = state;
+	pthread_mutex_unlock(&dongle->is_used_mu);
+}
+
+int get_dongle_state(t_dongles *dongle)
+{
+	int state;
+
+	pthread_mutex_lock(&dongle->is_used_mu);
+	state = dongle->is_used;
+	pthread_mutex_unlock(&dongle->is_used_mu);
+	return (state);
+}
+
+void set_can_compile(t_coder *coder, bool value)
+{
+	pthread_mutex_lock(coder->can_compile_mu);
+	*coder->can_compile = value;
+	pthread_mutex_unlock(coder->can_compile_mu);
+}
+
+bool get_can_compile(t_coder *coder)
+{
+	bool value;
+
+	pthread_mutex_lock(coder->can_compile_mu);
+	value = *coder->can_compile;
+	pthread_mutex_unlock(coder->can_compile_mu);
+	return (value);
+}
+
 static void	coder_action(t_coder *coder)
 {
-	//printf("Coder %ld: before right lock\n", coder->coder_id);
 	pthread_mutex_lock(coder->dongle_right->dongle);
-
-	//printf("Coder %ld: before left lock\n", coder->coder_id);
 	pthread_mutex_lock(coder->dongle_left->dongle);
 
-	//printf("Coder %ld: both dongles acquired\n", coder->coder_id);
+	set_dongle_state(coder->dongle_left, ON);
+	set_dongle_state(coder->dongle_right, ON);
+	
 	display_action(coder, COMPILE);
 	action(coder, COMPILE);
 	pthread_mutex_unlock(coder->dongle_right->dongle);
 	pthread_mutex_unlock(coder->dongle_left->dongle);
-	*coder->can_compile = FALSE;
-	pthread_mutex_unlock(coder->can_compile_mu);
+	set_dongle_state(coder->dongle_left, OFF);
+	set_dongle_state(coder->dongle_right, OFF);
 	display_action(coder, DEBUG);
 	action(coder, DEBUG);
 	display_action(coder, REFACTO);
 	action(coder, REFACTO);
 }
 
-static int	create_and_push_request(t_coder *coder)
+static void wait(t_coder *coder)
 {
-	return (request_push(coder));
+	pthread_mutex_lock(coder->can_compile_mu);
+	while (*coder->can_compile == FALSE)
+		pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
+	pthread_mutex_unlock(coder->can_compile_mu);
 }
 
 void	*coder_routine(void *data)
@@ -57,28 +93,34 @@ void	*coder_routine(void *data)
 	t_coder		*coder;
 
 	coder = (t_coder *)data;
+	
+	wait(coder);
+
+	
 	i = 0;
+	assert(get_sim_state(coder->simulation_state, coder->simulation_state_mu));
 	while (i < coder->params[number_of_compiles_required]
 		&& get_sim_state(coder->simulation_state, coder->simulation_state_mu))
 	{
-		if (!create_and_push_request(coder))
+		if (!request_push(coder))
 		{
+
 			set_sim_state(coder->simulation_state,
 				coder->simulation_state_mu, OFF);
 			return (NULL);
 		}
+		
 		pthread_mutex_lock(coder->can_compile_mu);
 		while (get_sim_state(coder->simulation_state, coder->simulation_state_mu) && *coder->can_compile == FALSE)
-		{	
 			pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
-		}
-		*coder->can_compile = FALSE;
 
 		/* if a coder burn, the scheduler send signal to all the coder. We dont want to display action, We want to stop the simulation */
 		if (get_sim_state(coder->simulation_state, coder->simulation_state_mu))
 		{
 			//printf("Coder %ld: entering action\n", coder->coder_id);
 			coder_action(coder);
+			*coder->can_compile = FALSE;
+			pthread_mutex_unlock(coder->can_compile_mu);
 		}
 		else
 		{

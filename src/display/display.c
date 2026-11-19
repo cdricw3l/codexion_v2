@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 05:55:52 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 00:27:18 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 04:26:53 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,12 @@ void	display_action(t_coder *coder, int action)
 	if (!get_sim_state(coder->simulation_state, coder->simulation_state_mu))
 		return ;
 	pthread_mutex_lock(coder->display_mu);
-	if (action == TAKE)
+	if (action == COMPILE)
 	{
 		printf("%ld %ld has taken dongle\n", time, coder->coder_id);
 		printf("%ld %ld has taken dongle\n", time, coder->coder_id);
-	}
-	if (action == COMPILE)
 		printf("%ld %ld is compiling\n", time, coder->coder_id);
+	}
 	if (action == DEBUG)
 		printf("%ld %ld is debugging\n", time, coder->coder_id);
 	if (action == REFACTO)
