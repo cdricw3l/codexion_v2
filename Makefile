@@ -51,7 +51,7 @@ SRCS=	src/codexion.c \
 
 OBJECT_SRCS= $(SRCS:.c=.o)
 MEMORY_CHECK ?=0
-MEMORY_LOG= memory.log
+MEMORY_LOG= memory_report.log
 
 #### TEST VARIABLE ###
 TEST_FOLDER= test
@@ -85,7 +85,7 @@ endif
 
 clean:
 	make -C $(TEST_FOLDER) clean
-	rm -f $(OBJECT_SRCS)
+	rm -f $(OBJECT_SRCS) $(MEMORY_LOG)
 
 fclean: clean
 	make -C $(TEST_FOLDER) fclean

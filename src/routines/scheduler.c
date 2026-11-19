@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/18 17:17:06 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/18 20:57:00 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,17 @@ static void	process_request(int dongle_id[2], t_scheduler *scheduler,
 	request_right = (t_request *)node_right->content;
 	if (request_left->coder_id == request_right->coder_id)
 	{
+		assert(dongle_id[LEFT] != dongle_id[RIGHT]);
 		n1 = heap_pop(scheduler->heaps[dongle_id[LEFT]], fifo);
 		n2 = heap_pop(scheduler->heaps[dongle_id[RIGHT]], fifo);
 		assert(!pthread_mutex_lock(request_left->can_compile_mu));
 		*request_left->can_compile = TRUE;
 		assert(!pthread_mutex_unlock(request_left->can_compile_mu));
 		assert(!pthread_cond_signal(request_left->can_compile_cond));
+		/* n1->content and n2->content are same content. Only one content free*/
 		free(n1->content);
 		free(n1);
 		free(n2);
-		/* n1->content and n2->content are same content. Only one content free*/
 		
 	}
 }
@@ -83,6 +84,7 @@ void	who_can_compile(t_scheduler *scheduler)
 		node_right = scheduler->heaps[dongle_id[RIGHT]]->queue[0];
 		if (node_left && node_right)
 		{
+			assert(node_left && node_right);
 			process_request(dongle_id, scheduler, node_left, node_right);
 		}
 		i++;
