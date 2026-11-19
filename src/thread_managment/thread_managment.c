@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 12:17:47 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 00:27:18 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 03:23:46 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,18 @@ int	launch_coders(t_sim *sim, t_coder *coders,
 		void *(*routine)(void *), uint64_t start)
 {
 	int	i;
-	int	even_odd;
-
-	even_odd = 0;
-	while (even_odd < 2)
+	
+	i = 0;
+	while (i < sim->params[number_of_coders])
 	{
-		i = 0;
-		while (i < sim->params[number_of_coders])
+		coders[i].simulation_start = start;
+		set_timestamp(&coders[i]);
+		if (pthread_create(&sim->thread[i], NULL, routine, &coders[i]))
 		{
-			if (i % 2 == even_odd)
-			{
-				coders[i].simulation_start = start;
-				set_timestamp(&coders[i]);
-				if (pthread_create(&sim->thread[i], NULL, routine, &coders[i]))
-				{
-					err_msg("Error lauch thread coder\n");
-					return (FALSE);
-				}
-			}
-			i++;
+			err_msg("Error lauch thread coder\n");
+			return (FALSE);
 		}
-		usleep(10000);
-		even_odd++;
+		i++;
 	}
 	return (TRUE);
 }

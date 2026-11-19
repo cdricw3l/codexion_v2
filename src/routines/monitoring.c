@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 15:01:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 00:27:18 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 04:37:40 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ void	*monitoring_routine(void *data)
 		{
 			last_compil = get_timestamp(monitor->coders[i].timestamp,
 					monitor->coders[i].timestamp_mu);
-			if ((get_now() - last_compil) / 1000000
-				> monitor->params[time_to_burnout])
+			if ((get_now() - last_compil) 
+				>=  monitor->params[time_to_burnout] * 1000000ULL)
 			{
-				display_action(&monitor->coders[i], BURNED);
 				set_sim_state(monitor->simulation_state,
 					monitor->simulation_state_mu, OFF);
+				display_action(&monitor->coders[i], BURNED);
 				return (NULL);
 			}
-			usleep(10000);
 			i++;
 		}
+		usleep(10000);
 	}
 	return (NULL);
 }

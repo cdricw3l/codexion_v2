@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:28:27 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 00:27:18 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 04:30:02 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,23 @@ int	main(int argc, char **argv)
 	set_sim_state(&sim->simulation_state, sim->simulation_state_mu, ON);
 	assert(launch_coders(sim, coders, coder_routine, start));
 	assert(!pthread_create(&scheduler_thread, NULL, scheduler_routine, scheduler));
+	size_t z;
+
+	z = 0;
+	while (z < params[number_of_coders])
+	{
+		pthread_mutex_lock(coders[z].can_compile_mu);
+		*coders[z].can_compile = TRUE;
+		pthread_cond_signal(coders[z].can_compile_cond);
+		pthread_mutex_unlock(coders[z].can_compile_mu);
+
+		z++;
+	}
 	assert(!pthread_create(&monitor_thread, NULL, monitoring_routine, monitoring));
 	joint_coders(sim);
+	set_sim_state(&sim->simulation_state, sim->simulation_state_mu, OFF);
 	pthread_join(monitor_thread, NULL);
 	pthread_join(scheduler_thread, NULL);
-
 	sim_clean(&sim);
 	free(dongles);
 	free(coders);
