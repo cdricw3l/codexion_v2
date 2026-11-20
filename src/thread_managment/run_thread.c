@@ -20,23 +20,7 @@
 
 
 
-int	joint_coders(t_sim *sim)
-{
-	int	i;
 
-	i = 0;
-	while (i < sim->params[number_of_coders])
-	{
-		if (pthread_join(sim->thread[i], NULL))
-		{
-			err_msg("Error join thread coder\n");
-			return (false);
-		}
-		i++;
-	}
-	printf("All coder are joined\n");
-	return (true);
-}
 
 int launch_monitor(t_sim *sim, t_monitoring *monitor)
 {

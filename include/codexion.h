@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 00:57:19 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 01:05:32 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@
 # define ON 1
 # define CODER_MAX 200
 # define PARAMS_SIZE 8
+#define SCHEDULER_THREAD 0
+#define MONITOR_THREAD 1
+#define CODERS_THREAD_START 2
 
 enum e_action
 {
@@ -119,7 +122,7 @@ int				launch_coders(t_sim *sim, t_coder *coders);
 int				launch_scheduler(t_sim *sim, t_scheduler *scheduler);
 int				launch_monitor(t_sim *sim, t_monitoring *);
 
-int				joint_coders(t_sim *sim);
+void			joint_thread(t_sim *sim);
 
 /****************************************** ROUTINE MODULE */
 
