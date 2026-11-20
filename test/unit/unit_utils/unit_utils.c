@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 13:07:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 06:50:37 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void unit_get_param(int params[8])
     params[time_to_refactor] = 100;
     params[number_of_compiles_required] = 10;
     params[dongle_cooldown] = 10;
-    params[scheduler] = FIFO;
+    params[arbitration] = FIFO;
 }
 
 

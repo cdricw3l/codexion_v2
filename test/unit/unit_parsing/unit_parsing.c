@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 21:08:11 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/20 06:12:52 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 06:50:20 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ static int arr_str_len(char **arr)
         i++;
     return (i);
 } 
+
+static void *unit_get_arbitration_function(int arbitration)
+{
+	if (arbitration == FIFO)
+		return(fifo);
+	return(edf);
+}
 
 int unit_parsing(void)
 {
@@ -40,8 +47,10 @@ int unit_parsing(void)
     assert(params[5] == 10);
     assert(params[6] == 10);
     assert(params[7] == FIFO);
+    assert(unit_get_arbitration_function(params[arbitration]) == fifo);
     assert(parse_arguments(arr_str_len(valide_arg_2),valide_arg_2,params));
     assert(params[7] == EDF);
+    assert(unit_get_arbitration_function(params[arbitration]) == edf);
 
     char *invalide_args_0[] = {"-20", "500", "200", "100", "100", "10", "10", "fifo", NULL};
     char *invalide_args_1[] = {"20", "-500", "200", "100", "100", "10", "10", "fifo", NULL};

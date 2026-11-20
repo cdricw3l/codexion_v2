@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 06:05:45 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 06:45:49 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ enum e_PARAMS
 	time_to_refactor,
 	number_of_compiles_required,
 	dongle_cooldown,
-	scheduler
+	arbitration
 };
 
 /****************************************** REQUEST MODULE */
@@ -128,6 +128,7 @@ void			*scheduler_routine(void *data);
 void			*monitoring_routine(void *data);
 void			*coder_routine(void *data);
 int				fifo(t_heap_node *n1, t_heap_node *n2);
+int				edf(t_heap_node *n1, t_heap_node *n2);
 
 /****************************************** PARSING MODULE */
 

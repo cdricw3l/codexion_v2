@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:47:25 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 04:30:08 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 06:49:02 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void check_coder(int params[8], t_coder *coders, t_sim *sim, t_dongles *dongles)
     assert(coders->params[time_to_refactor] == params[time_to_refactor]);
     assert(coders->params[number_of_compiles_required] == params[number_of_compiles_required]);
     assert(coders->params[dongle_cooldown] == params[dongle_cooldown]);
-    assert(coders->params[scheduler] == params[scheduler]);
+    assert(coders->params[arbitration] == params[arbitration]);
     while (i < params[number_of_coders])
     {
         assert(*(coders[i].timestamp)==0);
