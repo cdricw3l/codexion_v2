@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 04:25:17 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 23:38:52 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	process_request(int dongle_id[2], t_scheduler *scheduler,
 
 	request_left = (t_request *)node_left->content;
 	request_right = (t_request *)node_right->content;
+	
 	if (get_dongle_state(request_left->dongle_l) || get_dongle_state(request_left->dongle_r))
 		return ;
 	if (request_left->coder_id == request_right->coder_id)

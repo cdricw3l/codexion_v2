@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 07:39:28 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 12:32:16 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 23:18:19 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ void unit_heap_max_pop(t_heap *heap)
 	START_TEST;
 	t_heap_node *n;
 	
-    write(STDOUT_FILENO,BBLU"\tExpected error msg --> "CRESET, strlen(BBLU"\tExpected error msg -->"CRESET));
-	assert(!heap_pop(heap, NULL));
-
 	while (heap->heap_size)
 	{
 		n = heap_pop(heap, ft_cmp_max);

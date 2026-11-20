@@ -59,6 +59,8 @@ int	request_push(t_coder *coder)
 	request = new_request(coder);
 	if (!request)
 		return (FALSE);
+	assert(request->dongle_r);
+	assert(request->dongle_l);
 	if (pthread_mutex_lock(&coder->queue->queue_mutex))
 	{
 		err_msg(BRED"Error mutex lock new request"CRESET);
