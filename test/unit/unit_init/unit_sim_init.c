@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 21:08:14 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 19:02:27 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 22:59:06 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void check_sim(t_sim *sim,int params[8])
     assert(!pthread_mutex_unlock(sim->request_queue_mu));
     assert(!pthread_mutex_lock(sim->display_mu));
     assert(!pthread_mutex_unlock(sim->display_mu));
+    assert(sim->simulation_state_mu);
     assert(!pthread_mutex_lock(sim->simulation_state_mu));
     assert(!pthread_mutex_unlock(sim->simulation_state_mu));
     
@@ -72,7 +73,9 @@ void unit_sim_init(void)
     if(!initialisation(&data, params))
         printf(BRED"Erreur d'initialisation"CRESET"\n");
     else
+    {
         check_sim(data.sim, params);
-    clear_data(&data, 0);
+        clear_data(&data, 0);
+    }
     END_TEST;
 }

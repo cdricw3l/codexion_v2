@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 20:21:33 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 21:45:36 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 22:51:09 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ t_sim	*sim_init(int params[8])
 	sim->queue = request_queue_init();
 	if (!sim->queue)
 		return (clean_sim(&sim));
-	sim->simulation_state = OFF;
+	set_sim_state(&sim->simulation_state, sim->simulation_state_mu, OFF);
 	return (sim);
 }

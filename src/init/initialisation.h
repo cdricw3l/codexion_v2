@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 21:20:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 21:50:51 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 22:52:28 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdint.h>
 # include <stdlib.h> 
 # include <stdbool.h> 
+# include <string.h>
 
 # define FALSE 0
 # define TRUE 1
@@ -87,16 +88,16 @@ typedef struct s_sim
 	int				params[8];
 	pthread_t		*thread;
 	int				simulation_state;
-	pthread_mutex_t	*simulation_state_mu;
-	bool			*can_compile;
-	pthread_mutex_t	*can_compile_mu;
-	pthread_cond_t	*can_compile_cond;
-	uint64_t		*timestamp;
-	pthread_mutex_t	*timestamp_mu;
 	t_request_queue	*queue;
-	pthread_mutex_t	*request_queue_mu;
-	pthread_mutex_t	*display_mu;
+	bool			*can_compile;
+	uint64_t		*timestamp;
+	pthread_cond_t	*can_compile_cond;
 	pthread_mutex_t	*dongle_mu;
+	pthread_mutex_t	*display_mu;
+	pthread_mutex_t	*timestamp_mu;
+	pthread_mutex_t	*can_compile_mu;
+	pthread_mutex_t	*request_queue_mu;
+	pthread_mutex_t	*simulation_state_mu;
 
 }	t_sim;
 

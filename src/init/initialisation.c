@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 18:23:26 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 21:45:39 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 22:59:47 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	clear_data(t_data *d, int code)
 
 int	initialisation(t_data *d, int params[8])
 {
+	memset(d, 0, sizeof(t_data));
 	d->sim = sim_init(params);
 	if (!d->sim)
 		return (ERR);
