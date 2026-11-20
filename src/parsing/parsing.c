@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 12:51:42 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 06:15:34 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ static void	save_param(char *arg, int idx, int params[8])
 		params[scheduler] = EDF;
 }
 
-int	parse_arguments(char **args, int params[8])
+int	parse_arguments(int argc, char **args, int params[8])
 {
 	int	i;
 
-	if (get_str_arr_len(args) != 8)
+	if (argc != 8)
 		return (parsing_error_msg(NB_ARG, NULL));
 	i = 0;
 	while (args[i])

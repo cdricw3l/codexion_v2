@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:28:27 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 01:11:29 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 06:20:10 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(int argc, char **argv)
 	int		params[8];
 	t_data	d;
 
-	if (!parse_arguments(&argv[1], params))
+	if (!parse_arguments(argc - 1, &argv[1], params))
 	{
 		err_msg("Error parsing arguments\n");
 		return (1);

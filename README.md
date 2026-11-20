@@ -35,7 +35,7 @@ make test TYPE=unit MEMORY_CHECK=1
 
 ## Scheduler / coder relationship
 
-![Texte alternatif](src/routines/scheduler_thread.png)
+![Texte alternatif](src/routines/routine_img/scheduler_thread.png)
 
 ## 💵 Bonus
 

@@ -30,6 +30,7 @@ SRCS=	src/codexion.c \
 		src/routines/coder.c \
 		src/routines/monitoring.c \
 		src/routines/scheduler.c \
+		src/routines/arbitration_policy.c \
 		src/heap/heap_clear.c \
 		src/heap/heap_get_node.c \
 		src/heap/heap_init.c \
@@ -46,8 +47,9 @@ SRCS=	src/codexion.c \
 		src/request/request_push.c \
 		src/request/request_pop.c \
 		src/time/time.c \
-		src/utils/utils_1.c \
-		src/utils/utils_2.c \
+		src/utils/utils.c \
+		src/utils/getter.c \
+		src/utils/setter.c \
 		src/display/display.c \
 		src/errors/error.c
 

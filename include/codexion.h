@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 01:19:19 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 06:05:45 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int				fifo(t_heap_node *n1, t_heap_node *n2);
 
 /****************************************** PARSING MODULE */
 
-int				parse_arguments(char **args, int params[8]);
+int				parse_arguments(int argc, char **args, int params[8]);
 
 /****************************************** ERROR MODULE */
 
@@ -140,16 +140,16 @@ int				parsing_error_msg(int code, char *arg);
 
 /****************************************** UTILS MODULE */
 
-size_t			get_str_arr_len(char **str_arr);
 int				ft_is_digit(int c);
 int				ft_memcopy(void *src, void *dst, unsigned long size);
+
 int				get_dongle_id(int id, int number_of_coder, int type);
 int				get_sim_state(int *state, pthread_mutex_t *state_mutex);
-void			set_sim_state(int *state, pthread_mutex_t *state_mutex,
-					int new_state);
 void			get_dongle_arr(size_t id, int params[8], int dongle[2]);
 int				get_dongle_state(t_dongles *dongle);
-void			set_can_compile(t_coder *coder, bool value);
 bool			get_can_compile(t_coder *coder);
 
+void			set_can_compile(t_coder *coder, bool value);
+void			set_dongle_state(t_dongles *dongle, int state);
+void			set_sim_state(int *stte, pthread_mutex_t *state_mu, int state);
 #endif

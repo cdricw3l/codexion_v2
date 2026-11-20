@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 00:59:55 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 05:53:46 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,40 +25,7 @@ static void	action(t_coder *coder, int action)
 		usleep(coder->params[time_to_refactor] * 1000);
 }
 
-void set_dongle_state(t_dongles *dongle, int state)
-{
-	pthread_mutex_lock(&dongle->is_used_mu);
-	dongle->is_used = state;
-	pthread_mutex_unlock(&dongle->is_used_mu);
-}
 
-int get_dongle_state(t_dongles *dongle)
-{
-	int state;
-
-	pthread_mutex_lock(&dongle->is_used_mu);
-	state = dongle->is_used;
-	pthread_mutex_unlock(&dongle->is_used_mu);
-	return (state);
-}
-
-void set_can_compile(t_coder *coder, bool value)
-{
-	pthread_mutex_lock(coder->can_compile_mu);
-	*coder->can_compile = value;
-	pthread_cond_signal(coder->can_compile_cond);
-	pthread_mutex_unlock(coder->can_compile_mu);
-}
-
-bool get_can_compile(t_coder *coder)
-{
-	bool value;
-
-	pthread_mutex_lock(coder->can_compile_mu);
-	value = *coder->can_compile;
-	pthread_mutex_unlock(coder->can_compile_mu);
-	return (value);
-}
 
 static void	coder_action(t_coder *coder)
 {

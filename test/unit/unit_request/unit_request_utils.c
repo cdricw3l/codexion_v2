@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 05:27:38 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 01:35:33 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 05:21:17 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,10 @@ void *push_request_routine(void *data)
     coder = (t_coder *)data;
     i = 0;
     assert(coder->queue);
-    assert(coder->queue->queue);
     while (i < 10)
     {
         assert(request_push(coder));
         i++;
-        usleep(100000);
     }
     return (NULL);
 }
