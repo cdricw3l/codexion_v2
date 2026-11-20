@@ -6,13 +6,13 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 21:08:14 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/08 05:52:28 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 19:02:27 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "unit_init.h"
 
-static void check_sim(t_sim *sim,int params[8])
+void check_sim(t_sim *sim,int params[8])
 {
     size_t i;
 
@@ -64,16 +64,15 @@ static void check_sim(t_sim *sim,int params[8])
 void unit_sim_init(void)
 {
     START_TEST;
-    t_sim *sim;
+    t_data  data;
     int params[8];
     
 
     unit_get_param(params);
-    sim = sim_init(params);
-    if (!sim)
-        return ;
-    check_sim(sim, params);
-    printf(BGRN"INITIALISATION OK"CRESET"\n");
-    sim_clean(&sim);
+    if(!initialisation(&data, params))
+        printf(BRED"Erreur d'initialisation"CRESET"\n");
+    else
+        check_sim(data.sim, params);
+    clear_data(&data, 0);
     END_TEST;
 }

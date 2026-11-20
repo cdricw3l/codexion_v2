@@ -1,6 +1,5 @@
 #include "../include/test.h"
 
-
 void unit_get_param(int params[8])
 {
     params[number_of_coders] = NB_CODER;
@@ -15,32 +14,11 @@ void unit_get_param(int params[8])
 
 int main(void)
 {
-    START_TEST;
+    t_data  data;
+    int     params[8];
 
-    t_coder *coder;
-    int params[8];
-    size_t i;
-
-    unit_get_param(params); 
-    coder = malloc(sizeof(t_coder));
-    if (!coder)
-        return (1);
-    coder->display_mu = init_dynamique_mutex(1);
-    coder->simulation_start = get_now();
-    coder->coder_id = 1;
-    i = 0;
-    while (i < 10)
-    {
-        display_action(coder,TAKE);
-        display_action(coder,COMPILE);
-        usleep(params[time_to_compile] * 1000);
-        display_action(coder,DEBUG);
-        usleep(params[time_to_debug] * 1000);
-        display_action(coder,REFACTO);
-        usleep(params[time_to_refactor] * 1000);
-        i++;
-    }
-    display_action(coder,END);
+    unit_get_param(params);
     
+    display_params(data.sim->params, data.sim->params[number_of_coders]);
     return (0);
 }

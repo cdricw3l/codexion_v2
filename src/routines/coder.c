@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 04:27:43 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 04:47:58 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,26 +94,20 @@ void	*coder_routine(void *data)
 
 	coder = (t_coder *)data;
 	
-	wait(coder);
-
-	
 	i = 0;
-	assert(get_sim_state(coder->simulation_state, coder->simulation_state_mu));
+	wait(coder);
 	while (i < coder->params[number_of_compiles_required]
 		&& get_sim_state(coder->simulation_state, coder->simulation_state_mu))
 	{
 		if (!request_push(coder))
 		{
-
 			set_sim_state(coder->simulation_state,
 				coder->simulation_state_mu, OFF);
 			return (NULL);
 		}
-		
 		pthread_mutex_lock(coder->can_compile_mu);
 		while (get_sim_state(coder->simulation_state, coder->simulation_state_mu) && *coder->can_compile == FALSE)
 			pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
-
 		/* if a coder burn, the scheduler send signal to all the coder. We dont want to display action, We want to stop the simulation */
 		if (get_sim_state(coder->simulation_state, coder->simulation_state_mu))
 		{
@@ -129,5 +123,6 @@ void	*coder_routine(void *data)
 		}
 		i++;
 	}
+
 	return (NULL);
 }

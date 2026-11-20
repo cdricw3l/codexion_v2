@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sim_clean.c                                        :+:      :+:    :+:   */
+/*   clean_sim.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 12:49:24 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/08 09:34:35 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 21:45:36 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/codexion.h"
+#include "../../../include/codexion.h"
 
 void	*clean_dynamique_mutex(pthread_mutex_t **mutex, int nb)
 {
@@ -48,7 +48,7 @@ void	*clean_dynamique_cond(pthread_cond_t **cond, int nb)
 	return (NULL);
 }
 
-void	*sim_clean(t_sim **sim)
+void	*clean_sim(t_sim **sim)
 {
 	if ((*sim)->thread)
 		free((*sim)->thread);

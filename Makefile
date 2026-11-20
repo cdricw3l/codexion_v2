@@ -16,14 +16,15 @@ UTILS=utils
 
 SRCS=	src/codexion.c \
 		src/parsing/parsing.c \
-		src/init/clean_scheduler.c \
-		src/init/clean_sim.c \
-		src/init/init_coders.c \
-		src/init/init_dongles.c \
-		src/init/init_monitoring.c \
-		src/init/init_scheduler.c \
-		src/init/init_sim.c \
-		src/init/init_utils.c \
+		src/init/initialisation.c \
+		src/init/initialisation_modules/clean_scheduler.c \
+		src/init/initialisation_modules/clean_sim.c \
+		src/init/initialisation_modules/init_coders.c \
+		src/init/initialisation_modules/init_dongles.c \
+		src/init/initialisation_modules/init_monitoring.c \
+		src/init/initialisation_modules/init_scheduler.c \
+		src/init/initialisation_modules/init_sim.c \
+		src/init/initialisation_modules/init_utils.c \
 		src/thread_managment/thread_managment.c \
 		src/routines/coder.c \
 		src/routines/monitoring.c \
@@ -51,7 +52,7 @@ SRCS=	src/codexion.c \
 
 OBJECT_SRCS= $(SRCS:.c=.o)
 MEMORY_CHECK ?=0
-MEMORY_LOG= memory_report.log
+MEMORY_LOG= memory_valgind_report.log
 
 #### TEST VARIABLE ###
 TEST_FOLDER= test
@@ -64,7 +65,7 @@ TYPE ?= unit
 $(NAME): $(OBJECT_SRCS)
 	@$(CC) $(CFLAGS) $(OBJECT_SRCS) -o $(NAME)
 
-ARG=8 700 200 100 100 1 1 fifo
+ARG=8 700 200 100 100 20 0 edf
 
 ifeq ($(shell uname),Darwin)
 	MEMORY_CHECK_ARG= leaks -atExit --
