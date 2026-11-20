@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 07:39:28 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 12:32:16 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:31:20 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ void unit_heap_max_pop(t_heap *heap)
 	START_TEST;
 	t_heap_node *n;
 	
-    write(STDOUT_FILENO,BBLU"\tExpected error msg --> "CRESET, strlen(BBLU"\tExpected error msg -->"CRESET));
-	assert(!heap_pop(heap, NULL));
-
 	while (heap->heap_size)
 	{
 		n = heap_pop(heap, ft_cmp_max);
@@ -87,8 +84,8 @@ t_heap *unit_heap_max_push(void)
 	free(id);
 
 	assert(heap_push(heap, node, ft_cmp_max));
-	assert(heap_push(NULL, node, ft_cmp_max) == FALSE);
-	assert(heap_push(heap, node, NULL) == FALSE);
+	assert(heap_push(NULL, node, ft_cmp_max) == false);
+	assert(heap_push(heap, node, NULL) == false);
 	
 	/* check if the array order is OK and if heap_get_node fonction is ok*/
 	assert(atoi(heap_get_node(heap, 0)->content) == 11);

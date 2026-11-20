@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 13:05:07 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 21:03:10 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 23:26:50 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_dongles	*dongle_init(t_sim *sim, int params[8])
 	{
 		dongles[i].id = i;
 		dongles[i].is_used = OFF;
-		if (pthread_mutex_init(&dongles[i].is_used_mu, NULL))
+		if (pthread_mutex_init(&(dongles[i].is_used_mu), NULL))
 			return (dongle_init_err(dongles, i));
 		dongles[i].dongle = &sim->dongle_mu[i];
 		dongles[i].last_use = 0;

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 08:07:31 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 00:27:18 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 01:14:41 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ uint64_t	get_timestamp(uint64_t *timestamp, pthread_mutex_t *timestamp_mu)
 uint64_t	get_now(void)
 {
 	struct timespec	n;
-	uint64_t			now;
+	uint64_t		now;
 
 	clock_gettime(CLOCK_MONOTONIC, &n);
 	now = n.tv_nsec + (n.tv_sec * 1000000000);

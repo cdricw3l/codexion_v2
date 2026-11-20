@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 13:18:34 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 19:17:03 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 23:26:18 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void unit_dongle_init(void)
     {
         assert(data.dongles[i].id == i);
         assert(data.dongles[i].last_use == 0);
+        assert(data.dongles[i].is_used == 0);
         assert(data.dongles[i].dongle == &data.sim->dongle_mu[i]);
         assert(!pthread_mutex_lock(data.dongles[i].dongle));
+        assert(get_dongle_state(&data.dongles[i]) == OFF);
         assert(!pthread_mutex_unlock(data.dongles[i].dongle));
         i++;
     }

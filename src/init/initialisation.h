@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 21:20:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 22:52:28 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:32:08 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 # include <stdbool.h> 
 # include <string.h>
 
-# define FALSE 0
-# define TRUE 1
 # define ERR 0
 # define OK  1
 # define FIFO 0

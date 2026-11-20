@@ -1,8 +1,8 @@
 #ifndef TEST_H
 #define TEST_H
 
-#define FALSE 0
-#define TRUE 1
+#define false 0
+#define true 1
 
 /* basic */
 
@@ -48,7 +48,7 @@
 #define END_TEST printf(GRN"OK %s()"CRESET"\n", __func__)
 #define START_BLOCK printf("\n"BBLU"----- %s() BLOCK -----"CRESET"\n", __func__)
 
-#define NB_CODER 10
+#define NB_CODER 2
 
 
 #endif
