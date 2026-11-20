@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/13 12:43:30 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 23:38:16 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:31:20 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_request *new_request(t_coder *coder, size_t i)
     assert(request);
     request->coder_id = coder->coder_id;
     request->can_compile = coder->can_compile;
-    *request->can_compile = FALSE;
+    *request->can_compile = false;
     request->can_compile_cond = coder->can_compile_cond;
     request->can_compile_mu = coder->can_compile_mu;
     request->dongle_l = coder->dongle_left;

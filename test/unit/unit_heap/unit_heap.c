@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/17 11:35:27 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/04 14:34:49 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@ int unit_heap(void)
 	unit_heap_new_node();
 	unit_heap_max();
 	unit_heap_min();
-	return (TRUE);
+	return (true);
 }

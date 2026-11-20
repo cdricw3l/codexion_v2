@@ -37,9 +37,9 @@
 //     //printf("coder id: %ld elapsed: %ld\n", coder_id, elapsed);
 //     if (elapsed > monitor->params[time_to_burnout])
 //     {
-//         return (FALSE);
+//         return (false);
 //     }
-//     return(TRUE);
+//     return(true);
 // }
 
 // void *monitoring_thread(void *data)
@@ -90,7 +90,7 @@
 //     {
 //         assert(request_push(coder));
 //         pthread_mutex_lock(coder->can_compile_mu);
-//         while (*coder->can_compile == FALSE)
+//         while (*coder->can_compile == false)
 //         {
 //             pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
 //         }
@@ -101,7 +101,7 @@
 //         unit_action(coder, COMPILE);
 //         assert(!pthread_mutex_unlock(coder->dongle_right->dongle));
 //         assert(!pthread_mutex_unlock(coder->dongle_left->dongle));
-//         *coder->can_compile == FALSE;
+//         *coder->can_compile == false;
 //         pthread_mutex_unlock(coder->can_compile_mu);
 //         display_action(coder, DEBUG);
 //         unit_action(coder, DEBUG);
@@ -172,7 +172,7 @@
 //     clean_scheduler(&scheduler);
 //     clean_sim(&sim);
 
-//     return (TRUE);
+//     return (true);
 
 // }
 

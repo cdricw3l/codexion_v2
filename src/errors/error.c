@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 08:19:39 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 14:26:48 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:31:20 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	parsing_error_msg(int code, char *arg)
 		write(STDERR_FILENO, msg, strlen(msg));
 		write(STDERR_FILENO, CRESET, strlen(CRESET));
 	}
-	return (FALSE);
+	return (false);
 }
 
 void	*err_msg(char *err)

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 07:41:36 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/04 14:33:00 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ int ft_cmp_max(t_heap_node *parent, t_heap_node *current)
 	int current_value;
 
 	if (!parent || !current)
-		return (FALSE);
+		return (false);
 	s_parent = (char *)parent->content;
 	s_current = (char *)current->content;
 
 	parent_value = atoi(s_parent);
 	current_value = atoi(s_current);
 	if (parent_value < current_value)
-		return (TRUE);
-	return (FALSE);
+		return (true);
+	return (false);
 }
 
 int ft_cmp_min(t_heap_node *parent, t_heap_node *current)
@@ -48,15 +48,15 @@ int ft_cmp_min(t_heap_node *parent, t_heap_node *current)
 	int current_value;
 
 	if (!parent || !current)
-		return (FALSE);
+		return (false);
 	s_parent = (char *)parent->content;
 	s_current = (char *)current->content;
 
 	parent_value = atoi(s_parent);
 	current_value = atoi(s_current);
 	if (parent_value > current_value)
-		return (TRUE);
-	return (FALSE);
+		return (true);
+	return (false);
 }
 
 void display_heap(t_heap *heap)

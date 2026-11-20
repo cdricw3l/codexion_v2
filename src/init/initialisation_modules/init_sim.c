@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 20:21:33 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 22:51:09 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 23:55:17 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_sim	*get_sim(int params[8])
 		return (err_msg(BRED"Error malloc init simulation\n"CRESET));
 	memset(sim, 0, sizeof(t_sim));
 	ft_memcopy(params, sim->params, sizeof(int) * 8);
-	sim->thread = threads_init(params[number_of_coders]);
+	sim->thread = threads_init(params[number_of_coders] + 2); // total = nb thread coder + scheduler + monitoring
 	if (!sim->thread)
 		return (clean_sim(&sim));
 	sim->can_compile_cond = init_dynamique_cond(params[number_of_coders]);

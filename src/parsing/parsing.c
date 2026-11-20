@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 12:51:42 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 12:40:24 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static int	check_args(char *arg, int idx)
 	{
 		while (*arg)
 		{
-			if (ft_is_digit(*arg) == FALSE)
+			if (ft_is_digit(*arg) == false)
 				return (parsing_error_msg(BAD_ARG, arg));
 			arg++;
 		}
 	}
-	return (TRUE);
+	return (true);
 }
 
 static void	save_param(char *arg, int idx, int params[8])
@@ -64,12 +64,12 @@ int	parse_arguments(char **args, int params[8])
 	i = 0;
 	while (args[i])
 	{
-		if (check_args(args[i], i) == FALSE)
-			return (FALSE);
+		if (check_args(args[i], i) == false)
+			return (false);
 		save_param(args[i], i, params);
 		i++;
 	}
 	if (params[number_of_coders] < 2)
-		return (FALSE);
-	return (TRUE);
+		return (false);
+	return (true);
 }

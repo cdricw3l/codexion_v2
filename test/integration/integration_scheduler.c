@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 10:32:20 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/11 10:33:24 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int fifo(t_heap_node *n1, t_heap_node *n2)
     request_1 = (t_request *)n1->content;
     request_2 = (t_request *)n2->content;
     if (request_1->request_id > request_2->request_id)
-        return (TRUE);
-    return (FALSE);
+        return (true);
+    return (false);
 }
 
 void *scheduler_routine(void *data)

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 21:33:14 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:57:19 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include "../src/heap/heap.h"
 # include "../src/init/initialisation.h"
 
-
+#define DEBBUG_MODE false
 # define LEFT 0
 # define RIGHT 1
 # define TIMESTAMP_DONGLE 0
@@ -115,8 +115,10 @@ void			display_params(int params[8], int nb);
 
 /****************************************** THREAD MANAGMENT MODULE */
 
-int				launch_coders(t_sim *sim, t_coder *coders,
-					void *(*routine)(void *));
+int				launch_coders(t_sim *sim, t_coder *coders);
+int				launch_scheduler(t_sim *sim, t_scheduler *scheduler);
+int				launch_monitor(t_sim *sim, t_monitoring *);
+
 int				joint_coders(t_sim *sim);
 
 /****************************************** ROUTINE MODULE */

@@ -25,7 +25,7 @@ SRCS=	src/codexion.c \
 		src/init/initialisation_modules/init_scheduler.c \
 		src/init/initialisation_modules/init_sim.c \
 		src/init/initialisation_modules/init_utils.c \
-		src/thread_managment/thread_managment.c \
+		src/thread_managment/run_thread.c \
 		src/routines/coder.c \
 		src/routines/monitoring.c \
 		src/routines/scheduler.c \

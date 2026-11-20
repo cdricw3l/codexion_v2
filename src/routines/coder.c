@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 04:47:58 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:59:55 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void set_can_compile(t_coder *coder, bool value)
 {
 	pthread_mutex_lock(coder->can_compile_mu);
 	*coder->can_compile = value;
+	pthread_cond_signal(coder->can_compile_cond);
 	pthread_mutex_unlock(coder->can_compile_mu);
 }
 
@@ -82,7 +83,7 @@ static void	coder_action(t_coder *coder)
 static void wait(t_coder *coder)
 {
 	pthread_mutex_lock(coder->can_compile_mu);
-	while (*coder->can_compile == FALSE)
+	while (*coder->can_compile == false)
 		pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
 	pthread_mutex_unlock(coder->can_compile_mu);
 }
@@ -95,7 +96,7 @@ void	*coder_routine(void *data)
 	coder = (t_coder *)data;
 	
 	i = 0;
-	wait(coder);
+	//wait(coder);
 	while (i < coder->params[number_of_compiles_required]
 		&& get_sim_state(coder->simulation_state, coder->simulation_state_mu))
 	{
@@ -106,14 +107,14 @@ void	*coder_routine(void *data)
 			return (NULL);
 		}
 		pthread_mutex_lock(coder->can_compile_mu);
-		while (get_sim_state(coder->simulation_state, coder->simulation_state_mu) && *coder->can_compile == FALSE)
+		while (get_sim_state(coder->simulation_state, coder->simulation_state_mu) && *coder->can_compile == false)
 			pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
 		/* if a coder burn, the scheduler send signal to all the coder. We dont want to display action, We want to stop the simulation */
 		if (get_sim_state(coder->simulation_state, coder->simulation_state_mu))
 		{
 			//printf("Coder %ld: entering action\n", coder->coder_id);
 			coder_action(coder);
-			*coder->can_compile = FALSE;
+			*coder->can_compile = false;
 			pthread_mutex_unlock(coder->can_compile_mu);
 		}
 		else

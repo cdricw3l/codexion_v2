@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 05:27:38 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/18 00:28:06 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int check_queue_unique_request(t_request *root)
         }
         root = root->next;
     }
-    return (TRUE);
+    return (true);
 }
 
 void *push_request_routine(void *data)

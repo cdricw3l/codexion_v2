@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 07:39:28 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 23:18:30 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:31:20 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ t_heap *unit_heap_min_push(void)
 	free(id);
 
 	assert(heap_push(heap, node, ft_cmp_min));
-	assert(heap_push(NULL, node, ft_cmp_min) == FALSE);
-	assert(heap_push(heap, node, NULL) == FALSE);
+	assert(heap_push(NULL, node, ft_cmp_min) == false);
+	assert(heap_push(heap, node, NULL) == false);
 	
 	/* check if the array order is OK and if heap_get_node fonction is ok*/
 	assert(atoi(heap_get_node(heap, 0)->content) == 0);

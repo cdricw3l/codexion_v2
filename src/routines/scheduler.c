@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 23:38:52 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ static void	process_request(int dongle_id[2], t_scheduler *scheduler,
 		n1 = heap_pop(scheduler->heaps[dongle_id[LEFT]], fifo);
 		n2 = heap_pop(scheduler->heaps[dongle_id[RIGHT]], fifo);
 		assert(!pthread_mutex_lock(request_left->can_compile_mu));
-		*request_left->can_compile = TRUE;
-		assert(*request_left->can_compile == TRUE);
+		*request_left->can_compile = true;
+		assert(*request_left->can_compile == true);
 		assert(!pthread_cond_signal(request_left->can_compile_cond));
 		assert(!pthread_mutex_unlock(request_left->can_compile_mu));
 

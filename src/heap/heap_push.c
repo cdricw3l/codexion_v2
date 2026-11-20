@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 21:11:29 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/05 21:25:07 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ int	heap_push(t_heap *heap, t_heap_node *node,
 	t_heap_node	**new_queue;
 
 	if (!heap || !cmp)
-		return (FALSE);
+		return (false);
 	new_queue = malloc(sizeof(t_heap_node *) * (heap->heap_size + 1));
 	if (!new_queue)
-		return (FALSE);
+		return (false);
 	ft_memcopy(heap->queue, new_queue, sizeof(t_heap_node *) * heap->heap_size);
 	if (heap->queue)
 		free(heap->queue);
@@ -46,7 +46,7 @@ int	heap_push(t_heap *heap, t_heap_node *node,
 	heap->queue = new_queue;
 	heap->heap_size++;
 	if (heap->heap_size < 2)
-		return (TRUE);
+		return (true);
 	heap_push_organise(heap, cmp);
-	return (TRUE);
+	return (true);
 }

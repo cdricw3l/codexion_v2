@@ -17,7 +17,7 @@ static int	push(t_request_queue *queue, t_request *request)
 	t_request	*last_node;
 
 	if (!queue || !request)
-		return (FALSE);
+		return (false);
 	if (!*queue->queue)
 		*queue->queue = request;
 	else
@@ -27,7 +27,7 @@ static int	push(t_request_queue *queue, t_request *request)
 	}
 	queue->queue_size++;
 	queue->request_counter++;
-	return (TRUE);
+	return (true);
 }
 
 static t_request	*new_request(t_coder *coder)
@@ -55,22 +55,22 @@ int	request_push(t_coder *coder)
 	int			status;
 
 	if (!coder || !coder->queue)
-		return (FALSE);
+		return (false);
 	request = new_request(coder);
 	if (!request)
-		return (FALSE);
+		return (false);
 	assert(request->dongle_r);
 	assert(request->dongle_l);
 	if (pthread_mutex_lock(&coder->queue->queue_mutex))
 	{
 		err_msg(BRED"Error mutex lock new request"CRESET);
-		return (FALSE);
+		return (false);
 	}
 	status = push(coder->queue, request);
 	if (pthread_mutex_unlock(&coder->queue->queue_mutex))
 	{
 		err_msg(BRED"Error mutex unlock new request"CRESET);
-		return (FALSE);
+		return (false);
 	}
 	return (status);
 }

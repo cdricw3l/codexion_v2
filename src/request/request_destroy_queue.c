@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:15:09 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/06 05:57:14 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	request_destroy_queue(t_request_queue **q)
 	t_request_queue	*queue;
 
 	if (!q || !*q)
-		return (FALSE);
+		return (false);
 	queue = *q;
 	if (queue->queue)
 		free(queue->queue);
@@ -25,5 +25,5 @@ int	request_destroy_queue(t_request_queue **q)
 		err_msg(BRED"Error mutex destruction\n"CRESET);
 	free(*q);
 	*q = NULL;
-	return (TRUE);
+	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 21:08:11 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/04 14:40:30 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,5 @@ int unit_parsing(void)
     assert(parse_arguments(invalide_args_10,params));
 
     END_TEST;
-    return(TRUE);
+    return(true);
 }

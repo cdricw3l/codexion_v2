@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 13:07:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 12:32:02 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,5 @@ int unit_utils(void)
 {
     START_BLOCK;
     unit_ft_isdigit();
-	return (TRUE);
+	return (true);
 }
