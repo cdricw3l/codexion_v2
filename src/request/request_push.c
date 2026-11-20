@@ -56,16 +56,17 @@ int	request_push(t_coder *coder)
 
 	if (!coder || !coder->queue)
 		return (false);
-	request = new_request(coder);
-	if (!request)
-		return (false);
-	assert(request->dongle_r);
-	assert(request->dongle_l);
+	
+	/* Its important to lock mutex before create request because*/
+	
 	if (pthread_mutex_lock(&coder->queue->queue_mutex))
 	{
 		err_msg(BRED"Error mutex lock new request"CRESET);
 		return (false);
 	}
+	request = new_request(coder);
+	if (!request)
+		return (false);
 	status = push(coder->queue, request);
 	if (pthread_mutex_unlock(&coder->queue->queue_mutex))
 	{

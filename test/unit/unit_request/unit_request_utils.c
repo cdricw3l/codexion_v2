@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 05:27:38 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 01:35:33 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,13 @@ int check_queue_unique_request(t_request *root)
 
 void *push_request_routine(void *data)
 {
-    t_coder *coder;
-    t_request *request;
     size_t i;
+    t_coder *coder;
 
     coder = (t_coder *)data;
     i = 0;
     assert(coder->queue);
     assert(coder->queue->queue);
-    // assert(!pthread_mutex_lock(&coder->queue->queue_mutex));
-    // assert(!pthread_mutex_unlock(&coder->queue->queue_mutex));
     while (i < 10)
     {
         assert(request_push(coder));
