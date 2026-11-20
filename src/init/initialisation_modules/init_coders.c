@@ -6,11 +6,11 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:37:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 12:38:04 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 20:48:15 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/codexion.h"
+#include "../../../include/codexion.h"
 
 static t_dongles	*get_dongle(int coder_id,
 	int params[8], int type, t_dongles *dongle)
@@ -21,7 +21,7 @@ static t_dongles	*get_dongle(int coder_id,
 	return (&dongle[dongle_id[type]]);
 }
 
-t_coder	*coders_init(int p[8], t_sim *sim, t_dongles *dgl)
+t_coder	*coders_init(t_sim *sim, t_dongles *dgl, int p[8])
 {
 	int		i;
 	t_coder	*coders;

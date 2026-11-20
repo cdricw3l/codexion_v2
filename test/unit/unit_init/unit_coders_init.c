@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:47:25 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/11 20:55:41 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 20:09:32 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,25 +94,19 @@ void check_coder(int params[8], t_coder *coders, t_sim *sim, t_dongles *dongles)
 void unit_coder_init(void)
 {
     START_TEST;
-    t_sim *sim;
-    t_coder *coders;
-    t_dongles *dongles;
+    t_data data;
     int params[8];
     
 
     unit_get_param(params);
-    sim = sim_init(params);
-    if (!sim)
+    if(!initialisation(&data, params))
+    {
+        printf(BRED"Erreur d'initialisation"CRESET"\n");
         return ;
-    assert(dongle_init(params, NULL) == NULL);
-    dongles = dongle_init(params, sim);
-    assert(dongles);
-    coders = coders_init(params, sim, dongles);
-    assert(coders);
-    check_coder(params, coders, sim, dongles);
-    check_coder_thread(sim, coders);
-    free(dongles);
-    free(coders);
-    sim_clean(&sim);
+    }
+    
+    check_coder(params, data.coder, data.sim, data.dongles);
+    check_coder_thread(data.sim, data.coder);
+    clear_data(&data, 0);
     END_TEST;
 }

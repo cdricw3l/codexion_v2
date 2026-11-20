@@ -6,13 +6,13 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 08:38:56 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/12 03:14:14 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 20:48:31 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/codexion.h"
+#include "../../../include/codexion.h"
 
-t_monitoring	*monitoring_init(int params[8], t_sim *sim, t_coder *coders)
+t_monitoring	*monitoring_init(t_sim *sim, t_coder *coders, int params[8])
 {
 	t_monitoring	*monitoring;
 

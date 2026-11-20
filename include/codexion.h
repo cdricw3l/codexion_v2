@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 04:09:10 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 21:33:14 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,16 @@
 
 # include <limits.h>    // INT_MAX, INT_MIN, etc.
 # include <errno.h>     // errno, ERANGE, EINVAL...
-# include <stdlib.h>    // malloc, free, exit, strtol...
 # include <stdio.h>     // printf, fprintf, FILE...
 # include <string.h>    // strlen, strcmp, memcpy...
 # include <unistd.h>    // read, write, close, fork... (POSIX)
 # include <time.h>      //time
 # include <assert.h>      
-#include <stdint.h>
 # include "color_codes.h"
-# include <pthread.h>
-# include <stdbool.h>
 # include "../src/heap/heap.h"
+# include "../src/init/initialisation.h"
 
-# define FALSE 0
-# define TRUE 1
-# define ERR 0
-# define OK  1
-# define FIFO 0
-# define EDF 1
+
 # define LEFT 0
 # define RIGHT 1
 # define TIMESTAMP_DONGLE 0
@@ -70,98 +62,6 @@ enum e_PARAMS
 	scheduler
 };
 
-typedef struct s_heap			t_heap;
-typedef struct s_heap_node		t_heap_node;
-typedef struct s_request_queue	t_request_queue;
-typedef struct s_request		t_request;
-typedef struct s_coder			t_coder;
-
-typedef struct s_monitoring
-{
-	int				params[8];
-	int				*simulation_state;
-	pthread_mutex_t	*simulation_state_mu;
-	uint64_t		*timestamp;
-	pthread_mutex_t	*timestamp_mu;
-	t_coder			*coders;
-
-}	t_monitoring;
-
-typedef struct s_scheduler
-{
-	int				params[8];
-	t_request_queue	*queue;
-	t_heap			**heaps;
-	pthread_t		scheduler_thread;
-	int				*simulation_state;
-	pthread_mutex_t	*simulation_state_mu;
-
-}	t_scheduler;
-
-typedef struct s_dongles
-{
-	size_t			id;
-	size_t			is_used;
-	time_t			last_use;
-	pthread_mutex_t	*dongle;
-	pthread_mutex_t	is_used_mu;
-
-
-}	t_dongles;
-
-struct s_coder
-{
-	int				params[8];
-	uint64_t			simulation_start;
-	int				*simulation_state;
-	pthread_mutex_t	*simulation_state_mu;
-	size_t			coder_id;
-	bool			*can_compile;
-	pthread_mutex_t	*can_compile_mu;
-	pthread_cond_t	*can_compile_cond;
-	t_request_queue	*queue;
-	t_dongles		*dongle_left;
-	t_dongles		*dongle_right;
-	uint64_t			*timestamp;
-	pthread_mutex_t	*timestamp_mu;
-	pthread_mutex_t	*display_mu;
-
-};
-
-typedef struct s_sim
-{
-	int				params[8];
-	pthread_t		*thread;
-	int				simulation_state;
-	pthread_mutex_t	*simulation_state_mu;
-	bool			*can_compile;
-	pthread_mutex_t	*can_compile_mu;
-	pthread_cond_t	*can_compile_cond;
-	uint64_t			*timestamp;
-	pthread_mutex_t	*timestamp_mu;
-	t_request_queue	*queue;
-	pthread_mutex_t	*request_queue_mu;
-	pthread_mutex_t	*display_mu;
-	pthread_mutex_t	*dongle_mu;
-
-}	t_sim;
-
-/****************************************** INITIALISATION MODULE */
-
-t_sim			*sim_init(int params[8]);
-t_dongles		*dongle_init(int params[8], t_sim *sim);
-t_coder			*coders_init(int params[8], t_sim *sim, t_dongles *dongle);
-t_scheduler		*scheduler_init(int params[8], t_sim *sim);
-t_monitoring	*monitoring_init(int params[8], t_sim *sim, t_coder *coders);
-void			*sim_clean(t_sim **s);
-void			*scheduler_clean(t_scheduler **s);
-void			*clean_dynamique_mutex(pthread_mutex_t **mutex, int nb);
-void			*clean_dynamique_cond(pthread_cond_t **cond, int nb);
-pthread_t		*threads_init(int nb);
-pthread_mutex_t	*init_dynamique_mutex(int nb);
-pthread_cond_t	*init_dynamique_cond(int nb);
-bool			*can_compile_init(int nb);
-time_t			*timestamp_init(int nb);
 
 /****************************************** REQUEST MODULE */
 
@@ -216,7 +116,7 @@ void			display_params(int params[8], int nb);
 /****************************************** THREAD MANAGMENT MODULE */
 
 int				launch_coders(t_sim *sim, t_coder *coders,
-					void *(*routine)(void *), uint64_t start);
+					void *(*routine)(void *));
 int				joint_coders(t_sim *sim);
 
 /****************************************** ROUTINE MODULE */

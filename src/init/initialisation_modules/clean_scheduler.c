@@ -6,13 +6,13 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 05:48:12 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/18 16:59:20 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 20:48:06 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/codexion.h"
+#include "../../../include/codexion.h"
 
-void	*scheduler_clean(t_scheduler **s)
+void	*clean_scheduler(t_scheduler **s)
 {
 	int			i;
 	t_scheduler	*scheduler;

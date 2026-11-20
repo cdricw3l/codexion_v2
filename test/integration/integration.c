@@ -30,20 +30,20 @@ int main(void)
     dongles = dongle_init(params[number_of_coders], sim);
     if (!dongles)
     {
-        sim_clean(&sim);
+        clean_sim(&sim);
         return (1);
     }
-    coders = coders_init(params, sim, dongles);
+    coders = coders_init(sim, dongles, params);
     if (!coders)
     {
-        sim_clean(&sim);
+        clean_sim(&sim);
         free(dongles);
         return (1);
     }
     scheduler = scheduler_init(params, sim);
     if (!scheduler)
     {
-        sim_clean(&sim);
+        clean_sim(&sim);
         free(dongles);
         free(coders);
         return (1);
@@ -51,10 +51,10 @@ int main(void)
     monitoring = monitoring_init(params, sim);
     if (!monitoring)
     {
-        sim_clean(&sim);
+        clean_sim(&sim);
         free(dongles);
         free(coders);
-        scheduler_clean(&scheduler);
+        clean_scheduler(&scheduler);
         return (1);
     }
     assert(sim);
@@ -68,11 +68,11 @@ int main(void)
     
     start_coder_thread(sim, coders, scheduler);
 
-    sim_clean(&sim);
+    clean_sim(&sim);
     free(dongles);
     free(coders);
     free(monitoring);
-    scheduler_clean(&scheduler);
+    clean_scheduler(&scheduler);
 
     return (0);
 }

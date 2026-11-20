@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 04:28:18 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/14 15:17:40 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 20:27:42 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ void check_scheduler(int nb, t_scheduler *scheduler)
     {
         request = request_pop(scheduler->queue);
         assert(request);
-        free(request);
         nb_request++;
+        assert(request->request_id == nb_request);
+        free(request);
     }
     assert(nb_request == scheduler->params[number_of_coders] * scheduler->params[number_of_compiles_required]);
 }
@@ -39,7 +40,6 @@ void check_scheduler(int nb, t_scheduler *scheduler)
 void *scheduler_coder_routine(void *ptr)
 {
     t_coder *coder;
-    t_request *request;
     size_t i;
     
     coder = (t_coder *)ptr;
@@ -47,7 +47,6 @@ void *scheduler_coder_routine(void *ptr)
     while (i < coder->params[number_of_compiles_required])
     {
         assert(request_push(coder));
-        assert(request);
         i++;
     }
     return (NULL);
@@ -56,51 +55,45 @@ void *scheduler_coder_routine(void *ptr)
 void unit_scheduler_init(void)
 {
     START_TEST;
-    t_sim   *sim;
-    t_coder *coders;
-    t_dongles *dongles;
-    t_scheduler *scheduler;
+    t_data data;
+   
     size_t i;
     int params[8];
 
     unit_get_param(params);
+    if(!initialisation(&data, params))
+    {
+        printf(BRED"Erreur d'initialisation"CRESET"\n");
+        return ;
+    }
     
     
-    sim = sim_init(params);
-    assert(sim);
-    dongles = dongle_init(params, sim);
-    assert(dongles);
-    coders = coders_init(params, sim, dongles);
-    assert(coders);
-    scheduler = scheduler_init(params, sim);
-    assert(scheduler);
-    assert(scheduler->queue == sim->queue);
-    assert(sim->queue == scheduler->queue);
-    assert(sim->queue == coders->queue);
-    assert(scheduler->simulation_state == &sim->simulation_state);
-    assert(scheduler->simulation_state_mu == sim->simulation_state_mu);
+    assert(data.sim);
+    assert(data.dongles);
+    assert(data.coder);
+    assert(data.scheduler);
+    assert(data.scheduler->queue == data.sim->queue);
+    assert(data.sim->queue == data.scheduler->queue);
+    assert(data.sim->queue == data.coder->queue);
+    assert(data.scheduler->simulation_state == &data.sim->simulation_state);
+    assert(data.scheduler->simulation_state_mu == data.sim->simulation_state_mu);
 
     i = 0;
-    while (i < sim->params[number_of_coders])
+    while (i < data.sim->params[number_of_coders])
     {
-        assert(coders[i].params[number_of_compiles_required] == 20);
-        pthread_create(&sim->thread[i], NULL, scheduler_coder_routine, &coders[i]);
+        assert(data.coder[i].params[number_of_compiles_required] == params[number_of_compiles_required]);
+        pthread_create(&data.sim->thread[i], NULL, scheduler_coder_routine, &data.coder[i]);
         usleep(50000);
         i++;
     }
     i = 0;
-    while (i < sim->params[number_of_coders])
+    while (i < data.sim->params[number_of_coders])
     {
-        pthread_join(sim->thread[i], NULL);
+        pthread_join(data.sim->thread[i], NULL);
         i++;
     }
-    assert(sim->queue->queue_size == sim->params[number_of_coders] * sim->params[number_of_compiles_required]);
-    check_scheduler(params[number_of_coders], scheduler);
-
-    free(dongles);
-    free(coders);
-    scheduler_clean(&scheduler);
-    sim_clean(&sim);
-
+    assert(data.sim->queue->queue_size == data.sim->params[number_of_coders] * data.sim->params[number_of_compiles_required]);
+    check_scheduler(params[number_of_coders], data.scheduler);
+    clear_data(&data, 0);
     END_TEST;
 }

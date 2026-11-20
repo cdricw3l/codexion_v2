@@ -6,11 +6,11 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 09:22:08 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/11 06:03:28 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/19 20:48:35 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/codexion.h"
+#include "../../../include/codexion.h"
 
 static void	*scheduler_error(t_scheduler **scheduler)
 {
@@ -30,7 +30,7 @@ static void	*scheduler_heap_error(t_scheduler **scheduler, size_t end)
 	return (scheduler_error(scheduler));
 }
 
-t_scheduler	*scheduler_init(int params[8], t_sim *sim)
+t_scheduler	*scheduler_init(t_sim *sim, int params[8])
 {
 	int			i;
 	t_scheduler	*scheduler;
