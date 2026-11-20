@@ -18,13 +18,10 @@
 	sim->thread[2 -> n_coder] = monitoring thread;
 */
 
-
-
-
-
-int launch_monitor(t_sim *sim, t_monitoring *monitor)
+int	launch_monitor(t_sim *sim, t_monitoring *monitor)
 {
-	if (pthread_create(&sim->thread[1], NULL, monitoring_routine, monitor))
+	if (pthread_create(&sim->thread[MONITOR_THREAD], NULL,
+			monitoring_routine, monitor))
 	{
 		err_msg("Error lauch thread monitor\n");
 		return (false);
@@ -32,9 +29,10 @@ int launch_monitor(t_sim *sim, t_monitoring *monitor)
 	return (true);
 }
 
-int launch_scheduler(t_sim *sim, t_scheduler *scheduler)
+int	launch_scheduler(t_sim *sim, t_scheduler *scheduler)
 {
-	if (pthread_create(&sim->thread[0], NULL, scheduler_routine, scheduler))
+	if (pthread_create(&sim->thread[SCHEDULER_THREAD], NULL,
+			scheduler_routine, scheduler))
 	{
 		err_msg("Error lauch thread scheduler\n");
 		return (false);
@@ -47,21 +45,19 @@ int	launch_coders(t_sim *sim, t_coder *coders)
 	int			i;
 	uint64_t	start;
 
-	i = 2;
+	i = CODERS_THREAD_START;
 	start = get_now();
 	while (i < sim->params[number_of_coders] + 2)
 	{
 		coders[i - 2].simulation_start = start;
 		set_timestamp(&coders[i - 2]);
-		if (pthread_create(&sim->thread[i], NULL, coder_routine, &coders[i - 2]))
+		if (pthread_create(&sim->thread[i], NULL,
+				coder_routine, &coders[i - 2]))
 		{
 			err_msg("Error lauch thread coder\n");
 			return (false);
 		}
 		i++;
 	}
-	#if DEBBUG_MODE == true
-		printf("All coder are launched\n");
-	#endif
 	return (true);
 }

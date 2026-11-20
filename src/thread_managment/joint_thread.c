@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/20 01:01:42 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 01:05:40 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 01:14:06 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ static int	joint_coders(t_sim *sim)
 	return (true);
 }
 
-
-void joint_thread(t_sim *sim)
+void	joint_thread(t_sim *sim)
 {
-    joint_coders(sim);
-    pthread_join(sim->thread[SCHEDULER_THREAD], NULL);
-    pthread_join(sim->thread[MONITOR_THREAD], NULL);
+	joint_coders(sim);
+	pthread_join(sim->thread[SCHEDULER_THREAD], NULL);
+	pthread_join(sim->thread[MONITOR_THREAD], NULL);
 }
