@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:47:25 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 20:09:32 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 06:49:02 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ void *check_coder_routine(void *data)
     
 }
 
-void check_coder_thread(t_sim *sim, t_coder *coders)
+void check_coder_thread(t_data *data)
 {
     size_t i;
 
     i = 0;
-    while (i < sim->params[number_of_coders])
+    while (i < data->sim->params[number_of_coders])
     {
-        if (pthread_create(&sim->thread[i], NULL,check_coder_routine, &coders[i]))
+        if (pthread_create(&data->sim->thread[i], NULL, check_coder_routine, &data->coder[i]))
         {
             err_msg("Error thread_create in check_coder_thread\n");
             return ;
@@ -46,10 +46,10 @@ void check_coder_thread(t_sim *sim, t_coder *coders)
         i++;
     }
     i = 0;
-    while (i < sim->params[number_of_coders])
+    while (i < data->sim->params[number_of_coders])
     {
-        pthread_join(sim->thread[i], NULL);
-        assert(*(coders[i].timestamp) == sim->params[number_of_compiles_required]);
+        pthread_join(data->sim->thread[i], NULL);
+        assert(*(data->coder[i].timestamp) = data->sim->params[number_of_compiles_required]);
         i++;
     }
 }
@@ -72,7 +72,7 @@ void check_coder(int params[8], t_coder *coders, t_sim *sim, t_dongles *dongles)
     assert(coders->params[time_to_refactor] == params[time_to_refactor]);
     assert(coders->params[number_of_compiles_required] == params[number_of_compiles_required]);
     assert(coders->params[dongle_cooldown] == params[dongle_cooldown]);
-    assert(coders->params[scheduler] == params[scheduler]);
+    assert(coders->params[arbitration] == params[arbitration]);
     while (i < params[number_of_coders])
     {
         assert(*(coders[i].timestamp)==0);
@@ -106,7 +106,7 @@ void unit_coder_init(void)
     }
     
     check_coder(params, data.coder, data.sim, data.dongles);
-    check_coder_thread(data.sim, data.coder);
+    check_coder_thread(&data);
     clear_data(&data, 0);
     END_TEST;
 }

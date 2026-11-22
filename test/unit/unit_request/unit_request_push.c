@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 15:20:53 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 01:49:57 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 04:23:44 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ static void simple_request_push(void)
     assert(coder->queue->queue_size == 4);
     assert(request_get_last_node(*coder->queue->queue)->request_id == 4);
 
+    request_clear_queue(data.sim->queue);
     clear_data(&data, 0);
-    
 	END_TEST;	
 }
 
@@ -81,10 +81,11 @@ static void thread_request_push(void)
             printf("Error thread_creation");
             return ;
         }
-        //printf("Thread %ld is launched\n", coders[i].coder_id);
         i++;
     }
     i = 0;
+    assert(data.sim);
+
     while (i < NB_CODER)
     {
         pthread_join(data.sim->thread[i], NULL);
@@ -93,6 +94,7 @@ static void thread_request_push(void)
     }
     assert(data.coder->queue->queue_size == 20);
     assert(check_queue_unique_request(*data.coder->queue->queue));
+    request_clear_queue(data.sim->queue);
     clear_data(&data, 0);
     END_TEST;
 }

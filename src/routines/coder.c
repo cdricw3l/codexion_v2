@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 00:59:55 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:10:52 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,55 +25,16 @@ static void	action(t_coder *coder, int action)
 		usleep(coder->params[time_to_refactor] * 1000);
 }
 
-void set_dongle_state(t_dongles *dongle, int state)
-{
-	pthread_mutex_lock(&dongle->is_used_mu);
-	dongle->is_used = state;
-	pthread_mutex_unlock(&dongle->is_used_mu);
-}
-
-int get_dongle_state(t_dongles *dongle)
-{
-	int state;
-
-	pthread_mutex_lock(&dongle->is_used_mu);
-	state = dongle->is_used;
-	pthread_mutex_unlock(&dongle->is_used_mu);
-	return (state);
-}
-
-void set_can_compile(t_coder *coder, bool value)
-{
-	pthread_mutex_lock(coder->can_compile_mu);
-	*coder->can_compile = value;
-	pthread_cond_signal(coder->can_compile_cond);
-	pthread_mutex_unlock(coder->can_compile_mu);
-}
-
-bool get_can_compile(t_coder *coder)
-{
-	bool value;
-
-	pthread_mutex_lock(coder->can_compile_mu);
-	value = *coder->can_compile;
-	pthread_mutex_unlock(coder->can_compile_mu);
-	return (value);
-}
-
 static void	coder_action(t_coder *coder)
 {
 	pthread_mutex_lock(coder->dongle_right->dongle);
-	pthread_mutex_lock(coder->dongle_left->dongle);
-
-	set_dongle_state(coder->dongle_left, ON);
-	set_dongle_state(coder->dongle_right, ON);
-	
+	pthread_mutex_lock(coder->dongle_left->dongle);	
 	display_action(coder, COMPILE);
 	action(coder, COMPILE);
 	pthread_mutex_unlock(coder->dongle_right->dongle);
 	pthread_mutex_unlock(coder->dongle_left->dongle);
-	set_dongle_state(coder->dongle_left, OFF);
-	set_dongle_state(coder->dongle_right, OFF);
+	set_dongle_state(coder->dongle_left, false);
+	set_dongle_state(coder->dongle_right, false);
 	display_action(coder, DEBUG);
 	action(coder, DEBUG);
 	display_action(coder, REFACTO);
@@ -91,39 +52,43 @@ static void wait(t_coder *coder)
 void	*coder_routine(void *data)
 {
 	int			i;
+	int 		nb_of_compile;
 	t_coder		*coder;
 
 	coder = (t_coder *)data;
 	
 	i = 0;
-	//wait(coder);
-	while (i < coder->params[number_of_compiles_required]
-		&& get_sim_state(coder->simulation_state, coder->simulation_state_mu))
+	nb_of_compile = 0;
+	wait(coder);
+	while (1)
 	{
 		if (!request_push(coder))
 		{
-			set_sim_state(coder->simulation_state,
-				coder->simulation_state_mu, OFF);
+			set_sim_state(coder->simulation_state, coder->simulation_state_mu, OFF);
 			return (NULL);
 		}
 		pthread_mutex_lock(coder->can_compile_mu);
-		while (get_sim_state(coder->simulation_state, coder->simulation_state_mu) && *coder->can_compile == false)
+		while (*coder->can_compile == false)
 			pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
 		/* if a coder burn, the scheduler send signal to all the coder. We dont want to display action, We want to stop the simulation */
-		if (get_sim_state(coder->simulation_state, coder->simulation_state_mu))
-		{
-			//printf("Coder %ld: entering action\n", coder->coder_id);
-			coder_action(coder);
-			*coder->can_compile = false;
-			pthread_mutex_unlock(coder->can_compile_mu);
-		}
-		else
+		if (!get_sim_state(coder->simulation_state, coder->simulation_state_mu))
 		{
 			pthread_mutex_unlock(coder->can_compile_mu);
 			return (NULL);
 		}
-		i++;
+		/* 
+			really important to set the variable  and unlock befort coder action
+			because the scheduler wait for this mutex
+		*/
+		*coder->can_compile = false;
+		pthread_mutex_unlock(coder->can_compile_mu);
+		coder_action(coder);
+		if (i++ == coder->params[number_of_compiles_required])
+			return(NULL);
+		if (!get_sim_state(coder->simulation_state, coder->simulation_state_mu))
+			return (NULL);
+		nb_of_compile++;
 	}
-
+	assert(nb_of_compile == coder->params[number_of_compiles_required]);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 12:51:42 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 06:46:33 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	check_args(char *arg, int idx)
 {
 	if (!strlen(arg))
 		return (parsing_error_msg(BAD_ARG, arg));
-	if (idx == scheduler)
+	if (idx == arbitration)
 	{
 		if (strcmp("fifo", arg) && strcmp("edf", arg))
 			return (parsing_error_msg(BAD_ARG, arg));
@@ -49,17 +49,17 @@ static void	save_param(char *arg, int idx, int params[8])
 		params[number_of_compiles_required] = atoi(arg);
 	else if (idx == dongle_cooldown)
 		params[dongle_cooldown] = atoi(arg);
-	else if (idx == scheduler && !strcmp("fifo", arg))
-		params[scheduler] = FIFO;
-	else if (idx == scheduler && !strcmp("edf", arg))
-		params[scheduler] = EDF;
+	else if (idx == arbitration && !strcmp("fifo", arg))
+		params[arbitration] = FIFO;
+	else if (idx == arbitration && !strcmp("edf", arg))
+		params[arbitration] = EDF;
 }
 
-int	parse_arguments(char **args, int params[8])
+int	parse_arguments(int argc, char **args, int params[8])
 {
 	int	i;
 
-	if (get_str_arr_len(args) != 8)
+	if (argc != 8)
 		return (parsing_error_msg(NB_ARG, NULL));
 	i = 0;
 	while (args[i])

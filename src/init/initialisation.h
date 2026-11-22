@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 21:20:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 00:32:08 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/21 23:28:41 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_request_queue	t_request_queue;
 typedef struct s_request		t_request;
 typedef struct s_coder			t_coder;
 
+
 typedef struct s_monitoring
 {
 	int				params[8];
@@ -49,6 +50,7 @@ typedef struct s_scheduler
 	pthread_t		scheduler_thread;
 	int				*simulation_state;
 	pthread_mutex_t	*simulation_state_mu;
+	int (*f) (t_heap_node *, t_heap_node *);
 
 }	t_scheduler;
 

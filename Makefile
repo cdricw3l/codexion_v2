@@ -30,6 +30,7 @@ SRCS=	src/codexion.c \
 		src/routines/coder.c \
 		src/routines/monitoring.c \
 		src/routines/scheduler.c \
+		src/routines/arbitration_policy.c \
 		src/heap/heap_clear.c \
 		src/heap/heap_get_node.c \
 		src/heap/heap_init.c \
@@ -46,8 +47,9 @@ SRCS=	src/codexion.c \
 		src/request/request_push.c \
 		src/request/request_pop.c \
 		src/time/time.c \
-		src/utils/utils_1.c \
-		src/utils/utils_2.c \
+		src/utils/utils.c \
+		src/utils/getter.c \
+		src/utils/setter.c \
 		src/display/display.c \
 		src/errors/error.c
 
@@ -61,12 +63,12 @@ TYPE ?= unit
 ######################
 
 %.o:%.c 
-	@$(CC) -c $(CFLAGS)  $< -o $@
+	$(CC) -c $(CFLAGS)  $< -o $@
 
 $(NAME): $(OBJECT_SRCS)
-	@$(CC) $(CFLAGS) $(OBJECT_SRCS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJECT_SRCS) -o $(NAME)
 
-ARG=8 700 200 100 100 20 0 edf
+ARG=2 400 200 100 100 10 0 fifo
 
 ifeq ($(shell uname),Darwin)
 	MEMORY_CHECK_ARG= leaks -atExit --
@@ -93,9 +95,10 @@ fclean: clean
 	make -C $(TEST_FOLDER) fclean
 	rm -f $(NAME)
 
+re: fclean $(NAME)
 
 test:
 	make -C $(TEST_FOLDER) TYPE=$(TYPE) MEMORY_CHECK=$(MEMORY_CHECK) test
 
 
-.PHONY: clean fclean test
+.PHONY: clean fclean test re

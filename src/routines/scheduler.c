@@ -6,13 +6,11 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:07:43 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
-
-
 
 /* 
 	n1->content and n2->content are same content. Only one content free
@@ -28,16 +26,25 @@ static void	process_request(int dongle_id[2], t_scheduler *scheduler,
 	request_left = (t_request *)node_left->content;
 	request_right = (t_request *)node_right->content;
 	
-	if (get_dongle_state(request_left->dongle_l) || get_dongle_state(request_left->dongle_r))
-		return ;
+	
+	
 	if (request_left->coder_id == request_right->coder_id)
 	{
-		assert(dongle_id[LEFT] != dongle_id[RIGHT]);
+		//printf("Scheduler process request :\n");
+		//request_display_node(request_left);
+		if (get_dongle_state(request_left->dongle_l) || get_dongle_state(request_left->dongle_r))
+		{
+			//printf(REDB"Decision NOK!"CRESET"\n\n");
+			return ;
+		}
+		//printf(GRNB"Desision OK!"CRESET"\n\n");
 		n1 = heap_pop(scheduler->heaps[dongle_id[LEFT]], fifo);
 		n2 = heap_pop(scheduler->heaps[dongle_id[RIGHT]], fifo);
 		assert(!pthread_mutex_lock(request_left->can_compile_mu));
 		*request_left->can_compile = true;
 		assert(*request_left->can_compile == true);
+		set_dongle_state(request_left->dongle_l, true);
+		set_dongle_state(request_left->dongle_r, true);
 		assert(!pthread_cond_signal(request_left->can_compile_cond));
 		assert(!pthread_mutex_unlock(request_left->can_compile_mu));
 
@@ -59,8 +66,7 @@ void	who_can_compile(t_scheduler *scheduler)
 	while (i < scheduler->params[number_of_coders])
 	{
 		get_dongle_arr(i, scheduler->params, dongle_id);
-		if (!scheduler->heaps[dongle_id[LEFT]]->heap_size
-			|| !scheduler->heaps[dongle_id[RIGHT]]->heap_size)
+		if (!scheduler->heaps[dongle_id[LEFT]]->heap_size || !scheduler->heaps[dongle_id[RIGHT]]->heap_size)
 		{
 			i++;
 			continue ;

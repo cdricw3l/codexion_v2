@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 04:29:53 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/18 21:04:10 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 00:19:05 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	get_direction(t_heap *heap, t_direction *direction,
 	direction->current = heap_get_node(heap, direction->current_idx);
 	direction->left = heap_get_node(heap, 2 * direction->current_idx + 1);
 	direction->right = heap_get_node(heap, 2 * direction->current_idx + 2);
-	if (!direction->right && !direction->left)
+	if (!direction->right || !direction->left)
 		direction->direction = NO_SWAP;
 	else if (!cmp(direction->current, direction->left)
 		&& !cmp(direction->current, direction->right))

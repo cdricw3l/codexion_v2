@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 05:55:52 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 04:26:53 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:08:50 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	display_params(int params[8], int nb)
 		params[number_of_compiles_required]);
 	printf(HBLU"[Dongle cooldown]:"HYEL" %d ms\n", params[dongle_cooldown]);
 	printf(HBLU"[scheduler]: "HYEL);
-	if (params[scheduler] == FIFO)
+	if (params[arbitration] == FIFO)
 		printf("fifo"CRESET"\n");
-	else if (params[scheduler] == EDF)
+	else if (params[arbitration] == EDF)
 		printf("edf"CRESET"\n");
 	printf("\n");
 }

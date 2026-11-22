@@ -6,11 +6,28 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 21:08:11 by cdric.b           #+#    #+#             */
-/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 06:50:20 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../unit.h"
+
+static int arr_str_len(char **arr)
+{
+    int i;
+
+    i = 0;
+    while (arr[i])
+        i++;
+    return (i);
+} 
+
+static void *unit_get_arbitration_function(int arbitration)
+{
+	if (arbitration == FIFO)
+		return(fifo);
+	return(edf);
+}
 
 int unit_parsing(void)
 {
@@ -20,7 +37,8 @@ int unit_parsing(void)
     char *valide_arg_2[] = {"20", "500", "200", "100", "100", "10", "10", "edf", NULL};
     int params[8];
 
-    assert(parse_arguments(valide_arg_1,params));
+    assert(arr_str_len(valide_arg_1) == 8);
+    assert(parse_arguments(arr_str_len(valide_arg_1),valide_arg_1,params));
     assert(params[0] == 20);
     assert(params[1] == 500);
     assert(params[2] == 200);
@@ -29,8 +47,10 @@ int unit_parsing(void)
     assert(params[5] == 10);
     assert(params[6] == 10);
     assert(params[7] == FIFO);
-    assert(parse_arguments(valide_arg_2,params));
+    assert(unit_get_arbitration_function(params[arbitration]) == fifo);
+    assert(parse_arguments(arr_str_len(valide_arg_2),valide_arg_2,params));
     assert(params[7] == EDF);
+    assert(unit_get_arbitration_function(params[arbitration]) == edf);
 
     char *invalide_args_0[] = {"-20", "500", "200", "100", "100", "10", "10", "fifo", NULL};
     char *invalide_args_1[] = {"20", "-500", "200", "100", "100", "10", "10", "fifo", NULL};
@@ -44,17 +64,17 @@ int unit_parsing(void)
     char *invalide_args_9[] = {"500", "200", "100", "100", "10", "10", "10", NULL};
     char *invalide_args_10[] = {"20", "500", "200", "100", "100", "10", "10", "edf", NULL};
 
-    assert(!parse_arguments(invalide_args_0,params));
-    assert(!parse_arguments(invalide_args_1,params));
-    assert(!parse_arguments(invalide_args_2,params));
-    assert(!parse_arguments(invalide_args_3,params));
-    assert(!parse_arguments(invalide_args_4,params));
-    assert(!parse_arguments(invalide_args_5,params));
-    assert(!parse_arguments(invalide_args_6,params));
-    assert(!parse_arguments(invalide_args_7,params));
-    assert(!parse_arguments(invalide_args_8,params));
-    assert(!parse_arguments(invalide_args_9,params));
-    assert(parse_arguments(invalide_args_10,params));
+    assert(!parse_arguments(arr_str_len(invalide_args_0),invalide_args_0,params));
+    assert(!parse_arguments(arr_str_len(invalide_args_1),invalide_args_1,params));
+    assert(!parse_arguments(arr_str_len(invalide_args_2),invalide_args_2,params));
+    assert(!parse_arguments(arr_str_len(invalide_args_3),invalide_args_3,params));
+    assert(!parse_arguments(arr_str_len(invalide_args_4),invalide_args_4,params));
+    assert(!parse_arguments(arr_str_len(invalide_args_5),invalide_args_5,params));
+    assert(!parse_arguments(arr_str_len(invalide_args_6),invalide_args_6,params));
+    assert(!parse_arguments(arr_str_len(invalide_args_7),invalide_args_7,params));
+    assert(!parse_arguments(arr_str_len(invalide_args_8),invalide_args_8,params));
+    assert(!parse_arguments(arr_str_len(invalide_args_9),invalide_args_9,params));
+    assert(parse_arguments(arr_str_len(invalide_args_10), invalide_args_10,params));
 
     END_TEST;
     return(true);

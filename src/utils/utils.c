@@ -6,26 +6,11 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 12:53:00 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 06:26:51 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
-
-size_t	get_str_arr_len(char **str_arr)
-{
-	size_t	size;
-
-	if (!str_arr)
-		return (0);
-	size = 0;
-	while (*str_arr)
-	{
-		str_arr++;
-		size++;
-	}
-	return (size);
-}
 
 int	ft_is_digit(int c)
 {
@@ -43,26 +28,4 @@ int	ft_memcopy(void *src, void *dst, unsigned long size)
 		i++;
 	}
 	return (true);
-}
-
-int	get_dongle_id(int id, int number_of_coder, int type)
-{
-	if (type == RIGHT)
-		return (id);
-	if (type == LEFT)
-	{
-		if (id == 0)
-			return (number_of_coder - 1);
-		else
-			return (id - 1);
-	}
-	return (-1);
-}
-
-void	get_dongle_arr(size_t id, int params[8], int dongle[2])
-{
-	dongle[LEFT] = get_dongle_id(id, params[number_of_coders], LEFT);
-	dongle[RIGHT] = get_dongle_id(id, params[number_of_coders], RIGHT);
-	if (id == 2)
-		assert(dongle[LEFT] == 1 && dongle[RIGHT] == 2);
 }

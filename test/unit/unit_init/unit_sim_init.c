@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 21:08:14 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 22:59:06 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/20 06:49:18 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void check_sim(t_sim *sim,int params[8])
     assert(sim->params[time_to_refactor] == params[time_to_refactor]);
     assert(sim->params[number_of_compiles_required] == params[number_of_compiles_required]);
     assert(sim->params[dongle_cooldown] == params[dongle_cooldown]);
-    assert(sim->params[scheduler] == params[scheduler]);
+    assert(sim->params[arbitration] == params[arbitration]);
     assert(sim->can_compile);
     assert(sim->can_compile_cond);
     assert(sim->display_mu);
