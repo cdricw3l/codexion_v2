@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 10:32:20 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:52:40 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void *scheduler_routine(void *data)
     
     scheduler = (t_scheduler *)data;
     nb = 0;
-    while (get_sim_state(scheduler->simulation_state, scheduler->state_mu) == ON)
+    while (get_sim_state(scheduler->sim_state, scheduler->state_mu) == ON)
     {
         request = request_pop(scheduler->queue);
         if (request)

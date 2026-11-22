@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:37:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:52:40 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_coder	*coders_init(t_sim *sim, t_dongles *dgl, int p[8])
 		coders[i].queue = sim->queue;
 		coders[i].dongle_left = get_dongle(i, p, LEFT, dgl);
 		coders[i].dongle_right = get_dongle(i, p, RIGHT, dgl);
-		coders[i].simulation_state = &sim->simulation_state;
+		coders[i].sim_state = &sim->sim_state;
 		coders[i].state_mu = sim->state_mu;
 		coders[i].timestamp = &sim->timestamp[i];
 		coders[i].timestamp_mu = &sim->timestamp_mu[i];

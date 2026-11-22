@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 21:08:14 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:52:40 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void check_sim(t_sim *sim,int params[8])
     assert(sim->timestamp);
     assert(sim->thread);
     assert(sim->queue);
-    assert(sim->simulation_state == OFF);
+    assert(sim->sim_state == OFF);
     while (i < NB_CODER)
     {
         assert(sim->can_compile[i] == false);

@@ -6,13 +6,13 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 05:55:52 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 05:07:37 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
 
-void	display_params(int params[8], int nb)
+void	display_params(int params[8])
 {
 	printf(HBLU"[Number of philosopher]:"HYEL" %d\n", params[number_of_coders]);
 	printf(HBLU"[Time to burnout]:"HYEL" %d ms\n", params[time_to_burnout]);
@@ -37,7 +37,7 @@ void	display_action(t_coder *coder, int action)
 
 	now = get_now();
 	time = (now - coder->simulation_start) / 1000000;
-	if (!get_sim_state(coder->simulation_state, coder->state_mu))
+	if (!get_sim_state(coder->sim_state, coder->state_mu))
 		return ;
 	pthread_mutex_lock(coder->display_mu);
 	if (action == COMPILE)

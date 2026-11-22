@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 21:20:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:47:04 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 05:09:24 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h> 
 # include <stdbool.h> 
 # include <string.h>
+# include <time.h>
 
 # define ERR 0
 # define OK  1
@@ -30,11 +31,10 @@ typedef struct s_request_queue	t_request_queue;
 typedef struct s_request		t_request;
 typedef struct s_coder			t_coder;
 
-
 typedef struct s_monitoring
 {
 	int				params[8];
-	int				*simulation_state;
+	int				*sim_state;
 	pthread_mutex_t	*state_mu;
 	uint64_t		*timestamp;
 	pthread_mutex_t	*timestamp_mu;
@@ -48,9 +48,9 @@ typedef struct s_scheduler
 	t_request_queue	*queue;
 	t_heap			**heaps;
 	pthread_t		scheduler_thread;
-	int				*simulation_state;
+	int				*sim_state;
 	pthread_mutex_t	*state_mu;
-	int (*f) (t_heap_node *, t_heap_node *);
+	int				(*f)(t_heap_node *, t_heap_node *);
 
 }	t_scheduler;
 
@@ -58,7 +58,7 @@ typedef struct s_dongles
 {
 	size_t			id;
 	size_t			is_used;
-	time_t			last_use;
+	uint64_t		last_use;
 	pthread_mutex_t	*dongle;
 	pthread_mutex_t	is_used_mu;
 
@@ -69,7 +69,7 @@ struct s_coder
 	int				params[8];
 	int				counter;
 	uint64_t		simulation_start;
-	int				*simulation_state;
+	int				*sim_state;
 	pthread_mutex_t	*state_mu;
 	size_t			coder_id;
 	bool			*can_compile;
@@ -88,7 +88,7 @@ typedef struct s_sim
 {
 	int				params[8];
 	pthread_t		*thread;
-	int				simulation_state;
+	int				sim_state;
 	t_request_queue	*queue;
 	bool			*can_compile;
 	uint64_t		*timestamp;
@@ -127,6 +127,6 @@ pthread_t		*threads_init(int nb);
 pthread_mutex_t	*init_dynamique_mutex(int nb);
 pthread_cond_t	*init_dynamique_cond(int nb);
 bool			*can_compile_init(int nb);
-time_t			*timestamp_init(int nb);
+uint64_t		*timestamp_init(int nb);
 
 #endif

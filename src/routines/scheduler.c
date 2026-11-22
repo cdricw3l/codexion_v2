@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 05:11:51 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,23 @@ static void	process_request(int dongle_id[2], t_scheduler *scheduler,
 
 	request_left = (t_request *)node_left->content;
 	request_right = (t_request *)node_right->content;
-	
-	
-	
 	if (request_left->coder_id == request_right->coder_id)
 	{
-		//printf("Scheduler process request :\n");
-		//request_display_node(request_left);
-		if (get_dongle_state(request_left->dongle_l) || get_dongle_state(request_left->dongle_r))
-		{
-			//printf(REDB"Decision NOK!"CRESET"\n\n");
+		if (get_dongle_state(request_left->dongle_l)
+			|| get_dongle_state(request_left->dongle_r))
 			return ;
-		}
-		//printf(GRNB"Desision OK!"CRESET"\n\n");
 		n1 = heap_pop(scheduler->heaps[dongle_id[LEFT]], fifo);
 		n2 = heap_pop(scheduler->heaps[dongle_id[RIGHT]], fifo);
-		assert(!pthread_mutex_lock(request_left->can_compile_mu));
+		pthread_mutex_lock(request_left->can_compile_mu);
 		*request_left->can_compile = true;
-		assert(*request_left->can_compile == true);
 		set_dongle_state(request_left->dongle_l, true);
 		set_dongle_state(request_left->dongle_r, true);
-		assert(!pthread_cond_signal(request_left->can_compile_cond));
-		assert(!pthread_mutex_unlock(request_left->can_compile_mu));
-
+		pthread_cond_signal(request_left->can_compile_cond);
+		pthread_mutex_unlock(request_left->can_compile_mu);
 		free(n1->content);
 		free(n1);
 		free(n2);
 	}
-	
 }
 
 void	who_can_compile(t_scheduler *scheduler)
@@ -66,7 +55,8 @@ void	who_can_compile(t_scheduler *scheduler)
 	while (i < scheduler->params[number_of_coders])
 	{
 		get_dongle_arr(i, scheduler->params, dongle_id);
-		if (!scheduler->heaps[dongle_id[LEFT]]->heap_size || !scheduler->heaps[dongle_id[RIGHT]]->heap_size)
+		if (!scheduler->heaps[dongle_id[LEFT]]->heap_size
+			|| !scheduler->heaps[dongle_id[RIGHT]]->heap_size)
 		{
 			i++;
 			continue ;
@@ -82,24 +72,23 @@ void	who_can_compile(t_scheduler *scheduler)
 	}
 }
 
-void *clean_request_queue(t_scheduler *scheduler)
+void	*clean_request_queue(t_scheduler *scheduler)
 {
-	size_t i;
-	size_t j;
-	t_request *r;
-	t_request **q;
+	size_t		i;
+	size_t		j;
+	t_request	*r;
+	t_request	**q;
 
 	i = 0;
 	q = scheduler->queue->queue;
 	while (i < scheduler->queue->queue_size)
 		pthread_cond_signal(q[i++]->can_compile_cond);
 	i = 0;
-	while (i < scheduler->params[number_of_coders])
+	while ((int)i < scheduler->params[number_of_coders])
 	{
 		j = 0;
-		while(j < scheduler->heaps[i]->heap_size)
+		while (j < scheduler->heaps[i]->heap_size)
 		{
-
 			r = scheduler->heaps[i]->queue[j]->content;
 			pthread_cond_signal(r->can_compile_cond);
 			j++;
@@ -118,7 +107,7 @@ void	*scheduler_routine(void *data)
 	int			dongle[2];
 
 	scheduler = (t_scheduler *)data;
-	while (get_sim_state(scheduler->simulation_state,
+	while (get_sim_state(scheduler->sim_state,
 			scheduler->state_mu) == ON)
 	{
 		request = request_pop(scheduler->queue);

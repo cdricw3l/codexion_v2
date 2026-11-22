@@ -48,7 +48,7 @@
 //     size_t i;
 //     monitoring = (t_monitoring *)data;
 
-//     while (get_sim_state(monitoring->simulation_state, monitoring->state_mu))
+//     while (get_sim_state(monitoring->sim_state, monitoring->state_mu))
 //     {
 //         i = 0;
 //         while (i < monitoring->params[number_of_coders])
@@ -56,7 +56,7 @@
 //             if (!check_timestamp(monitoring, i))
 //             {
 //                 display_action(&monitoring->coders[i], 4);
-//                 set_sim_state(monitoring->simulation_state, monitoring->state_mu, OFF);
+//                 set_sim_state(monitoring->sim_state, monitoring->state_mu, OFF);
 //                 return (NULL);
 //             }
 //             i++;
@@ -70,7 +70,7 @@
 //     t_request *request;
     
 //     scheduler = (t_scheduler *)data;
-//     while (get_sim_state(scheduler->simulation_state, scheduler->state_mu))
+//     while (get_sim_state(scheduler->sim_state, scheduler->state_mu))
 //     {
         
 //     }
@@ -86,7 +86,7 @@
 //     coder = (t_coder *)data;
 //     i = 0;
 
-//     while (get_sim_state(coder->simulation_state, coder->state_mu) && coder->params[number_of_compiles_required] > i)
+//     while (get_sim_state(coder->sim_state, coder->state_mu) && coder->params[number_of_compiles_required] > i)
 //     {
 //         assert(request_push(coder));
 //         pthread_mutex_lock(coder->can_compile_mu);
@@ -119,12 +119,12 @@
 //     uint64_t start;
 //     pthread_t monitor_thread;
 
-//     set_sim_state(&sim->simulation_state, sim->state_mu, ON);
+//     set_sim_state(&sim->sim_state, sim->state_mu, ON);
 //     start = get_now();
 //     assert(launch_coders(sim, coder, unit_coder_monitor_routine, start));
 //     assert(!pthread_create(&monitor_thread, NULL, monitoring_thread, monitor));
 //     assert(joint_coders(sim));
-//     set_sim_state(&sim->simulation_state, sim->state_mu, OFF);
+//     set_sim_state(&sim->sim_state, sim->state_mu, OFF);
 //     pthread_join(monitor_thread, NULL);
 //     END_TEST;
 // }

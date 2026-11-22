@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 05:38:34 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/21 23:49:23 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:56:13 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	request_display_node(t_request *request)
 	printf("Coder id: %ld\n", request->coder_id);
 	printf("Request id: %ld\n", request->request_id);
 	printf("dongle state: %ld\n", request->dongle_l->is_used);
-	
 	printf("\n");
 }
 

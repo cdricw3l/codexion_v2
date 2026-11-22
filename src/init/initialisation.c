@@ -6,11 +6,11 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 18:23:26 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 22:59:47 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 05:02:19 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "initialisation.h"
+#include "../../include/codexion.h"
 
 int	clear_data(t_data *d, int code)
 {

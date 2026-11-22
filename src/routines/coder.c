@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:48:08 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:52:40 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	*coder_routine(void *data)
 	{
 		if (!request_push(coder))
 		{
-			set_sim_state(coder->simulation_state, coder->state_mu, OFF);
+			set_sim_state(coder->sim_state, coder->state_mu, OFF);
 			return (NULL);
 		}
 		pthread_mutex_lock(coder->can_compile_mu);
@@ -67,7 +67,7 @@ void	*coder_routine(void *data)
 			pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
 		*coder->can_compile = false;
 		pthread_mutex_unlock(coder->can_compile_mu);
-		if (!get_sim_state(coder->simulation_state, coder->state_mu))
+		if (!get_sim_state(coder->sim_state, coder->state_mu))
 			return (NULL);
 		coder_action(coder);
 		if (coder->counter++ == coder->params[number_of_compiles_required])

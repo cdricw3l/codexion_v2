@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/21 23:27:32 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 05:08:37 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ uint64_t		get_timestamp(uint64_t *timestamp,
 /****************************************** DISPLAY MODULE */
 
 void			display_action(t_coder *coder, int action);
-void			display_params(int params[8], int nb);
+void			display_params(int params[8]);
 
 /****************************************** THREAD MANAGMENT MODULE */
 

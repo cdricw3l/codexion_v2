@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 09:22:08 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:55:39 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ static void	*scheduler_heap_error(t_scheduler **scheduler, size_t end)
 	return (scheduler_error(scheduler));
 }
 
-static void *get_arbitration_function(int arbitration)
+static void	*get_arbitration_function(int arbitration)
 {
 	if (arbitration == FIFO)
-		return(fifo);
-	return(edf);
+		return (fifo);
+	return (edf);
 }
 
 t_scheduler	*scheduler_init(t_sim *sim, int params[8])
@@ -59,7 +59,7 @@ t_scheduler	*scheduler_init(t_sim *sim, int params[8])
 		i++;
 	}
 	scheduler->queue = sim->queue;
-	scheduler->simulation_state = &sim->simulation_state;
+	scheduler->sim_state = &sim->sim_state;
 	scheduler->state_mu = sim->state_mu;
 	scheduler->f = get_arbitration_function(params[arbitration]);
 	ft_memcopy(params, scheduler->params, sizeof(int) * 8);
