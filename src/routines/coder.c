@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:07:17 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:10:52 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,16 @@ static void	action(t_coder *coder, int action)
 		usleep(coder->params[time_to_refactor] * 1000);
 }
 
-
-
 static void	coder_action(t_coder *coder)
 {
 	pthread_mutex_lock(coder->dongle_right->dongle);
-	pthread_mutex_lock(coder->dongle_left->dongle);
-
-	
+	pthread_mutex_lock(coder->dongle_left->dongle);	
 	display_action(coder, COMPILE);
 	action(coder, COMPILE);
-	
-	// coder->dongle_right->is_used = false;
-	// coder->dongle_left->is_used = false;
 	pthread_mutex_unlock(coder->dongle_right->dongle);
 	pthread_mutex_unlock(coder->dongle_left->dongle);
-
 	set_dongle_state(coder->dongle_left, false);
 	set_dongle_state(coder->dongle_right, false);
-	
 	display_action(coder, DEBUG);
 	action(coder, DEBUG);
 	display_action(coder, REFACTO);
