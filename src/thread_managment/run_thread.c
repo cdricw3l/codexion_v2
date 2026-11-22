@@ -50,6 +50,7 @@ int	launch_coders(t_sim *sim, t_coder *coders)
 	while (i < sim->params[number_of_coders] + 2)
 	{
 		coders[i - 2].simulation_start = start;
+		coders[i - 2].counter = 0;
 		set_timestamp(&coders[i - 2]);
 		if (pthread_create(&sim->thread[i], NULL,
 				coder_routine, &coders[i - 2]))

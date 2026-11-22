@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:47:25 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 06:49:02 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void check_coder(int params[8], t_coder *coders, t_sim *sim, t_dongles *dongles)
         assert(coders[i].display_mu == sim->display_mu);
         assert(coders[i].coder_id == i);
         assert(coders[i].simulation_state == &sim->simulation_state);
-        assert(coders[i].simulation_state_mu == sim->simulation_state_mu);
+        assert(coders[i].state_mu == sim->state_mu);
         assert(coders[i].can_compile == &sim->can_compile[i]);
         assert(coders[i].can_compile_cond == &sim->can_compile_cond[i]);
         assert(coders[i].can_compile_mu == &sim->can_compile_mu[i]);

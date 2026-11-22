@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 21:20:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/21 23:28:41 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:47:04 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_monitoring
 {
 	int				params[8];
 	int				*simulation_state;
-	pthread_mutex_t	*simulation_state_mu;
+	pthread_mutex_t	*state_mu;
 	uint64_t		*timestamp;
 	pthread_mutex_t	*timestamp_mu;
 	t_coder			*coders;
@@ -49,7 +49,7 @@ typedef struct s_scheduler
 	t_heap			**heaps;
 	pthread_t		scheduler_thread;
 	int				*simulation_state;
-	pthread_mutex_t	*simulation_state_mu;
+	pthread_mutex_t	*state_mu;
 	int (*f) (t_heap_node *, t_heap_node *);
 
 }	t_scheduler;
@@ -67,9 +67,10 @@ typedef struct s_dongles
 struct s_coder
 {
 	int				params[8];
+	int				counter;
 	uint64_t		simulation_start;
 	int				*simulation_state;
-	pthread_mutex_t	*simulation_state_mu;
+	pthread_mutex_t	*state_mu;
 	size_t			coder_id;
 	bool			*can_compile;
 	pthread_mutex_t	*can_compile_mu;
@@ -97,7 +98,7 @@ typedef struct s_sim
 	pthread_mutex_t	*timestamp_mu;
 	pthread_mutex_t	*can_compile_mu;
 	pthread_mutex_t	*request_queue_mu;
-	pthread_mutex_t	*simulation_state_mu;
+	pthread_mutex_t	*state_mu;
 
 }	t_sim;
 

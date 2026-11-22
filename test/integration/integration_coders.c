@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 09:52:15 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 00:27:18 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void start_coder_thread(t_sim *sim, t_coder *coder, t_scheduler *scheduler)
     uint64_t start;
 
     i = 0;
-    set_sim_state(&sim->simulation_state,sim->simulation_state_mu, ON);
+    set_sim_state(&sim->simulation_state,sim->state_mu, ON);
     start = get_now();
     while (i < sim->params[number_of_coders])
     {
@@ -84,7 +84,7 @@ void start_coder_thread(t_sim *sim, t_coder *coder, t_scheduler *scheduler)
 
     while (request_get_queue_size(scheduler->queue))
         usleep(50000);
-    set_sim_state(&sim->simulation_state,sim->simulation_state_mu, OFF);
+    set_sim_state(&sim->simulation_state,sim->state_mu, OFF);
 
     pthread_join(scheduler->scheduler_thread, NULL);
 

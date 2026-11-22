@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 20:21:33 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 01:15:18 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ t_sim	*sim_init(int params[8])
 	sim->request_queue_mu = init_dynamique_mutex(1);
 	if (!sim->request_queue_mu)
 		return (clean_sim(&sim));
-	sim->simulation_state_mu = init_dynamique_mutex(1);
-	if (!sim->simulation_state_mu)
+	sim->state_mu = init_dynamique_mutex(1);
+	if (!sim->state_mu)
 		return (clean_sim(&sim));
 	sim->queue = request_queue_init();
 	if (!sim->queue)
 		return (clean_sim(&sim));
-	set_sim_state(&sim->simulation_state, sim->simulation_state_mu, OFF);
+	set_sim_state(&sim->simulation_state, sim->state_mu, OFF);
 	return (sim);
 }

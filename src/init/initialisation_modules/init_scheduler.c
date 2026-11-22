@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 09:22:08 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 06:51:19 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_scheduler	*scheduler_init(t_sim *sim, int params[8])
 	}
 	scheduler->queue = sim->queue;
 	scheduler->simulation_state = &sim->simulation_state;
-	scheduler->simulation_state_mu = sim->simulation_state_mu;
+	scheduler->state_mu = sim->state_mu;
 	scheduler->f = get_arbitration_function(params[arbitration]);
 	ft_memcopy(params, scheduler->params, sizeof(int) * 8);
 	return (scheduler);

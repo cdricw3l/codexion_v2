@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 21:08:14 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 06:49:18 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void check_sim(t_sim *sim,int params[8])
     assert(!pthread_mutex_unlock(sim->request_queue_mu));
     assert(!pthread_mutex_lock(sim->display_mu));
     assert(!pthread_mutex_unlock(sim->display_mu));
-    assert(sim->simulation_state_mu);
-    assert(!pthread_mutex_lock(sim->simulation_state_mu));
-    assert(!pthread_mutex_unlock(sim->simulation_state_mu));
+    assert(sim->state_mu);
+    assert(!pthread_mutex_lock(sim->state_mu));
+    assert(!pthread_mutex_unlock(sim->state_mu));
     
 }
 

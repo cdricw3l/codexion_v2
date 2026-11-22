@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:28:27 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:00:59 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ bool	start_simulation(t_data *d)
 	coder = d->coder;
 	scheduler = d->scheduler;
 	monitoring = d->monitoring;
-	set_sim_state(&sim->simulation_state, sim->simulation_state_mu, ON);
+	set_sim_state(&sim->simulation_state, sim->state_mu, ON);
 	if (!launch_coders(sim, coder))
 		return (false);
 	if (!launch_scheduler(sim, scheduler))

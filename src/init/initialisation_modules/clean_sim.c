@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 12:49:24 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 23:00:16 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ static void	destroy_mutex(t_sim *sim)
 		clean_dynamique_mutex(&sim->display_mu, 1);
 	if (sim->request_queue_mu)
 		clean_dynamique_mutex(&sim->request_queue_mu, 1);
-	if (sim->simulation_state_mu)
-		clean_dynamique_mutex(&sim->simulation_state_mu, 1);
+	if (sim->state_mu)
+		clean_dynamique_mutex(&sim->state_mu, 1);
 }
 
 void	*clean_sim(t_sim **sim)

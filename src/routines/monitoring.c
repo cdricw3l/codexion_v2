@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 15:01:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 04:37:40 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*monitoring_routine(void *data)
 
 	monitor = (t_monitoring *)data;
 	while (get_sim_state(monitor->simulation_state,
-			monitor->simulation_state_mu) == ON)
+			monitor->state_mu) == ON)
 	{
 		i = 0;
 		while (i < monitor->params[number_of_coders])
@@ -31,7 +31,7 @@ void	*monitoring_routine(void *data)
 				>=  monitor->params[time_to_burnout] * 1000000ULL)
 			{
 				set_sim_state(monitor->simulation_state,
-					monitor->simulation_state_mu, OFF);
+					monitor->state_mu, OFF);
 				display_action(&monitor->coders[i], BURNED);
 				return (NULL);
 			}

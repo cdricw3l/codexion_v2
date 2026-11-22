@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 04:28:18 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/19 20:27:42 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:47:03 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void unit_scheduler_init(void)
     assert(data.sim->queue == data.scheduler->queue);
     assert(data.sim->queue == data.coder->queue);
     assert(data.scheduler->simulation_state == &data.sim->simulation_state);
-    assert(data.scheduler->simulation_state_mu == data.sim->simulation_state_mu);
+    assert(data.scheduler->state_mu == data.sim->state_mu);
 
     i = 0;
     while (i < data.sim->params[number_of_coders])
