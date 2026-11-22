@@ -63,12 +63,12 @@ TYPE ?= unit
 ######################
 
 %.o:%.c 
-	@$(CC) -c $(CFLAGS)  $< -o $@
+	$(CC) -c $(CFLAGS)  $< -o $@
 
 $(NAME): $(OBJECT_SRCS)
-	@$(CC) $(CFLAGS) $(OBJECT_SRCS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJECT_SRCS) -o $(NAME)
 
-ARG=8 700 200 100 100 20 0 edf
+ARG=10 1700 200 100 100 20 0 fifo
 
 ifeq ($(shell uname),Darwin)
 	MEMORY_CHECK_ARG= leaks -atExit --
@@ -95,9 +95,10 @@ fclean: clean
 	make -C $(TEST_FOLDER) fclean
 	rm -f $(NAME)
 
+re: fclean $(NAME)
 
 test:
 	make -C $(TEST_FOLDER) TYPE=$(TYPE) MEMORY_CHECK=$(MEMORY_CHECK) test
 
 
-.PHONY: clean fclean test
+.PHONY: clean fclean test re

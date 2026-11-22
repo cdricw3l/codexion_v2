@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:28:27 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 06:20:10 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/21 23:39:27 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void	coder_activation(t_coder *coders)
 		while (i < nb)
 		{
 			if (i % 2 == even_odd)
+			{
 				set_can_compile(&coders[i], true);
+				usleep(100);
+			}
 			i++;
 		}
 		even_odd++;
@@ -56,8 +59,8 @@ bool	start_simulation(t_data *d)
 	if (!launch_scheduler(sim, scheduler))
 		return (false);
 	coder_activation(coder);
-	if (!launch_monitor(sim, monitoring))
-		return (false);
+	// if (!launch_monitor(sim, monitoring))
+	// 	return (false);
 	joint_thread(sim);
 	return (true);
 }

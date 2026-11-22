@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 05:53:46 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 00:24:23 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,19 @@ static void	action(t_coder *coder, int action)
 static void	coder_action(t_coder *coder)
 {
 	pthread_mutex_lock(coder->dongle_right->dongle);
+	coder->dongle_right->is_used = true;
 	pthread_mutex_lock(coder->dongle_left->dongle);
-
-	set_dongle_state(coder->dongle_left, ON);
-	set_dongle_state(coder->dongle_right, ON);
+	coder->dongle_left->is_used = true;
+	
 	
 	display_action(coder, COMPILE);
 	action(coder, COMPILE);
+	
+	coder->dongle_right->is_used = false;
 	pthread_mutex_unlock(coder->dongle_right->dongle);
+	coder->dongle_left->is_used = false;
 	pthread_mutex_unlock(coder->dongle_left->dongle);
-	set_dongle_state(coder->dongle_left, OFF);
-	set_dongle_state(coder->dongle_right, OFF);
+	
 	display_action(coder, DEBUG);
 	action(coder, DEBUG);
 	display_action(coder, REFACTO);
@@ -58,12 +60,14 @@ static void wait(t_coder *coder)
 void	*coder_routine(void *data)
 {
 	int			i;
+	int 		nb_of_compile;
 	t_coder		*coder;
 
 	coder = (t_coder *)data;
 	
 	i = 0;
-	//wait(coder);
+	nb_of_compile = 0;
+	wait(coder);
 	while (i < coder->params[number_of_compiles_required]
 		&& get_sim_state(coder->simulation_state, coder->simulation_state_mu))
 	{
@@ -90,7 +94,8 @@ void	*coder_routine(void *data)
 			return (NULL);
 		}
 		i++;
+		nb_of_compile++;
 	}
-
+	assert(nb_of_compile == coder->params[number_of_compiles_required]);
 	return (NULL);
 }
