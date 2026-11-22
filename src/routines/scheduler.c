@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 00:24:06 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:07:43 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ static void	process_request(int dongle_id[2], t_scheduler *scheduler,
 		//request_display_node(request_left);
 		if (get_dongle_state(request_left->dongle_l) || get_dongle_state(request_left->dongle_r))
 		{
-			//printf(REDB"Desition NOK!"CRESET"\n\n");
+			//printf(REDB"Decision NOK!"CRESET"\n\n");
 			return ;
 		}
-		
-		//printf(GRNB"Desition OK!"CRESET"\n\n");
-		
+		//printf(GRNB"Desision OK!"CRESET"\n\n");
 		n1 = heap_pop(scheduler->heaps[dongle_id[LEFT]], fifo);
 		n2 = heap_pop(scheduler->heaps[dongle_id[RIGHT]], fifo);
 		assert(!pthread_mutex_lock(request_left->can_compile_mu));
 		*request_left->can_compile = true;
 		assert(*request_left->can_compile == true);
+		set_dongle_state(request_left->dongle_l, true);
+		set_dongle_state(request_left->dongle_r, true);
 		assert(!pthread_cond_signal(request_left->can_compile_cond));
 		assert(!pthread_mutex_unlock(request_left->can_compile_mu));
 

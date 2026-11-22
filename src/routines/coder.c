@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 00:24:23 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:07:17 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,19 @@ static void	action(t_coder *coder, int action)
 static void	coder_action(t_coder *coder)
 {
 	pthread_mutex_lock(coder->dongle_right->dongle);
-	coder->dongle_right->is_used = true;
 	pthread_mutex_lock(coder->dongle_left->dongle);
-	coder->dongle_left->is_used = true;
-	
+
 	
 	display_action(coder, COMPILE);
 	action(coder, COMPILE);
 	
-	coder->dongle_right->is_used = false;
+	// coder->dongle_right->is_used = false;
+	// coder->dongle_left->is_used = false;
 	pthread_mutex_unlock(coder->dongle_right->dongle);
-	coder->dongle_left->is_used = false;
 	pthread_mutex_unlock(coder->dongle_left->dongle);
+
+	set_dongle_state(coder->dongle_left, false);
+	set_dongle_state(coder->dongle_right, false);
 	
 	display_action(coder, DEBUG);
 	action(coder, DEBUG);
@@ -68,32 +69,33 @@ void	*coder_routine(void *data)
 	i = 0;
 	nb_of_compile = 0;
 	wait(coder);
-	while (i < coder->params[number_of_compiles_required]
-		&& get_sim_state(coder->simulation_state, coder->simulation_state_mu))
+	while (1)
 	{
 		if (!request_push(coder))
 		{
-			set_sim_state(coder->simulation_state,
-				coder->simulation_state_mu, OFF);
+			set_sim_state(coder->simulation_state, coder->simulation_state_mu, OFF);
 			return (NULL);
 		}
 		pthread_mutex_lock(coder->can_compile_mu);
-		while (get_sim_state(coder->simulation_state, coder->simulation_state_mu) && *coder->can_compile == false)
+		while (*coder->can_compile == false)
 			pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
 		/* if a coder burn, the scheduler send signal to all the coder. We dont want to display action, We want to stop the simulation */
-		if (get_sim_state(coder->simulation_state, coder->simulation_state_mu))
-		{
-			//printf("Coder %ld: entering action\n", coder->coder_id);
-			coder_action(coder);
-			*coder->can_compile = false;
-			pthread_mutex_unlock(coder->can_compile_mu);
-		}
-		else
+		if (!get_sim_state(coder->simulation_state, coder->simulation_state_mu))
 		{
 			pthread_mutex_unlock(coder->can_compile_mu);
 			return (NULL);
 		}
-		i++;
+		/* 
+			really important to set the variable  and unlock befort coder action
+			because the scheduler wait for this mutex
+		*/
+		*coder->can_compile = false;
+		pthread_mutex_unlock(coder->can_compile_mu);
+		coder_action(coder);
+		if (i++ == coder->params[number_of_compiles_required])
+			return(NULL);
+		if (!get_sim_state(coder->simulation_state, coder->simulation_state_mu))
+			return (NULL);
 		nb_of_compile++;
 	}
 	assert(nb_of_compile == coder->params[number_of_compiles_required]);

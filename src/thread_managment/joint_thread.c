@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/20 01:01:42 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/21 23:43:59 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:00:51 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,5 @@ void	joint_thread(t_sim *sim)
 	joint_coders(sim);
 	set_sim_state(&sim->simulation_state, sim->simulation_state_mu, OFF);
 	pthread_join(sim->thread[SCHEDULER_THREAD], NULL);
-	//pthread_join(sim->thread[MONITOR_THREAD], NULL);
+	pthread_join(sim->thread[MONITOR_THREAD], NULL);
 }

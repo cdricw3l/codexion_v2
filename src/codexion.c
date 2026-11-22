@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:28:27 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/21 23:39:27 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/22 04:00:59 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ bool	start_simulation(t_data *d)
 	if (!launch_scheduler(sim, scheduler))
 		return (false);
 	coder_activation(coder);
-	// if (!launch_monitor(sim, monitoring))
-	// 	return (false);
+	if (!launch_monitor(sim, monitoring))
+		return (false);
 	joint_thread(sim);
 	return (true);
 }
