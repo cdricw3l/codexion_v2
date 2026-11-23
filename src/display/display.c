@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 05:55:52 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 09:21:05 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 13:40:10 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,5 @@ void	display_action(t_coder *coder, int action)
 		printf("%ld %ld is debugging\n", time, coder->coder_id);
 	if (action == REFACTO)
 		printf("%ld %ld is refactoring\n", time, coder->coder_id);
-	if (action == BURNED)
-		printf("%ld %ld burned out\n", time, coder->coder_id);
 	pthread_mutex_unlock(coder->display_mu);
 }

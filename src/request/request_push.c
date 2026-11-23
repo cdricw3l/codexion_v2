@@ -54,7 +54,7 @@ int	request_push(t_coder *coder)
 	t_request	*request;
 	int			status;
 
-	if (!coder || !coder->queue)
+	if (!coder || !coder->queue || coder->dongle_left == coder->dongle_right)
 		return (false);
 	if (pthread_mutex_lock(&coder->queue->queue_mutex))
 	{

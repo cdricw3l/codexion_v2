@@ -6,13 +6,13 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:28:27 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 09:27:24 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 13:50:48 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/codexion.h"
 
-# define DEBBUG_MODE true
+# define DEBBUG_MODE false
 
 void check_counter(t_coder *coders, int params[8])
 {

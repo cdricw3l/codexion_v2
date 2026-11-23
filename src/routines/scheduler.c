@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 08:47:07 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 13:50:38 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,13 @@ void	*scheduler_routine(void *data)
 			scheduler->state_mu) == ON)
 	{
 		request = request_pop(scheduler->queue);
-		if (request)
-		{
-			node_1 = heap_new_node(request);
-			node_2 = heap_new_node(request);
-			get_dongle_arr(request->coder_id, scheduler->params, dongle);
-			heap_push(scheduler->heaps[dongle[LEFT]], node_1, fifo);
-			heap_push(scheduler->heaps[dongle[RIGHT]], node_2, fifo);
-		}
+		if (!request)
+			continue;
+		node_1 = heap_new_node(request);
+		node_2 = heap_new_node(request);
+		get_dongle_arr(request->coder_id, scheduler->params, dongle);
+		heap_push(scheduler->heaps[dongle[LEFT]], node_1, fifo);
+		heap_push(scheduler->heaps[dongle[RIGHT]], node_2, fifo);
 		who_can_compile(scheduler);
 		usleep(1000);
 	}
