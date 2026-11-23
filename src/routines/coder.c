@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:52:40 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 09:21:57 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	action(t_coder *coder, int action)
 {
 	if (action == COMPILE)
 	{
-		set_timestamp(coder);
+		set_timestamp(coder, get_now());
 		usleep(coder->params[time_to_compile] * 1000);
 	}
 	if (action == DEBUG)
@@ -63,15 +63,18 @@ void	*coder_routine(void *data)
 			return (NULL);
 		}
 		pthread_mutex_lock(coder->can_compile_mu);
-		while (*coder->can_compile == false)
+		while (*coder->can_compile == false && get_sim_state(coder->sim_state, coder->state_mu))
 			pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
 		*coder->can_compile = false;
 		pthread_mutex_unlock(coder->can_compile_mu);
 		if (!get_sim_state(coder->sim_state, coder->state_mu))
 			return (NULL);
 		coder_action(coder);
-		if (coder->counter++ == coder->params[number_of_compiles_required])
+		if (coder->counter++ == coder->params[number_of_compiles_required] - 1)
+		{
+			set_timestamp(coder, -1);
 			return (NULL);
+		}
 	}
 	return (NULL);
 }

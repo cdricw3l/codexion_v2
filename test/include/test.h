@@ -24,7 +24,7 @@
     #include <assert.h>     // assert()
     #include <stdbool.h>   // bool, true, false
     #include <stddef.h>    // size_t, NULL, ptrdiff_t
-    #include <stdint.h>    // int32_t, uint64_t, etc.
+    #include <stdint.h>    // int32_t, int64_t, etc.
 
 
     #include <fcntl.h>         // open(), O_RDONLY...

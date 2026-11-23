@@ -27,8 +27,8 @@
 
 // int check_timestamp(t_monitoring *monitor, size_t coder_id)
 // {
-//     uint64_t now;
-//     uint64_t elapsed;
+//     int64_t now;
+//     int64_t elapsed;
 
 //     now = get_now();
 
@@ -116,7 +116,7 @@
 // static void unit_monitoring_thread(t_sim *sim, t_coder *coder, t_monitoring *monitor)
 // {
 //     START_TEST;
-//     uint64_t start;
+//     int64_t start;
 //     pthread_t monitor_thread;
 
 //     set_sim_state(&sim->sim_state, sim->state_mu, ON);

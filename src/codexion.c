@@ -6,16 +6,27 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:28:27 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:52:40 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 09:27:24 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/codexion.h"
 
-// #if DEBBUG_MODE == true
-// 	printf("Mode debug activé : affichage des parametres.\n");
-// 	display_params(params, argc - 1);
-// #endif
+# define DEBBUG_MODE true
+
+void check_counter(t_coder *coders, int params[8])
+{
+	int 	i;
+	
+	i = 0;
+	while (i < params[number_of_coders])
+	{
+		printf("Coder %ld compilation counter -> %d\n", coders[i].coder_id, coders->counter);
+		assert(coders->counter == params[number_of_compiles_required]);
+		i++;
+	}
+	
+}
 
 void	coder_activation(t_coder *coders)
 {
@@ -75,11 +86,18 @@ int	main(int argc, char **argv)
 		err_msg("Error parsing arguments\n");
 		return (1);
 	}
+	#if DEBBUG_MODE
+		printf("Mode debug activé : affichage des parametres.\n");
+		display_params(params);
+	#endif
 	if (!initialisation(&d, params))
 	{
 		printf(BRED"Erreur d'initialisation"CRESET"\n");
 		return (1);
 	}
 	start_simulation(&d);
+	#if DEBBUG_MODE
+		check_counter(d.coder, params);
+	#endif
 	return (clear_data(&d, 0));
 }

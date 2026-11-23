@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 05:55:52 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 05:07:37 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 09:21:05 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	display_params(int params[8])
 
 void	display_action(t_coder *coder, int action)
 {
-	uint64_t	now;
-	uint64_t	time;
+	int64_t	now;
+	int64_t	time;
 
 	now = get_now();
 	time = (now - coder->simulation_start) / 1000000;
@@ -52,7 +52,5 @@ void	display_action(t_coder *coder, int action)
 		printf("%ld %ld is refactoring\n", time, coder->coder_id);
 	if (action == BURNED)
 		printf("%ld %ld burned out\n", time, coder->coder_id);
-	if (action == END)
-		printf("%ld %ld end of the simulation\n", time, coder->coder_id);
 	pthread_mutex_unlock(coder->display_mu);
 }

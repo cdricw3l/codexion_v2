@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 08:07:31 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 01:14:41 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 09:21:06 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ struct timespec	time_diff(struct timespec start, struct timespec end)
 	return (temp);
 }
 
-uint64_t	time_calculation(struct timespec time)
+int64_t	time_calculation(struct timespec time)
 {
-	uint64_t	n_to_sec;
+	int64_t	n_to_sec;
 
 	n_to_sec = time.tv_sec * 1000000000;
 	return ((n_to_sec + time.tv_nsec) / 1000000);
@@ -46,22 +46,20 @@ uint64_t	time_calculation(struct timespec time)
 /**
  * set the timestamp of the last compilation in nano second
  */
-void	set_timestamp(t_coder *coder)
+void	set_timestamp(t_coder *coder, int64_t now)
 {
-	struct timespec	now;
 
-	clock_gettime(CLOCK_MONOTONIC, &now);
 	pthread_mutex_lock(coder->timestamp_mu);
-	*(coder->timestamp) = (now.tv_nsec + (now.tv_sec * 1000000000));
+	*(coder->timestamp) = now;
 	pthread_mutex_unlock(coder->timestamp_mu);
 }
 
 /**
  * get the timestamp of the last compilation in nano second
  */
-uint64_t	get_timestamp(uint64_t *timestamp, pthread_mutex_t *timestamp_mu)
+int64_t	get_timestamp(int64_t *timestamp, pthread_mutex_t *timestamp_mu)
 {
-	uint64_t	time;
+	int64_t	time;
 
 	pthread_mutex_lock(timestamp_mu);
 	time = *timestamp;
@@ -69,10 +67,10 @@ uint64_t	get_timestamp(uint64_t *timestamp, pthread_mutex_t *timestamp_mu)
 	return (time);
 }
 
-uint64_t	get_now(void)
+int64_t	get_now(void)
 {
 	struct timespec	n;
-	uint64_t		now;
+	int64_t		now;
 
 	clock_gettime(CLOCK_MONOTONIC, &n);
 	now = n.tv_nsec + (n.tv_sec * 1000000000);

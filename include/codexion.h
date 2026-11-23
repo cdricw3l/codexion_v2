@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 05:08:37 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 09:21:05 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@
 # include "../src/heap/heap.h"
 # include "../src/init/initialisation.h"
 
-# define DEBBUG_MODE false
 # define LEFT 0
 # define RIGHT 1
 # define TIMESTAMP_DONGLE 0
 # define TIMESTAMP_COMPILATION 1
 # define OFF 0
 # define ON 1
+# define END 1
 # define CODER_MAX 200
 # define PARAMS_SIZE 8
 # define SCHEDULER_THREAD 0
@@ -44,7 +44,6 @@ enum e_action
 	DEBUG,
 	REFACTO,
 	BURNED,
-	END,
 };
 
 enum e_PARSING_ERROR
@@ -83,7 +82,7 @@ struct s_request
 	bool			*can_compile;
 	pthread_cond_t	*can_compile_cond;
 	pthread_mutex_t	*can_compile_mu;
-	uint64_t		*last_compile;
+	int64_t		*last_compile;
 	t_dongles		*dongle_l;
 	t_dongles		*dongle_r;
 	void			*next;
@@ -103,11 +102,11 @@ void			destroy_request(t_request *request);
 
 /****************************************** TIME MODULE */
 
-uint64_t		get_now(void);
+int64_t		get_now(void);
 /* peut etre pas utile time_diff*/
 struct timespec	time_diff(struct timespec start, struct timespec end);
-void			set_timestamp(t_coder *coder);
-uint64_t		get_timestamp(uint64_t *timestamp,
+void			set_timestamp(t_coder *coder, int64_t now);
+int64_t		get_timestamp(int64_t *timestamp,
 					pthread_mutex_t *timestamp_mu);
 
 /****************************************** DISPLAY MODULE */

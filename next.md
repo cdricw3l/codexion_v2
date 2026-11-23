@@ -1,14 +1,20 @@
 
-# verifier le test unitaire thread_request_push()
-
-1 fois sur 10 l'assertion de verification ce declanche
-
-# Trouver d'ou viens le segfault.
-
 # implementer le cooldown
-
-# mis en forme du code
-
+# implementer le edf
 # shematiser le processur d'initialisation
+# memory check
 
-# Ne pas oublier de nettoyqer le tableau de request et les heap
+# Question :
+more than 200 coder?
+
+# Test Repport
+
+## TEST NOK
+ARG=20 401 200 100 100 10 0 fifo -> segfault
+ARG=200 410 200 100 100 10 0 fifo -> segfault
+ARG=1 420 200 100 100 10 0 fifo -> One coder: segfault
+
+## TEST OK
+ARG=20 410 200 100 100 100 0 fifo. -> OK
+ARG=200 450 200 100 100 10 0 fifo -> OK
+ARG=200 420 200 100 100 10 0 fifo -> OK

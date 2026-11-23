@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 12:51:42 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 06:46:33 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 09:35:14 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	parse_arguments(int argc, char **args, int params[8])
 		save_param(args[i], i, params);
 		i++;
 	}
-	if (params[number_of_coders] < 2)
+	if (params[number_of_coders] > 200)
 		return (false);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 09:52:15 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:52:40 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 09:21:05 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void start_coder_thread(t_sim *sim, t_coder *coder, t_scheduler *scheduler)
 {
     START_BLOCK;
     size_t i;
-    uint64_t start;
+    int64_t start;
 
     i = 0;
     set_sim_state(&sim->sim_state,sim->state_mu, ON);

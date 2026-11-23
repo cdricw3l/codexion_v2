@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 05:11:51 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 08:47:07 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,11 @@ void	*scheduler_routine(void *data)
 			node_1 = heap_new_node(request);
 			node_2 = heap_new_node(request);
 			get_dongle_arr(request->coder_id, scheduler->params, dongle);
-			assert(heap_push(scheduler->heaps[dongle[LEFT]], node_1, fifo));
-			assert(heap_push(scheduler->heaps[dongle[RIGHT]], node_2, fifo));
+			heap_push(scheduler->heaps[dongle[LEFT]], node_1, fifo);
+			heap_push(scheduler->heaps[dongle[RIGHT]], node_2, fifo);
 		}
 		who_can_compile(scheduler);
+		usleep(1000);
 	}
 	return (clean_request_queue(scheduler));
 }

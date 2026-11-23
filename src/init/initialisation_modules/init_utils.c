@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 10:44:15 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 05:06:15 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 09:21:05 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,13 @@ bool	*can_compile_init(int nb)
 	return (can_compile);
 }
 
-uint64_t	*timestamp_init(int nb)
+int64_t	*timestamp_init(int nb)
 {
-	uint64_t	*timestamp;
+	int64_t	*timestamp;
 
-	timestamp = malloc(sizeof(uint64_t) * nb);
+	timestamp = malloc(sizeof(int64_t) * nb);
 	if (!timestamp)
 		return (NULL);
-	memset(timestamp, 0, sizeof(uint64_t) * nb);
+	memset(timestamp, 0, sizeof(int64_t) * nb);
 	return (timestamp);
 }

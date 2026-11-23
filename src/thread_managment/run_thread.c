@@ -43,7 +43,7 @@ int	launch_scheduler(t_sim *sim, t_scheduler *scheduler)
 int	launch_coders(t_sim *sim, t_coder *coders)
 {
 	int			i;
-	uint64_t	start;
+	int64_t	start;
 
 	i = CODERS_THREAD_START;
 	start = get_now();
@@ -51,7 +51,7 @@ int	launch_coders(t_sim *sim, t_coder *coders)
 	{
 		coders[i - 2].simulation_start = start;
 		coders[i - 2].counter = 0;
-		set_timestamp(&coders[i - 2]);
+		set_timestamp(&coders[i - 2], get_now());
 		if (pthread_create(&sim->thread[i], NULL,
 				coder_routine, &coders[i - 2]))
 		{
