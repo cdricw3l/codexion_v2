@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 09:21:05 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 14:56:19 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ void			destroy_request(t_request *request);
 int64_t		get_now(void);
 /* peut etre pas utile time_diff*/
 struct timespec	time_diff(struct timespec start, struct timespec end);
-void			set_timestamp(t_coder *coder, int64_t now);
-int64_t		get_timestamp(int64_t *timestamp,
+void			set_compilation_timestamp(t_coder *coder, int64_t now);
+int64_t		get_compilation_timestamp(int64_t *timestamp,
 					pthread_mutex_t *timestamp_mu);
 
 /****************************************** DISPLAY MODULE */
@@ -150,6 +150,6 @@ int				get_dongle_state(t_dongles *dongle);
 bool			get_can_compile(t_coder *coder);
 
 void			set_can_compile(t_coder *coder, bool value);
-void			set_dongle_state(t_dongles *dongle, int state);
+void			set_dongle_state(t_dongles *dongle, int state, int64_t stamp);
 void			set_sim_state(int *stte, pthread_mutex_t *state_mu, int state);
 #endif

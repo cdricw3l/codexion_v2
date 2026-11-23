@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 15:01:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 13:46:01 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 14:09:22 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*monitoring_routine(void *data)
 		i = 0;
 		while (i < monitor->params[number_of_coders])
 		{
-			last_compil = get_timestamp(monitor->coders[i].timestamp,
+			last_compil = get_compilation_timestamp(monitor->coders[i].timestamp,
 					monitor->coders[i].timestamp_mu);
 			now = get_now();
 			if ((now - last_compil) > (int64_t)(monitor->params[time_to_burnout] * 1000000))

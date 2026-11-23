@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 21:20:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 09:21:05 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 14:38:47 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_scheduler
 	pthread_t		scheduler_thread;
 	int				*sim_state;
 	pthread_mutex_t	*state_mu;
+	pthread_mutex_t	*display_mu;
 	int				(*f)(t_heap_node *, t_heap_node *);
 
 }	t_scheduler;
@@ -58,7 +59,7 @@ typedef struct s_dongles
 {
 	size_t			id;
 	size_t			is_used;
-	int64_t		last_use;
+	int64_t			last_use;
 	pthread_mutex_t	*dongle;
 	pthread_mutex_t	is_used_mu;
 
@@ -78,7 +79,7 @@ struct s_coder
 	t_request_queue	*queue;
 	t_dongles		*dongle_left;
 	t_dongles		*dongle_right;
-	int64_t		*timestamp;
+	int64_t			*timestamp;
 	pthread_mutex_t	*timestamp_mu;
 	pthread_mutex_t	*display_mu;
 

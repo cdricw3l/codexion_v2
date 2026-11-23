@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 13:31:34 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 14:57:35 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ static void	action(t_coder *coder, int action)
 {
 	if (action == COMPILE)
 	{
-		set_timestamp(coder, get_now());
+		set_compilation_timestamp(coder, get_now());
 		usleep(coder->params[time_to_compile] * 1000);
+		set_compilation_timestamp(coder, get_now());
 	}
 	if (action == DEBUG)
 		usleep(coder->params[time_to_debug] * 1000);
@@ -27,6 +28,7 @@ static void	action(t_coder *coder, int action)
 
 static void	coder_action(t_coder *coder)
 {
+	int64_t now;
 	/* check for One coder */
 	if (coder->dongle_left == coder->dongle_right)
 		return ;
@@ -34,10 +36,12 @@ static void	coder_action(t_coder *coder)
 	pthread_mutex_lock(coder->dongle_left->dongle);
 	display_action(coder, COMPILE);
 	action(coder, COMPILE);
+	
 	pthread_mutex_unlock(coder->dongle_right->dongle);
 	pthread_mutex_unlock(coder->dongle_left->dongle);
-	set_dongle_state(coder->dongle_left, false);
-	set_dongle_state(coder->dongle_right, false);
+	now = get_now();
+	set_dongle_state(coder->dongle_left, false, now);
+	set_dongle_state(coder->dongle_right, false, now);
 	display_action(coder, DEBUG);
 	action(coder, DEBUG);
 	display_action(coder, REFACTO);
@@ -49,6 +53,7 @@ static void	wait(t_coder *coder)
 	pthread_mutex_lock(coder->can_compile_mu);
 	while (*coder->can_compile == false)
 		pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
+	*coder->can_compile = false;
 	pthread_mutex_unlock(coder->can_compile_mu);
 }
 
@@ -75,7 +80,7 @@ void	*coder_routine(void *data)
 		coder_action(coder);
 		if (coder->counter++ == coder->params[number_of_compiles_required] - 1)
 		{
-			set_timestamp(coder, -1);
+			set_compilation_timestamp(coder, -1);
 			return (NULL);
 		}
 	}

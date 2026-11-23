@@ -51,7 +51,8 @@ int	launch_coders(t_sim *sim, t_coder *coders)
 	{
 		coders[i - 2].simulation_start = start;
 		coders[i - 2].counter = 0;
-		set_timestamp(&coders[i - 2], get_now());
+		assert(*(coders[i - 2].can_compile) == false);
+		set_compilation_timestamp(&coders[i - 2], get_now());
 		if (pthread_create(&sim->thread[i], NULL,
 				coder_routine, &coders[i - 2]))
 		{

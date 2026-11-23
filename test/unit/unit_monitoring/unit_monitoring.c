@@ -17,7 +17,7 @@
 // 	if (action == COMPILE)
 // 	{
 // 		usleep(coder->params[time_to_compile] * 1000);
-// 		set_timestamp(coder);
+// 		set_compilation_timestamp(coder);
 // 	}
 // 	if (action == DEBUG)
 // 		usleep(coder->params[time_to_debug] * 1000);
@@ -32,8 +32,8 @@
 
 //     now = get_now();
 
-//     elapsed = (now - get_timestamp(&monitor->timestamp[coder_id], &monitor->timestamp_mu[coder_id])) / 1000000;
-//     //printf("start: %ld end: %ld\n", now, get_timestamp(&monitor->timestamp[coder_id], &monitor->timestamp_mu[coder_id]));
+//     elapsed = (now - get_compilation_timestamp(&monitor->timestamp[coder_id], &monitor->timestamp_mu[coder_id])) / 1000000;
+//     //printf("start: %ld end: %ld\n", now, get_compilation_timestamp(&monitor->timestamp[coder_id], &monitor->timestamp_mu[coder_id]));
 //     //printf("coder id: %ld elapsed: %ld\n", coder_id, elapsed);
 //     if (elapsed > monitor->params[time_to_burnout])
 //     {
@@ -160,7 +160,7 @@
 //     assert(scheduler);
 //     monitor = monitoring_init(param, sim, coders);
 //     assert(monitor);
-//     // set_timestamp(&coders[0]);
+//     // set_compilation_timestamp(&coders[0]);
 //     // usleep(param[time_to_compile] * 1000);
 //     // assert(check_timestamp(monitor,0));
 

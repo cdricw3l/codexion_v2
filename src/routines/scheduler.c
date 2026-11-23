@@ -6,11 +6,23 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 13:50:38 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 15:00:23 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
+
+bool	are_dongle_available(t_request *request, int params[8])
+{
+	int64_t now;
+
+	now = get_now();
+	if ((now - request->dongle_l->last_use) < (int64_t)params[dongle_cooldown] * 1000000)
+		return (false);
+	if ((now - request->dongle_r->last_use) < (int64_t)(params[dongle_cooldown] * 1000000))
+		return (false);
+	return (true);
+}
 
 /* 
 	n1->content and n2->content are same content. Only one content free
@@ -29,13 +41,14 @@ static void	process_request(int dongle_id[2], t_scheduler *scheduler,
 	{
 		if (get_dongle_state(request_left->dongle_l)
 			|| get_dongle_state(request_left->dongle_r))
+			//|| !are_dongle_available(request_left, scheduler->params))
 			return ;
 		n1 = heap_pop(scheduler->heaps[dongle_id[LEFT]], fifo);
 		n2 = heap_pop(scheduler->heaps[dongle_id[RIGHT]], fifo);
 		pthread_mutex_lock(request_left->can_compile_mu);
 		*request_left->can_compile = true;
-		set_dongle_state(request_left->dongle_l, true);
-		set_dongle_state(request_left->dongle_r, true);
+		set_dongle_state(request_left->dongle_l, true, 0);
+		set_dongle_state(request_left->dongle_r, true, 0);
 		pthread_cond_signal(request_left->can_compile_cond);
 		pthread_mutex_unlock(request_left->can_compile_mu);
 		free(n1->content);
@@ -65,7 +78,6 @@ void	who_can_compile(t_scheduler *scheduler)
 		node_right = scheduler->heaps[dongle_id[RIGHT]]->queue[0];
 		if (node_left && node_right)
 		{
-			assert(node_left && node_right);
 			process_request(dongle_id, scheduler, node_left, node_right);
 		}
 		i++;

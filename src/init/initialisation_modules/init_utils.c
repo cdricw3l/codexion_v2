@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 10:44:15 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 09:21:05 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 14:40:57 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ bool	*can_compile_init(int nb)
 	if (!can_compile)
 		return (NULL);
 	memset(can_compile, false, sizeof(bool) * nb);
+	assert(can_compile[0] == false);
 	return (can_compile);
 }
 

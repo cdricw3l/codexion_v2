@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 08:07:31 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 09:21:06 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 14:11:02 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int64_t	time_calculation(struct timespec time)
 /**
  * set the timestamp of the last compilation in nano second
  */
-void	set_timestamp(t_coder *coder, int64_t now)
+void	set_compilation_timestamp(t_coder *coder, int64_t now)
 {
 
 	pthread_mutex_lock(coder->timestamp_mu);
@@ -54,10 +54,11 @@ void	set_timestamp(t_coder *coder, int64_t now)
 	pthread_mutex_unlock(coder->timestamp_mu);
 }
 
+
 /**
  * get the timestamp of the last compilation in nano second
  */
-int64_t	get_timestamp(int64_t *timestamp, pthread_mutex_t *timestamp_mu)
+int64_t	get_compilation_timestamp(int64_t *timestamp, pthread_mutex_t *timestamp_mu)
 {
 	int64_t	time;
 

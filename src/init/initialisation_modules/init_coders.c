@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:37:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:52:40 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/23 14:44:02 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_coder	*coders_init(t_sim *sim, t_dongles *dgl, int p[8])
 	while (i < p[number_of_coders])
 	{
 		coders[i].coder_id = i;
+		assert(sim->can_compile[i] == false);
 		coders[i].can_compile = &sim->can_compile[i];
 		coders[i].can_compile_mu = &sim->can_compile_mu[i];
 		coders[i].can_compile_cond = &sim->can_compile_cond[i];
