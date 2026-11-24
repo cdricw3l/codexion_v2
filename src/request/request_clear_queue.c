@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 04:59:44 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 17:32:41 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 20:46:07 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	request_clear_queue(t_request_queue *queue)
 	t_request	*root;
 	t_request	*tmp;
 
-	//printf("Heap size %ld\n", queue->queue_size);
 	if (!queue || !queue->queue || queue->queue_size == 0)
 		return ;
 	root = *queue->queue;

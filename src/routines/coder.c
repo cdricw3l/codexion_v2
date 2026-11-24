@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 19:38:13 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 20:44:27 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ void	*coder_routine(void *data)
 	standby(coder);
 	while (1)
 	{
-
 		if (!request_push(coder))
 			return (NULL);
 		pthread_mutex_lock(coder->can_compile_mu);
-		while (*coder->can_compile == false && get_sim_state(coder->sim_state, coder->state_mu))
+		while (*coder->can_compile == false
+			&& get_sim_state(coder->sim_state, coder->state_mu))
 			pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
 		*coder->can_compile = false;
 		pthread_mutex_unlock(coder->can_compile_mu);

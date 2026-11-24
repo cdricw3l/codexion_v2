@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/20 06:30:59 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 14:28:24 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 20:44:02 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	edf(t_heap_node *n1, t_heap_node *n2, int ttb)
 
 	request_1 = (t_request *)n1->content;
 	request_2 = (t_request *)n2->content;
-	if (request_1->last_compile + ttb  > request_2->last_compile + ttb)
+	if (request_1->last_compile + ttb > request_2->last_compile + ttb)
 		return (true);
 	return (false);
 }
