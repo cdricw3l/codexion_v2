@@ -92,7 +92,7 @@
 //         pthread_mutex_lock(coder->can_compile_mu);
 //         while (*coder->can_compile == false)
 //         {
-//             pthread_cond_standby(coder->can_compile_cond, coder->can_compile_mu);
+//             pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
 //         }
         
 //         assert(!pthread_mutex_lock(coder->dongle_right->dongle));

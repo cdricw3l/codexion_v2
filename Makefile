@@ -68,7 +68,7 @@ TYPE ?= unit
 $(NAME): $(OBJECT_SRCS)
 	$(CC) $(CFLAGS) $(OBJECT_SRCS) -o $(NAME)
 
-ARG=20 420 200 100 100 100 0 fifo
+ARG=3 600 200 200 60 10 0 fifo
 
 ifeq ($(shell uname),Darwin)
 	MEMORY_CHECK_ARG= leaks -atExit --
