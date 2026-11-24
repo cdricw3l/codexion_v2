@@ -1,8 +1,7 @@
 
-# implementer le cooldown
-# implementer le edf
 # shematiser le processur d'initialisation
-# memory check
+# memory check  !!!
+# cas d'mpression apres burnout sur ./codexion 20 401 200 100 100 10 0 fifo
 
 # Question :
 more than 200 coder?

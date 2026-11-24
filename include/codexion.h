@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 11:26:07 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 14:38:02 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void			*scheduler_routine(void *data);
 void			*monitoring_routine(void *data);
 void			*coder_routine(void *data);
 int				fifo(t_heap_node *n1, t_heap_node *n2);
-int				edf(t_heap_node *n1, t_heap_node *n2);
+int				edf(t_heap_node *n1, t_heap_node *n2, int ttb);
 
 /****************************************** PARSING MODULE */
 

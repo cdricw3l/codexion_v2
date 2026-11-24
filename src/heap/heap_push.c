@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 21:11:29 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 00:32:04 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 13:18:32 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static void	heap_push_organise(t_heap *heap,
 	while (idx_parent >= 0
 		&& cmp(heap->queue[idx_parent], heap->queue[idx_current]))
 	{
+		printf("parent %s et enfant %s\n", (char *)heap->queue[idx_parent]->content, (char *)heap->queue[idx_current]->content);
+
 		heap_swap_node(heap->queue[idx_parent], heap->queue[idx_current]);
 		idx_current = idx_parent;
 		idx_parent = ((idx_parent - 1)) / 2;

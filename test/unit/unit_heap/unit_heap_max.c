@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 07:39:28 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 00:31:20 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 13:16:02 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void unit_heap_max(void)
 	node = heap_pop(heap, ft_cmp_max);
 	assert(node == NULL);
 
-	/* clear fonction. Check with valgrind*/
+	// /* clear fonction. Check with valgrind*/
 	heap_clear(&heap, clean_str_heap);
 	assert(!heap);
 }

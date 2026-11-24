@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 08:42:27 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:52:40 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 13:20:50 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void unit_monitoring_init(void)
 {
     START_TEST;
     t_data data;
-   
-    size_t i;
     int params[8];
 
     unit_get_param(params);

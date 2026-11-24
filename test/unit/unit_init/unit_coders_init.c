@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 14:47:25 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:52:40 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 13:20:36 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void *check_coder_routine(void *data)
 {
     t_coder *coder;
-    size_t i;
+    int i;
 
     coder = (t_coder *)data;
     i = 0;
@@ -28,12 +28,12 @@ void *check_coder_routine(void *data)
         pthread_mutex_unlock(coder->timestamp_mu);
         i++;
     }
-    
+    return (coder);
 }
 
 void check_coder_thread(t_data *data)
 {
-    size_t i;
+    int i;
 
     i = 0;
     while (i < data->sim->params[number_of_coders])
@@ -49,14 +49,14 @@ void check_coder_thread(t_data *data)
     while (i < data->sim->params[number_of_coders])
     {
         pthread_join(data->sim->thread[i], NULL);
-        assert(*(data->coder[i].timestamp) = data->sim->params[number_of_compiles_required]);
+        assert(*(data->coder[i].timestamp) == data->sim->params[number_of_compiles_required]);
         i++;
     }
 }
 
 void check_coder(int params[8], t_coder *coders, t_sim *sim, t_dongles *dongles)
 {
-    size_t i;
+    int i;
 
     i = 0;
     assert(coders->can_compile);
@@ -77,7 +77,7 @@ void check_coder(int params[8], t_coder *coders, t_sim *sim, t_dongles *dongles)
     {
         assert(*(coders[i].timestamp)==0);
         assert(coders[i].display_mu == sim->display_mu);
-        assert(coders[i].coder_id == i);
+        assert(coders[i].coder_id == (size_t)i);
         assert(coders[i].sim_state == &sim->sim_state);
         assert(coders[i].state_mu == sim->state_mu);
         assert(coders[i].can_compile == &sim->can_compile[i]);

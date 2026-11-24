@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 11:32:53 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 17:32:46 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	*clean_request_queue(t_scheduler *scheduler)
 {
 	size_t		i;
+	size_t		j;
 	t_request	*r;
 	t_heap_node	*h;
 
@@ -22,22 +23,26 @@ static void	*clean_request_queue(t_scheduler *scheduler)
 	i = 0;
 	while ((int)i < scheduler->params[number_of_coders])
 	{
-		while (scheduler->heaps[i]->heap_size)
+		j = 0;
+		while (j < scheduler->heaps[i]->heap_size)
 		{
 			h = heap_pop(scheduler->heaps[i], fifo);
 			r = (t_request *)h->content;
 			if (r)
 			{
+				//printf("Here\n");
 				pthread_mutex_lock(r->can_compile_mu);
 				*r->can_compile = true;
 				pthread_cond_signal(r->can_compile_cond);
 				pthread_mutex_unlock(r->can_compile_mu);
 				free(r);
 			}
+			j++;
 			free(h);
 		}
 		i++;
 	}
+
 	return (NULL);
 }
 
@@ -82,8 +87,8 @@ static void	process_request(int dongle_id[2], t_scheduler *scheduler,
 	pthread_cond_signal(request_left->can_compile_cond);
 	pthread_mutex_unlock(request_left->can_compile_mu);
 	free(n1->content);
-	free(n1);
 	free(n2->content);
+	free(n1);
 	free(n2);
 }
 
@@ -136,6 +141,9 @@ void	*scheduler_routine(void *data)
 		get_dongle_arr(request[0]->coder_id, scheduler->params, dongle);
 		heap_push(scheduler->heaps[dongle[LEFT]], node_1, fifo);
 		heap_push(scheduler->heaps[dongle[RIGHT]], node_2, fifo);
+		//usleep(500);
+
 	}
+
 	return (clean_request_queue(scheduler));
 }

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 07:39:28 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 00:31:20 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 12:34:32 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void unit_heap_min_pop(t_heap *heap)
 {
 	START_TEST;
 	t_heap_node *n;
-	
 	while (heap->heap_size)
 	{
 		n = heap_pop(heap, ft_cmp_min);

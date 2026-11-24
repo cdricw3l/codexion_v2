@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 04:28:18 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:52:40 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 13:22:18 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void check_scheduler(int nb, t_scheduler *scheduler)
 {
-    size_t i;
-    size_t nb_request;
+    int i;
+    int nb_request;
     t_request *request;
 
     i = 0;
@@ -31,7 +31,7 @@ void check_scheduler(int nb, t_scheduler *scheduler)
         request = request_pop(scheduler->queue);
         assert(request);
         nb_request++;
-        assert(request->request_id == nb_request);
+        assert(request->request_id == (size_t)nb_request);
         free(request);
     }
     assert(nb_request == scheduler->params[number_of_coders] * scheduler->params[number_of_compiles_required]);
@@ -40,7 +40,7 @@ void check_scheduler(int nb, t_scheduler *scheduler)
 void *scheduler_coder_routine(void *ptr)
 {
     t_coder *coder;
-    size_t i;
+    int i;
     
     coder = (t_coder *)ptr;
     i = 0;
@@ -57,7 +57,7 @@ void unit_scheduler_init(void)
     START_TEST;
     t_data data;
    
-    size_t i;
+    int i;
     int params[8];
 
     unit_get_param(params);
@@ -92,7 +92,7 @@ void unit_scheduler_init(void)
         pthread_join(data.sim->thread[i], NULL);
         i++;
     }
-    assert(data.sim->queue->queue_size == data.sim->params[number_of_coders] * data.sim->params[number_of_compiles_required]);
+    assert((int)data.sim->queue->queue_size == data.sim->params[number_of_coders] * data.sim->params[number_of_compiles_required]);
     check_scheduler(params[number_of_coders], data.scheduler);
     clear_data(&data, 0);
     END_TEST;

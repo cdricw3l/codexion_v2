@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 15:20:53 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 04:23:44 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 15:39:40 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,20 @@ static void simple_request_push(void)
     int params[8];
 
     unit_get_param(params);
-    params[number_of_coders] = 1;
+    params[number_of_coders] = 2;
     if(!initialisation(&data, params))
     {
         printf(BRED"Erreur d'initialisation"CRESET"\n");
         return ;
     }
-
+    display_params(params);
     t_coder *coder = &data.coder[0];
+    
 
     assert(coder->queue);
     assert(coder->queue->queue);
-   
+    assert(coder->dongle_left != coder->dongle_right);
+
     assert(request_push(coder));
     assert(coder->queue->queue_size == 1);
     assert(request_get_last_node(*coder->queue->queue)->request_id == 1);
@@ -52,6 +54,8 @@ static void simple_request_push(void)
     assert(request_get_last_node(*coder->queue->queue)->request_id == 4);
 
     request_clear_queue(data.sim->queue);
+    assert(data.sim->queue->queue_size == 0);
+    request_destroy_queue(&data.sim->queue);
     clear_data(&data, 0);
 	END_TEST;	
 }

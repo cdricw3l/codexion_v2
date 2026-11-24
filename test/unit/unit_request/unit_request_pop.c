@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 07:06:22 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 05:28:01 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 14:41:51 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void simple_request_pop(void)
     
 
     unit_get_param(params);
-    params[number_of_coders] = 1;
+    params[number_of_coders] = 2;
     if(!initialisation(&data, params))
     {
         printf(BRED"Erreur d'initialisation"CRESET"\n");
