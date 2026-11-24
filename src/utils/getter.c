@@ -6,11 +6,21 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/20 05:52:28 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/20 06:24:09 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 10:27:35 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
+
+int64_t get_last_use(t_dongles *dongle)
+{
+	int64_t last_used;
+
+	pthread_mutex_lock(&dongle->last_use_mu);
+	last_used= dongle->last_use;
+	pthread_mutex_unlock(&dongle->last_use_mu);
+	return(last_used);
+}
 
 int	get_dongle_state(t_dongles *dongle)
 {

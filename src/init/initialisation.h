@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 21:20:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 02:34:30 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 10:27:41 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,10 @@ typedef struct s_dongles
 {
 	size_t			id;
 	size_t			is_used;
-	int64_t			last_use;
-	pthread_mutex_t	*dongle;
 	pthread_mutex_t	is_used_mu;
+	int64_t			last_use;
+	pthread_mutex_t	last_use_mu;
+	pthread_mutex_t	*dongle;
 
 }	t_dongles;
 

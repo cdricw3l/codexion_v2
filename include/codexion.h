@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 02:43:29 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 08:50:53 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int				get_sim_state(int *state, pthread_mutex_t *state_mutex);
 void			get_dongle_arr(size_t id, int params[8], int dongle[2]);
 int				get_dongle_state(t_dongles *dongle);
 bool			get_can_compile(t_coder *coder);
-
+int64_t 		get_last_use(t_dongles *dongle);
 void			set_can_compile(t_coder *coder, bool value);
 void			set_dongle_state(t_dongles *dongle, int state, int64_t stamp);
 void			set_sim_state(int *stte, pthread_mutex_t *state_mu, int state);

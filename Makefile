@@ -68,7 +68,7 @@ TYPE ?= unit
 $(NAME): $(OBJECT_SRCS)
 	$(CC) $(CFLAGS) $(OBJECT_SRCS) -o $(NAME)
 
-ARG=2 610 100 100 100 5 150 fifo
+ARG=4 2000 100 100 100 1 500 fifo
 
 ifeq ($(shell uname),Darwin)
 	MEMORY_CHECK_ARG= leaks -atExit --
@@ -76,7 +76,7 @@ else
 	ifeq ($(MEMORY_CHECK),1)
 		MEMORY_CHECK_ARG= valgrind  --leak-check=full --track-origins=yes --show-leak-kinds=all --log-file=$(MEMORY_LOG)
 	else ifeq ($(MEMORY_CHECK),2)
-		MEMORY_CHECK_ARG= valgrind  --tool=helgrind 
+		MEMORY_CHECK_ARG= valgrind  --tool=helgrind --log-file=$(MEMORY_LOG)
 	endif
 endif
 

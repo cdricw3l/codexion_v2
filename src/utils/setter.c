@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/20 05:53:24 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 14:55:52 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 10:28:09 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ void	set_sim_state(int *state, pthread_mutex_t *state_mutex, int new_state)
 
 void	set_dongle_state(t_dongles *dongle, int state, int64_t stamp)
 {
-	pthread_mutex_lock(&dongle->is_used_mu);
+	pthread_mutex_lock(&dongle->last_use_mu);
 	dongle->last_use = stamp;
+	pthread_mutex_unlock(&dongle->last_use_mu);
+	pthread_mutex_lock(&dongle->is_used_mu);
 	dongle->is_used = state;
 	pthread_mutex_unlock(&dongle->is_used_mu);
 }
