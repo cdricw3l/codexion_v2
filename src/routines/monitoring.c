@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 15:01:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 10:31:17 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 10:43:42 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	*monitoring_routine(void *data)
 					printf("%ld %ld burned out\n", (now - *(monitor->coders[i].simulation_start)) / 1000000, monitor->coders[i].coder_id + 1);
 					pthread_mutex_unlock(monitor->coders[i].display_mu);
 					set_sim_state(monitor->sim_state, monitor->state_mu, OFF);
+					printf("End ok\n");
 				}
 				return (NULL);
 			}

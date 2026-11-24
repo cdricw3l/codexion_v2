@@ -10,9 +10,9 @@ more than 200 coder?
 # Test Repport
 
 ## TEST NOK
-ARG=20 401 200 100 100 10 0 fifo -> segfault
-ARG=200 410 200 100 100 10 0 fifo -> segfault
-ARG=1 420 200 100 100 10 0 fifo -> One coder: segfault
+ARG=20 401 200 100 100 10 0 fifo -> LOCKED
+ARG=200 410 200 100 100 10 0 fifo -> LOCKED
+ARG=1 420 200 100 100 10 0 fifo -> OK
 
 ## TEST OK
 ARG=20 410 200 100 100 100 0 fifo. -> OK

@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 10:30:37 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 10:46:44 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	action(t_coder *coder, int action)
 
 static void	coder_action(t_coder *coder)
 {
-	int64_t now;
+	int64_t	now;
 	/* check for One coder */
 	if (coder->dongle_left == coder->dongle_right)
 		return ;
@@ -40,7 +40,6 @@ static void	coder_action(t_coder *coder)
 	now = get_now();
 	set_dongle_state(coder->dongle_right, false, now);
 	set_dongle_state(coder->dongle_left, false, now);
-	
 	display_action(coder, DEBUG);
 	action(coder, DEBUG);
 	display_action(coder, REFACTO);
@@ -64,13 +63,10 @@ void	*coder_routine(void *data)
 	wait(coder);
 	while (1)
 	{
-		if (!get_sim_state(coder->sim_state, coder->state_mu) || !request_push(coder))
-		{
-			//set_sim_state(coder->sim_state, coder->state_mu, OFF);
+		if (!request_push(coder))
 			return (NULL);
-		}
 		pthread_mutex_lock(coder->can_compile_mu);
-		while (*coder->can_compile == false && get_sim_state(coder->sim_state, coder->state_mu))
+		while (*coder->can_compile == false)
 			pthread_cond_wait(coder->can_compile_cond, coder->can_compile_mu);
 		*coder->can_compile = false;
 		pthread_mutex_unlock(coder->can_compile_mu);
