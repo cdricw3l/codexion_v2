@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 05:55:52 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 02:43:58 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 11:22:41 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ void	display_action(t_coder *coder, int action)
 	pthread_mutex_unlock(coder->display_mu);
 }
 
-
-void display_timestamp(pthread_mutex_t *mu_display, int64_t *start)
+void	display_timestamp(pthread_mutex_t *mu_display, int64_t *start)
 {
 	pthread_mutex_lock(mu_display);
 	printf("Timestamp -> %ld\n", (get_now() - *start) / 1000000);

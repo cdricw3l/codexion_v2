@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:29:01 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 08:50:53 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 11:26:07 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ struct s_request
 	bool			*can_compile;
 	pthread_cond_t	*can_compile_cond;
 	pthread_mutex_t	*can_compile_mu;
-	int64_t		*last_compile;
+	int64_t			*last_compile;
 	t_dongles		*dongle_l;
 	t_dongles		*dongle_r;
 	void			*next;
@@ -102,11 +102,11 @@ void			destroy_request(t_request *request);
 
 /****************************************** TIME MODULE */
 
-int64_t		get_now(void);
+int64_t			get_now(void);
 /* peut etre pas utile time_diff*/
 struct timespec	time_diff(struct timespec start, struct timespec end);
 void			set_compilation_timestamp(t_coder *coder, int64_t now);
-int64_t		get_compilation_timestamp(int64_t *timestamp,
+int64_t			get_timestamp(int64_t *timestamp,
 					pthread_mutex_t *timestamp_mu);
 
 /****************************************** DISPLAY MODULE */
@@ -148,10 +148,11 @@ int				get_sim_state(int *state, pthread_mutex_t *state_mutex);
 void			get_dongle_arr(size_t id, int params[8], int dongle[2]);
 int				get_dongle_state(t_dongles *dongle);
 bool			get_can_compile(t_coder *coder);
-int64_t 		get_last_use(t_dongles *dongle);
+int64_t			get_last_use(t_dongles *dongle);
 void			set_can_compile(t_coder *coder, bool value);
 void			set_dongle_state(t_dongles *dongle, int state, int64_t stamp);
 void			set_sim_state(int *stte, pthread_mutex_t *state_mu, int state);
+void			display_timestamp(pthread_mutex_t *mu_display, int64_t *start);
+bool			copy_request(t_request *request[2], t_scheduler *scheduler);
 
-void display_timestamp(pthread_mutex_t *mu_display, int64_t *start);
 #endif

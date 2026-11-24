@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 10:46:44 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 10:50:30 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	action(t_coder *coder, int action)
 static void	coder_action(t_coder *coder)
 {
 	int64_t	now;
-	/* check for One coder */
+
 	if (coder->dongle_left == coder->dongle_right)
 		return ;
 	pthread_mutex_lock(coder->dongle_right->dongle);

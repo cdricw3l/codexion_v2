@@ -43,7 +43,7 @@ int	launch_scheduler(t_sim *sim, t_scheduler *scheduler)
 int	launch_coders(t_sim *sim, t_coder *coders)
 {
 	int			i;
-	int64_t	start;
+	int64_t		start;
 
 	i = CODERS_THREAD_START;
 	start = get_now();

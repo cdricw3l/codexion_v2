@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 21:20:23 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 10:27:41 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 11:02:51 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,20 @@ typedef struct s_monitoring
 	int				params[8];
 	int				*sim_state;
 	pthread_mutex_t	*state_mu;
-	int64_t		*timestamp;
+	int64_t			*timestamp;
 	pthread_mutex_t	*timestamp_mu;
+	pthread_mutex_t	*display_mu;
 	t_coder			*coders;
-
 }	t_monitoring;
 
 typedef struct s_scheduler
 {
 	int				params[8];
-	int64_t			*simulation_start;
 	t_request_queue	*queue;
 	t_heap			**heaps;
 	pthread_t		scheduler_thread;
 	int				*sim_state;
 	pthread_mutex_t	*state_mu;
-	pthread_mutex_t	*display_mu;
 	int				(*f)(t_heap_node *, t_heap_node *);
 
 }	t_scheduler;
@@ -131,6 +129,6 @@ pthread_t		*threads_init(int nb);
 pthread_mutex_t	*init_dynamique_mutex(int nb);
 pthread_cond_t	*init_dynamique_cond(int nb);
 bool			*can_compile_init(int nb);
-int64_t		*timestamp_init(int nb);
+int64_t			*timestamp_init(int nb);
 
 #endif

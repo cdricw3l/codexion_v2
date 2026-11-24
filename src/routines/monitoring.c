@@ -6,11 +6,26 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 15:01:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 10:43:42 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 11:36:22 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
+
+void	*dead_announcement(t_monitoring *monitor, int64_t now,
+		int64_t last_compil, int i)
+{
+	if (last_compil > -1)
+	{
+		pthread_mutex_lock(monitor->display_mu);
+		printf("%ld %ld burned out\n",
+			(now - *(monitor->coders[i].simulation_start))
+			/ 1000000, monitor->coders[i].coder_id + 1);
+		pthread_mutex_unlock(monitor->display_mu);
+		set_sim_state(monitor->sim_state, monitor->state_mu, OFF);
+	}
+	return (NULL);
+}
 
 void	*monitoring_routine(void *data)
 {
@@ -25,23 +40,14 @@ void	*monitoring_routine(void *data)
 		i = 0;
 		while (i < monitor->params[number_of_coders])
 		{
-			last_compil = get_compilation_timestamp(monitor->coders[i].timestamp,
+			last_compil = get_timestamp(monitor->coders[i].timestamp,
 					monitor->coders[i].timestamp_mu);
 			now = get_now();
-			if ((now - last_compil) > (int64_t)(monitor->params[time_to_burnout] * 1000000))
-			{
-				if (last_compil != -1)
-				{
-					pthread_mutex_lock(monitor->coders[i].display_mu);
-					printf("%ld %ld burned out\n", (now - *(monitor->coders[i].simulation_start)) / 1000000, monitor->coders[i].coder_id + 1);
-					pthread_mutex_unlock(monitor->coders[i].display_mu);
-					set_sim_state(monitor->sim_state, monitor->state_mu, OFF);
-					printf("End ok\n");
-				}
-				return (NULL);
-			}
-			usleep(500);
+			if ((now - last_compil)
+				> (int64_t)(monitor->params[time_to_burnout] * 1000000))
+				return (dead_announcement(monitor, now, last_compil, i));
 			i++;
+			usleep(500);
 		}
 	}
 	return (NULL);

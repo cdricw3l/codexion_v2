@@ -6,20 +6,20 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/20 05:52:28 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 10:27:35 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 11:34:15 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
 
-int64_t get_last_use(t_dongles *dongle)
+int64_t	get_last_use(t_dongles *dongle)
 {
-	int64_t last_used;
+	int64_t	last_used;
 
 	pthread_mutex_lock(&dongle->last_use_mu);
-	last_used= dongle->last_use;
+	last_used = dongle->last_use;
 	pthread_mutex_unlock(&dongle->last_use_mu);
-	return(last_used);
+	return (last_used);
 }
 
 int	get_dongle_state(t_dongles *dongle)
@@ -58,18 +58,4 @@ void	get_dongle_arr(size_t id, int params[8], int dongle[2])
 	dongle[RIGHT] = get_dongle_id(id, params[number_of_coders], RIGHT);
 	if (id == 2)
 		assert(dongle[LEFT] == 1 && dongle[RIGHT] == 2);
-}
-
-int	get_dongle_id(int id, int number_of_coder, int type)
-{
-	if (type == RIGHT)
-		return (id);
-	if (type == LEFT)
-	{
-		if (id == 0)
-			return (number_of_coder - 1);
-		else
-			return (id - 1);
-	}
-	return (-1);
 }

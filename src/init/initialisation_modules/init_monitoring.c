@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 08:38:56 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/22 04:52:40 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 10:55:40 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_monitoring	*monitoring_init(t_sim *sim, t_coder *coders, int params[8])
 	monitoring->timestamp_mu = sim->timestamp_mu;
 	monitoring->sim_state = &sim->sim_state;
 	monitoring->state_mu = sim->state_mu;
+	monitoring->display_mu = sim->display_mu;
 	monitoring->coders = coders;
 	ft_memcopy(params, monitoring->params, sizeof(int) * 8);
 	return (monitoring);
