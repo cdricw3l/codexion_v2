@@ -1,7 +1,7 @@
 NAME=codexion
-CC=gcc
-CFLAGS= -g3 -O0 -pthread
-#CFLAGS=-Wall -Werror -Wextra -pthread
+CC=cc
+#CFLAGS= -g3 -O0 -pthread
+CFLAGS=-Wall -Werror -Wextra -pthread
 
 SRC=src
 DISPLAY=display
@@ -68,7 +68,7 @@ TYPE ?= unit
 $(NAME): $(OBJECT_SRCS)
 	$(CC) $(CFLAGS) $(OBJECT_SRCS) -o $(NAME)
 
-ARG=1 401 200 100 100 10 0 fifo
+ARG=20 420 200 100 100 100 0 fifo
 
 ifeq ($(shell uname),Darwin)
 	MEMORY_CHECK_ARG= leaks -atExit --

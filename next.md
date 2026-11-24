@@ -3,6 +3,8 @@
 # memory check  !!!
 # cas d'mpression apres burnout sur ./codexion 20 401 200 100 100 10 0 fifo
 
+# verifier le type timestamp -> int64_t vs clock_t vs time_t
+
 # Question :
 more than 200 coder?
 

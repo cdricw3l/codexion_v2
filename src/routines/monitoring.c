@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 15:01:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 17:07:44 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 19:40:20 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*dead_announcement(t_monitoring *monitor, int64_t now,
 	if (last_compil > -1)
 	{
 		pthread_mutex_lock(monitor->display_mu);
-		printf("%ld %ld burned out\n",
+		printf("%lld %zu burned out\n",
 			(now - *(monitor->coders[i].simulation_start))
 			/ 1000000, monitor->coders[i].coder_id + 1);
 		pthread_mutex_unlock(monitor->display_mu);

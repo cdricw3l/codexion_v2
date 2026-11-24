@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 17:26:05 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 19:38:13 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	coder_action(t_coder *coder)
 	action(coder, REFACTO);
 }
 
-static void	wait(t_coder *coder)
+static void	standby(t_coder *coder)
 {
 	pthread_mutex_lock(coder->can_compile_mu);
 	while (*coder->can_compile == false)
@@ -60,7 +60,7 @@ void	*coder_routine(void *data)
 	t_coder		*coder;
 
 	coder = (t_coder *)data;
-	wait(coder);
+	standby(coder);
 	while (1)
 	{
 
