@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:28:27 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 14:48:02 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 03:25:38 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	coder_activation(t_coder *coders)
 			if (i % 2 == even_odd)
 			{
 				set_can_compile(&coders[i], true);
-				usleep(100);
+				usleep(1000);
 			}
 			i++;
 		}

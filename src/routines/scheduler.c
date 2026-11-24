@@ -6,20 +6,34 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 21:51:37 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 15:00:23 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 03:50:33 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/codexion.h"
 
-bool	are_dongle_available(t_request *request, int params[8])
+int64_t get_last_used(t_dongles *dongle)
+{
+	int64_t last_used;
+
+	pthread_mutex_lock(&dongle->is_used_mu);
+	last_used= dongle->last_use;
+	pthread_mutex_unlock(&dongle->is_used_mu);
+	return(last_used);
+}
+
+bool	check_cooldown(t_request *request, int params[8])
 {
 	int64_t now;
+	int64_t last_used_l;
+	int64_t last_used_r;
 
 	now = get_now();
-	if ((now - request->dongle_l->last_use) < (int64_t)params[dongle_cooldown] * 1000000)
+	last_used_l = get_last_used(request->dongle_l);
+	last_used_r = get_last_used(request->dongle_r);
+	if ((now - last_used_l) < ((int64_t)params[dongle_cooldown]) * 1000000)
 		return (false);
-	if ((now - request->dongle_r->last_use) < (int64_t)(params[dongle_cooldown] * 1000000))
+	if ((now - last_used_r) < ((int64_t)params[dongle_cooldown]) * 1000000)
 		return (false);
 	return (true);
 }
@@ -37,11 +51,11 @@ static void	process_request(int dongle_id[2], t_scheduler *scheduler,
 
 	request_left = (t_request *)node_left->content;
 	request_right = (t_request *)node_right->content;
-	if (request_left->coder_id == request_right->coder_id)
+	if (request_left == request_right)
 	{
 		if (get_dongle_state(request_left->dongle_l)
-			|| get_dongle_state(request_left->dongle_r))
-			//|| !are_dongle_available(request_left, scheduler->params))
+			|| get_dongle_state(request_left->dongle_r)
+			|| !check_cooldown(request_left, scheduler->params))
 			return ;
 		n1 = heap_pop(scheduler->heaps[dongle_id[LEFT]], fifo);
 		n2 = heap_pop(scheduler->heaps[dongle_id[RIGHT]], fifo);
@@ -68,8 +82,7 @@ void	who_can_compile(t_scheduler *scheduler)
 	while (i < scheduler->params[number_of_coders])
 	{
 		get_dongle_arr(i, scheduler->params, dongle_id);
-		if (!scheduler->heaps[dongle_id[LEFT]]->heap_size
-			|| !scheduler->heaps[dongle_id[RIGHT]]->heap_size)
+		if (!scheduler->heaps[dongle_id[LEFT]]->heap_size || !scheduler->heaps[dongle_id[RIGHT]]->heap_size)
 		{
 			i++;
 			continue ;
@@ -77,9 +90,7 @@ void	who_can_compile(t_scheduler *scheduler)
 		node_left = scheduler->heaps[dongle_id[LEFT]]->queue[0];
 		node_right = scheduler->heaps[dongle_id[RIGHT]]->queue[0];
 		if (node_left && node_right)
-		{
 			process_request(dongle_id, scheduler, node_left, node_right);
-		}
 		i++;
 	}
 }
@@ -122,6 +133,7 @@ void	*scheduler_routine(void *data)
 	while (get_sim_state(scheduler->sim_state,
 			scheduler->state_mu) == ON)
 	{
+		who_can_compile(scheduler);
 		request = request_pop(scheduler->queue);
 		if (!request)
 			continue;
@@ -130,8 +142,6 @@ void	*scheduler_routine(void *data)
 		get_dongle_arr(request->coder_id, scheduler->params, dongle);
 		heap_push(scheduler->heaps[dongle[LEFT]], node_1, fifo);
 		heap_push(scheduler->heaps[dongle[RIGHT]], node_2, fifo);
-		who_can_compile(scheduler);
-		usleep(1000);
 	}
 	return (clean_request_queue(scheduler));
 }

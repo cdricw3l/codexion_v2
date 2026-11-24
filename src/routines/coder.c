@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 12:48:06 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 14:57:35 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 03:32:26 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	action(t_coder *coder, int action)
 	{
 		set_compilation_timestamp(coder, get_now());
 		usleep(coder->params[time_to_compile] * 1000);
-		set_compilation_timestamp(coder, get_now());
 	}
 	if (action == DEBUG)
 		usleep(coder->params[time_to_debug] * 1000);
@@ -36,12 +35,11 @@ static void	coder_action(t_coder *coder)
 	pthread_mutex_lock(coder->dongle_left->dongle);
 	display_action(coder, COMPILE);
 	action(coder, COMPILE);
-	
 	pthread_mutex_unlock(coder->dongle_right->dongle);
 	pthread_mutex_unlock(coder->dongle_left->dongle);
 	now = get_now();
-	set_dongle_state(coder->dongle_left, false, now);
 	set_dongle_state(coder->dongle_right, false, now);
+	set_dongle_state(coder->dongle_left, false, now);
 	display_action(coder, DEBUG);
 	action(coder, DEBUG);
 	display_action(coder, REFACTO);

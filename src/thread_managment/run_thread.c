@@ -49,7 +49,7 @@ int	launch_coders(t_sim *sim, t_coder *coders)
 	start = get_now();
 	while (i < sim->params[number_of_coders] + 2)
 	{
-		coders[i - 2].simulation_start = start;
+		*(coders[i - 2].simulation_start) = start;
 		coders[i - 2].counter = 0;
 		assert(*(coders[i - 2].can_compile) == false);
 		set_compilation_timestamp(&coders[i - 2], get_now());

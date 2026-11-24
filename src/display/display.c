@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 05:55:52 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 13:40:10 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 02:43:58 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,27 @@ void	display_action(t_coder *coder, int action)
 	int64_t	time;
 
 	now = get_now();
-	time = (now - coder->simulation_start) / 1000000;
+	time = (now - *(coder->simulation_start)) / 1000000;
 	if (!get_sim_state(coder->sim_state, coder->state_mu))
 		return ;
 	pthread_mutex_lock(coder->display_mu);
 	if (action == COMPILE)
 	{
-		printf("%ld %ld has taken dongle\n", time, coder->coder_id);
-		printf("%ld %ld has taken dongle\n", time, coder->coder_id);
-		printf("%ld %ld is compiling\n", time, coder->coder_id);
+		printf("%ld %ld has taken dongle\n", time, coder->coder_id + 1);
+		printf("%ld %ld has taken dongle\n", time, coder->coder_id + 1);
+		printf("%ld %ld is compiling\n", time, coder->coder_id + 1);
 	}
 	if (action == DEBUG)
-		printf("%ld %ld is debugging\n", time, coder->coder_id);
+		printf("%ld %ld is debugging\n", time, coder->coder_id + 1);
 	if (action == REFACTO)
-		printf("%ld %ld is refactoring\n", time, coder->coder_id);
+		printf("%ld %ld is refactoring\n", time, coder->coder_id + 1);
 	pthread_mutex_unlock(coder->display_mu);
+}
+
+
+void display_timestamp(pthread_mutex_t *mu_display, int64_t *start)
+{
+	pthread_mutex_lock(mu_display);
+	printf("Timestamp -> %ld\n", (get_now() - *start) / 1000000);
+	pthread_mutex_unlock(mu_display);
 }

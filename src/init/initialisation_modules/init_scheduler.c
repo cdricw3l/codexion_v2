@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 09:22:08 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/23 14:39:33 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 02:34:44 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_scheduler	*scheduler_init(t_sim *sim, int params[8])
 			return (scheduler_heap_error(&scheduler, i));
 		i++;
 	}
+	scheduler->simulation_start = &sim->simulation_start;
 	scheduler->queue = sim->queue;
 	scheduler->sim_state = &sim->sim_state;
 	scheduler->state_mu = sim->state_mu;
