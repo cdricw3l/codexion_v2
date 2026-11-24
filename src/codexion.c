@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 14:28:27 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 10:49:53 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 22:17:54 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	main(int argc, char **argv)
 		err_msg("Error parsing arguments\n");
 		return (1);
 	}
+	display_params(params);
+
 	if (!initialisation(&d, params))
 	{
 		printf(BRED"Erreur d'initialisation"CRESET"\n");

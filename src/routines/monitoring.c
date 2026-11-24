@@ -6,7 +6,7 @@
 /*   By: cebouhad <cebouhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 15:01:51 by cebouhad          #+#    #+#             */
-/*   Updated: 2026/11/24 19:40:20 by cebouhad         ###   ########.fr       */
+/*   Updated: 2026/11/24 22:27:51 by cebouhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	*monitoring_routine(void *data)
 					monitor->coders[i].timestamp_mu);
 			now = get_now();
 			if ((now - last_compil)
-				> (int64_t)(monitor->params[time_to_burnout] * 1000000))
+				> (int64_t)monitor->params[time_to_burnout] * 1000000)
 				return (dead_announcement(monitor, now, last_compil, i));
 			i++;
 			usleep(500);
